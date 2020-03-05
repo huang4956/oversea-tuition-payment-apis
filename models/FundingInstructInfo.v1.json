@@ -10,7 +10,7 @@
     "bankTransferId": {
       "type": "string",
       "description": "银行转帐流水号"
-    },    
+    },
     "fundingAmount": {
       "type": "string",
       "description": "存款金额"
@@ -30,6 +30,10 @@
     "cnapsBranchId": {
       "type": "string",
       "description": "打款方大额行号"
+    },
+    "createTime": {
+      "type": "string",
+      "format": "date-time"
     }
   }
 }
