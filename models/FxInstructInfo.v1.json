@@ -33,6 +33,22 @@
     "referenceForBeneficiary": {
       "type": "string",
       "description": "如果payeeBankAccount不为空,则可填写收款人附言"
+    },
+    "status": {
+      "type": "string",
+      "description": "汇兑分发指令处理状态\n| status | description |\n|--------|-------------|\n|WAIT_PAYMENT|汇兑完成等待付款|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|退汇处理成功|\n|FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功|\n",
+      "enum": [
+        "WAIT_PAYMENT",
+        "PAYMENT_SUCCESS",
+        "PAYMENT_REVERSED_AFTER_SUCCESS",
+        "EXCHANGE_SUCCESS",
+        "PROCESSING",
+        "FAILED"
+      ]
+    },
+    "failReason": {
+      "type": "string",
+      "description": "失败原因 "
     }
   },
   "required": [
