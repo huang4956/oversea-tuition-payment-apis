@@ -26,6 +26,9 @@
         "CORPORATE"
       ]
     },
+    "payeeBankName": {
+      "type": "string"
+    },
     "payeeBankType": {
       "type": "string",
       "description": "|payeeBankType| description |\n|--------|-------------|\n|IBAN|欧洲地区国际银行账号|\n|SORT|英国地区银行账户|\n收款银行国际编码类型"
@@ -37,9 +40,6 @@
     "payeeAccount": {
       "type": "string",
       "description": "收款人银行账号"
-    },
-    "payeeBankName": {
-      "type": "string"
     },
     "payeeBankAddress": {
       "type": "string"
