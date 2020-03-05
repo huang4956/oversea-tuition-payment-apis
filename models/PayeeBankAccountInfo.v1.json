@@ -12,7 +12,8 @@
       "description": "收款人姓名"
     },
     "payeeAddress": {
-      "type": "string"
+      "type": "string",
+      "description": "收款人地址"
     },
     "payeeBankDistrict": {
       "type": "string",
@@ -27,7 +28,8 @@
       ]
     },
     "payeeBankName": {
-      "type": "string"
+      "type": "string",
+      "description": "收款人银行名称"
     },
     "payeeBankType": {
       "type": "string",
@@ -42,7 +44,8 @@
       "description": "收款人银行账号"
     },
     "payeeBankAddress": {
-      "type": "string"
+      "type": "string",
+      "description": "收款人银行地址"
     },
     "payeeBankSwiftCode": {
       "type": "string",
