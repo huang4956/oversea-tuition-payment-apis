@@ -24,7 +24,7 @@
     },
     "rate": {
       "type": "string",
-      "description": "针对账单人民币支付时使用的汇率  如果rateid 为空， 则该汇率为参考汇率，实际支付金额或成交汇率已支付时为准"
+      "description": "锁定的汇率，与rateid一同出现。 "
     },
     "rateid": {
       "type": "string",
