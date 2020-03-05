@@ -1,0 +1,51 @@
+{
+  "title": "FxReturnInfo",
+  "type": "object",
+  "description": "对已汇兑帐单的退汇处理,同一账单退汇汇总金额不能大于原帐单金额（billAmount）,退汇可操作的有效期暂定3个月.",
+  "properties": {
+    "retunId": {
+      "type": "string",
+      "description": "PSP侧退汇指令编号"
+    },
+    "BillId": {
+      "type": "string",
+      "description": "对于原账单号"
+    },
+    "returnBillAmount": {
+      "type": "string",
+      "description": "退款金额"
+    },
+    "returnBillCurreny": {
+      "type": "string",
+      "description": "退款币种徐与原帐单币种一致"
+    },
+    "returnBankAccount": {
+      "$ref": "./RecevingAccount.v1.json"
+    },
+    "returnPayAmount": {
+      "type": "string",
+      "description": "退款人民币金额"
+    },
+    "rate": {
+      "type": "string",
+      "description": "退款汇率"
+    },
+    "createTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "description": "退汇指令处理状态",
+      "enum": [
+        "init",
+        "fail",
+        "success"
+      ]
+    },
+    "failMessage": {
+      "type": "string",
+      "description": "退款失败愿意"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "title": "FxInstructInfo",
+  "type": "object",
+  "description": "对于状态为reviewed状态账单发送汇兑分发指令，一般情况下，未自动汇兑的账单可进行一次汇兑处理（分发）。\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出,如果相关指令中收款银行账号为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.",
+  "properties": {
+    "billId": {
+      "type": "string",
+      "description": "对应账单的汇兑处理，一般情况下，未自动汇兑的账单可进行一次汇兑处理（分发）。"
+    },
+    "pricingCurrency": {
+      "type": "string",
+      "description": "定价币种:\nISO 3166 Alpha-3，源币种或目的币\n种，当值为源币种时，根据\nsourceAmount 及汇率计算\ntargetAmount\n当值为目的币种时，根据\ntargetAmount 及汇率计算\nsourceAmount"
+    },
+    "sourceCurrency": {
+      "type": "string"
+    },
+    "sourceAmount": {
+      "type": "string"
+    },
+    "targetCurrency": {
+      "type": "string"
+    },
+    "targetAmount": {
+      "type": "string"
+    },
+    "payeeType": {
+      "type": "string"
+    },
+    "payeeAccount": {
+      "type": "string"
+    },
+    "payeeName": {
+      "type": "string"
+    },
+    "payeeAddress": {
+      "type": "string"
+    },
+    "payeeBankAccountType": {
+      "type": "string"
+    },
+    "payeeCountryCode": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "billId",
+    "pricingCurrency"
+  ]
+}

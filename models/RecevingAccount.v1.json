@@ -1,0 +1,51 @@
+{
+  "title": "RecevingAccount",
+  "type": "object",
+  "description": "银行转帐收付款帐号信息（国内账号含申报人信息）",
+  "properties": {
+    "beneficiaryName": {
+      "type": "string",
+      "description": "申报人（受益人）姓名"
+    },
+    "beneficiaryId": {
+      "type": "string",
+      "description": "申报人（受益人）身份证号码"
+    },
+    "accountName": {
+      "type": "string",
+      "description": "账户户名"
+    },
+    "accountNo": {
+      "type": "string",
+      "description": "收款帐号"
+    },
+    "bankBranchName": {
+      "type": "string",
+      "description": "支行名称"
+    },
+    "bankName": {
+      "type": "string",
+      "description": "银行名称"
+    },
+    "bankZone": {
+      "type": "string",
+      "description": "银行地区"
+    },
+    "cnapsBranchId": {
+      "type": "string",
+      "description": "大额行号"
+    },
+    "beneficiaryPhone": {
+      "type": "string",
+      "description": "申报人（受益人）联系手机号码"
+    },
+    "relationship": {
+      "type": "string",
+      "enum": [
+        "self",
+        "family"
+      ],
+      "description": "申报人（受益人）与受益人的关系"
+    }
+  }
+}
