@@ -34,6 +34,10 @@
     "createTime": {
       "type": "string",
       "format": "date-time"
+    },
+    "rfb": {
+      "type": "string",
+      "description": "银行转账附言"
     }
   }
 }
