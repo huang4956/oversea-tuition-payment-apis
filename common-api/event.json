@@ -1,0 +1,172 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "EVENT API",
+    "version": "1.0"
+  },
+  "host": "example.com",
+  "paths": {
+    "/events": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "integer",
+                  "description": "Total event count"
+                },
+                "list": {
+                  "type": "array",
+                  "description": "Event object list",
+                  "items": {
+                    "$ref": "#/definitions/event"
+                  }
+                }
+              },
+              "required": [
+                "total",
+                "list"
+              ]
+            }
+          }
+        },
+        "summary": "Get Event List",
+        "description": "Get a list of Lianlian Pay system generated events. If no events, empty list will be returned\n\nReturn type is List<`Event`>",
+        "operationId": "get-event-list",
+        "tags": [
+          "Operations"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "topic",
+            "type": "string",
+            "description": "Event topic defined in Lianlian Pay's system.",
+            "allowEmptyValue": true
+          },
+          {
+            "in": "query",
+            "name": "pageNum",
+            "type": "integer",
+            "description": "If nonzero, skip this number of results before returning data. Used with `pageSize` to provide pagination for large datasets.",
+            "allowEmptyValue": true,
+            "minimum": 1,
+            "default": 1
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "description": "If nonzero, return no more than this number of results. Used with `pageNum` to provide pagination for large datasets. Unless otherwise specified, the maximum number of records that can be returned from an API call is 20 records",
+            "allowEmptyValue": true,
+            "default": 20
+          }
+        ]
+      }
+    },
+    "/events/{eventId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/event"
+            }
+          }
+        },
+        "summary": "Get Event",
+        "description": "Get a Lianlian Pay system generated event by `eventId`\n\nReturn type is `Event` object",
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "get-event"
+      },
+      "parameters": [
+        {
+          "name": "eventId",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    }
+  ],
+  "definitions": {
+    "event": {
+      "type": "object",
+      "title": "Event ",
+      "description": "Event object generated during business processing in Lianlian Pay's system. ",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Event id in Lianlian Pay's system"
+        },
+        "topic": {
+          "$ref": "#/definitions/event-topic-enum"
+        },
+        "data": {
+          "type": "object",
+          "description": "Event details",
+          "required": [
+            "type",
+            "id"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Object type related to this event. One of:\n\n| type | description |\n|------|-------------|\n| profile | Profile object defined in Lianlian Pay's system. Get profile details by requesting `Get Profile` API|\n| bill | Bill object defined in Lianlina Pay's system. Get bill details by requesting `Get Bill` API|\n| account | Account object defined in Lianlina Pay's system. Get bill details by requesting `Get Account` API|\n| document | Document stored in Lianlina Pay's system. Get document file by requesting `Download Document` API|",
+              "enum": [
+                "profile",
+                "bill",
+                "account",
+                "document"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "description": "Object id"
+            }
+          }
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Event created time, UTC+0",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "topic",
+        "data",
+        "createTime"
+      ]
+    },
+    "event-topic-enum": {
+      "type": "string",
+      "title": "Event Topic Enumeration",
+      "description": "Event topics defined in Lianlian Pay's system.\n\n| Topic | Description |\n|--------|------------|\n| account.paymentaccount.created | Payment account created in Lianlian Pay system. Return data `Account` object. |\n| bill.funded | Bill fully funded, `Bill.isFullyFunded` equals `true`. Return data `Bill` object.  |\n| bill.paid | Bill paid, after receiving payment request(Submit Bill), Lianlian Pay made payment to bill payee. `Bill.ispaid` equals `false`. Return data `Bill` object. |\n| bill.canceled | After receiving void bill request, Lianlian Pay canceled the bill. Return data `Bill` object. |\n| bill.expired | No funding or short funding after bill expiration date. Return data `Bill` object. |\n| profile.failed | Profile KYC failed, Lianlian Pay cannot provide service to this profile. Return data `Profile` object. |\n| profile.active | Profile KYC passed, profile active in Lianlian Pay system. Return data `Profile` object.  |\n| profile.error | Profile KYC error, need more information to complete Lianlian Pay KYC. Detailed information can be found in `Profile.feedback`. Return type `Profile` object.  |\n| profile.rar.complete | Profile KYC Risk Assessment Report complete. Return data `Document` object  |\n",
+      "enum": [
+        "account.paymentaccount.created",
+        "bill.funded"
+      ]
+    }
+  },
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ]
+}

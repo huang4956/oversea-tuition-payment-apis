@@ -1,0 +1,118 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Document API",
+    "version": "1.0"
+  },
+  "host": "example.com",
+  "paths": {
+    "/documents": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/document"
+            }
+          }
+        },
+        "summary": "Upload Document",
+        "description": "Upload document to Lianlian Pay system. \nAttachments can be one of the format PDF, JPEG, or PNG. To upload a multi-page image, please use the PDF data type.\n\nReturn type is `Document` object",
+        "operationId": "upload-document",
+        "tags": [
+          "Operations"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Document name",
+                  "maxLength": 128
+                },
+                "size": {
+                  "type": "integer",
+                  "description": "Document size"
+                }
+              },
+              "required": [
+                "name",
+                "size"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "/documents/{documentId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "byte",
+              "description": "Document data streaming"
+            }
+          }
+        },
+        "summary": "Download Document",
+        "description": "Download document file by `dcoumentId`\n\nReturn type is `Document` object",
+        "operationId": "download-document",
+        "tags": [
+          "Operations"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "documentId",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    }
+  ],
+  "definitions": {
+    "document": {
+      "type": "object",
+      "title": "Document ",
+      "description": "File object in Lianlian Pay's system.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Document name",
+          "maxLength": 256
+        },
+        "size": {
+          "type": "integer",
+          "description": "Document size"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "Document create time, UTC+0",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ]
+}
