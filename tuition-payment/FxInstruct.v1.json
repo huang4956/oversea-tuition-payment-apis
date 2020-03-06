@@ -1,0 +1,38 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "FxInstruct",
+    "version": "1.0"
+  },
+  "host": "localhost:3000",
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "FxInstructInfo": {
+      "title": "FxInstructInfo",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "PayeeBankAccountInfo": {
+      "title": "PayeeBankAccountInfo",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
