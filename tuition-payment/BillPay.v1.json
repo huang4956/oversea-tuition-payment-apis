@@ -1,0 +1,89 @@
+{
+  "definitions": {
+    "BillPayInfo": {
+      "title": "BillPayInfo",
+      "type": "object",
+      "properties": {
+                "billId": {
+          "type": "string",
+          "description": "PsP 账单编号"
+        },
+        "paymentAmount": {
+          "type": "string",
+          "description": "支付人民币金额"
+        },
+        "billCurrency": {
+          "type": "string",
+          "description": "账单币种"
+        },
+        "billAmount": {
+          "type": "string",
+          "description": "账单金额"
+        },
+        "expirTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "账单过期日期"
+        },
+        "recevingaccount": {
+          "$ref": "./RecevingAccount.v1.json"
+        },
+        "rateId": {
+          "type": "string",
+          "description": "支付时使用的汇率ID  如果有该值则为锁定汇率 "
+        },
+        "rate": {
+          "type": "string",
+          "description": "锁定的汇率，与rateid一同出现。 "
+        },
+        "BillItem": {
+          "type": "array",
+          "items": {
+            "$ref": "./BillPayItemInfo.v1.json"
+          }
+        },
+        "createTime": {
+          "type": "string",
+          "default": "sysdate",
+          "format": "date-time",
+          "description": "账单支付信息生成时间"
+        },
+        "status": {
+          "type": "string",
+          "default": "init",
+          "description": "账单当前状态\n\n| status | description |\n|--------|-------------|\n|init | 账单初始创建 |\n|payed| 账单有资金入帐发生，可进行资料审核操作|\n|reviewed|账单对应贸易材料审核完成,可进行汇兑（分发）处理|\n|exchanged|对应账单汇兑(分发)处理完成|\n|expired|账单过期失效|\n\n状态变迁说明：\ninit --> payed :  账单生成后，当发现有钱转入临时账号时（不一定足额）发生,payed后可对材料信息进行驱动审核。\npayed -->reviewed 对应账单材料审核通过后发生，后续可进行汇兑(分发)处理。\ninit --> expired 相关账单有效期内一直没有支付关闭帐单。\nreviewed --> exchanged 账单完成汇兑处理。\n\n",
+          "enum": [
+            "init",
+            "reviewed",
+            "payed",
+            "expired"
+          ]
+        }
+      },
+      "required": [
+        "BillItem",
+        "recevingaccount",
+        "paymentAmount",
+        "billCurrency",
+        "billAmount",
+        "billId"
+      ]
+    }
+  },
+  "paths": {},
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:3000",
+  "info": {
+    "title": "BillPay",
+    "version": "1.0"
+  },
+  "swagger": "2.0"
+}
