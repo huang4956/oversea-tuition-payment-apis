@@ -1,0 +1,83 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Create Bill",
+    "version": "1.0"
+  },
+  "host": "localhost:3000",
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {
+    "/tuition/bill": {
+      "get": {
+        "summary": "Get Tuition Bill Message",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-tuition-bill",
+        "description": ""
+      },
+      "post": {
+        "summary": "Create Tuition Bill",
+        "operationId": "post-tuition-bill",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "billId": {
+                  "type": "string"
+                },
+                "paymentAmount": {
+                  "type": "string"
+                },
+                "billCurrency": {
+                  "type": "string"
+                },
+                "billAmount": {
+                  "type": "string"
+                },
+                "rate": {
+                  "type": "string"
+                },
+                "rateId": {
+                  "type": "string"
+                },
+                "recevingAccount": {
+                  "$ref": "./RecevingAccount.v1.json"
+                },
+                "billItem": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "./BillPayItemInfo.v1.json"
+                  }
+                }
+              },
+              "required": [
+                "billId",
+                "paymentAmount",
+                "recevingAccount",
+                "billItem"
+              ]
+            }
+          }
+        ],
+        "description": "创建相关订单"
+      }
+    }
+  },
+  "definitions": {}
+}
