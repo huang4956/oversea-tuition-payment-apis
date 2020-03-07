@@ -59,6 +59,9 @@
             "name": "billid",
             "description": " 查询指定billId下的汇兑分发记录"
           }
+        ],
+        "tags": [
+          "Operations"
         ]
       }
     },
@@ -217,6 +220,9 @@
         "payeeAccount",
         "payeeBankAddress",
         "payeeBankSwiftCode"
+      ],
+      "x-tags": [
+        "Models"
       ]
     }
   }

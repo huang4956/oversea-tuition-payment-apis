@@ -160,6 +160,9 @@
       "enum": [
         "account.paymentaccount.created",
         "bill.funded"
+      ],
+      "x-tags": [
+        "Models"
       ]
     }
   },
