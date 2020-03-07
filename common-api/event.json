@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "EVENT API",
+    "title": "e.EVENT API",
     "version": "1.0"
   },
   "host": "example.com",

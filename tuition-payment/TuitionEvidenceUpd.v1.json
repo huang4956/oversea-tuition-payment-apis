@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "TuitionEventic",
+    "title": "b.TuitionEventic API",
     "version": "1.0",
     "description": "成功提交账单信息后，提交相关留学账单的证明材料，相关材料会经过LianLian Pay 审核,审核成功后才能进行汇兑分发处理（当然客户需完成缴费）.\n\n通过billId，相关证明材料已最后一份为准，通过查询也是查询最后一份提交材料的信息。\n如果相关账单对应材料已经审核通过，则相关账单不能再进行材料提交或补充。\n\n对于被reject的账单，可重新提交材料。\n\n请先使用Document Api 上传材料文件，注意：文件名称如果重复，相关老文件将被覆盖。"
   },

@@ -353,7 +353,7 @@
   ],
   "host": "localhost:3000",
   "info": {
-    "title": "BillPay",
+    "title": "a.BillPay API",
     "version": "1.0"
   },
   "swagger": "2.0"
