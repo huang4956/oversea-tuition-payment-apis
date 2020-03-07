@@ -277,11 +277,11 @@
         ]
       }
     },
-    "/bills/{billid}": {
+    "/bills/{billId}": {
       "parameters": [
         {
           "type": "string",
-          "name": "billid",
+          "name": "billId",
           "in": "path",
           "required": true
         }
@@ -315,11 +315,11 @@
         ]
       }
     },
-    "/bills/{billid}/fundingtrans": {
+    "/bills/{billId}/fundingtrans": {
       "parameters": [
         {
           "type": "string",
-          "name": "billid",
+          "name": "billId",
           "in": "path",
           "required": true
         }

@@ -87,6 +87,9 @@
       "type": "object",
       "title": "Document ",
       "description": "File object in Lianlian Pay's system.",
+      "x-tags": [
+        "Models"
+      ],
       "properties": {
         "name": {
           "type": "string",
@@ -103,8 +106,8 @@
           "format": "date-time"
         }
       },
-      "x-tags": [
-        "Models"
+      "required": [
+        "name"
       ]
     }
   },

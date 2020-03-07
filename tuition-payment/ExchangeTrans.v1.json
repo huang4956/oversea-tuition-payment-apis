@@ -56,7 +56,7 @@
           {
             "type": "string",
             "in": "query",
-            "name": "billid",
+            "name": "billId",
             "description": " 查询指定billId下的汇兑分发记录"
           }
         ],
@@ -65,11 +65,11 @@
         ]
       }
     },
-    "/exchanges/{exchangeid}": {
+    "/exchanges/{exchangeId}": {
       "parameters": [
         {
           "type": "string",
-          "name": "exchangeid",
+          "name": "exchangeId",
           "in": "path",
           "required": true
         }

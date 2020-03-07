@@ -68,11 +68,11 @@
         "description": "调用该APIs前，需要先上传相关证明文件."
       }
     },
-    "/tuitionevidences/{billid}": {
+    "/tuitionevidences/{billId}": {
       "parameters": [
         {
           "type": "string",
-          "name": "billid",
+          "name": "billId",
           "in": "path",
           "required": true
         }
