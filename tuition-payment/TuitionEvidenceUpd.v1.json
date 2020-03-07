@@ -18,7 +18,7 @@
   "paths": {
     "/tuitionevidences": {
       "post": {
-        "summary": "Send Tuition Evidence",
+        "summary": "1.Send Tuition Evidence",
         "operationId": "post-tuitionevidences",
         "responses": {
           "200": {
@@ -78,7 +78,7 @@
         }
       ],
       "get": {
-        "summary": "Get Tuition evidence of Bill",
+        "summary": "2.Get Tuition evidence of Bill",
         "tags": [
           "Operations"
         ],

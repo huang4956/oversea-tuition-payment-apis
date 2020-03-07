@@ -17,7 +17,7 @@
   "paths": {
     "/exchanges": {
       "post": {
-        "summary": "Make a Currency Exchange Transcation",
+        "summary": "1.Create Currency Exchange Transcation",
         "operationId": "post-exchanges",
         "responses": {
           "200": {
@@ -39,7 +39,7 @@
         ]
       },
       "get": {
-        "summary": "Query Bill Exchange Transcation",
+        "summary": "2.Query Bill Exchange Transcation",
         "operationId": "get-exchanges",
         "responses": {
           "200": {
@@ -75,7 +75,7 @@
         }
       ],
       "get": {
-        "summary": "Get Exchange Status",
+        "summary": "3.Get Exchange Status",
         "tags": [
           "Operations"
         ],
