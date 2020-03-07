@@ -33,6 +33,9 @@
               "$ref": "#/definitions/FxInstructInfo"
             }
           }
+        ],
+        "tags": [
+          "Operations"
         ]
       },
       "get": {
@@ -70,7 +73,9 @@
       ],
       "get": {
         "summary": "Get Exchange Status",
-        "tags": [],
+        "tags": [
+          "Operations"
+        ],
         "responses": {},
         "operationId": "get-exchanges-exchangeid"
       }
@@ -145,6 +150,9 @@
         "targetCurrency",
         "tradeCode",
         "exchangeId"
+      ],
+      "x-tags": [
+        "Models"
       ]
     },
     "PayeeBankAccountInfo": {

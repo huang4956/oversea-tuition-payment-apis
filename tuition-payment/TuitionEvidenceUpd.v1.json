@@ -61,6 +61,9 @@
               }
             }
           }
+        ],
+        "tags": [
+          "Operations"
         ]
       }
     },
@@ -75,7 +78,9 @@
       ],
       "get": {
         "summary": "Your GET endpoint",
-        "tags": [],
+        "tags": [
+          "Operations"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -131,7 +136,10 @@
           "type": "string",
           "description": "留学费用证明材料申请接口\n\n|status|descrption|\n|------|-------------|\n|INIT|申请状态|\n|APPROVED|审核通过,可以进行汇兑分发交易处理|\n|REJECT|审核拒绝，重新提交材料|"
         }
-      }
+      },
+      "x-tags": [
+        "Models"
+      ]
     }
   }
 }

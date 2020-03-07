@@ -102,7 +102,10 @@
           "description": "Document create time, UTC+0",
           "format": "date-time"
         }
-      }
+      },
+      "x-tags": [
+        "Models"
+      ]
     }
   },
   "responses": {},

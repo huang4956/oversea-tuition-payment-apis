@@ -208,6 +208,9 @@
         "isEnable",
         "topics",
         "createTime"
+      ],
+      "x-tags": [
+        "Models"
       ]
     }
   },

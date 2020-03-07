@@ -68,6 +68,9 @@
         "billAmount",
         "recevingaccount",
         "BillItem"
+      ],
+      "x-tags": [
+        "Models"
       ]
     },
     "BillPayItemInfo": {
@@ -87,7 +90,10 @@
           "description": "项目名称"
         }
       },
-      "description": "账单金额的构成，币种与账单币种同,且ItemAmount的汇总金额要等于billAmount."
+      "description": "账单金额的构成，币种与账单币种同,且ItemAmount的汇总金额要等于billAmount.",
+      "x-tags": [
+        "Models"
+      ]
     },
     "RecevingAccount": {
       "title": "RecevingAccount",
@@ -143,6 +149,9 @@
         "beneficiaryName",
         "beneficiaryId",
         "relationship"
+      ],
+      "x-tags": [
+        "Models"
       ]
     },
     "BillFundingTrans": {
@@ -187,6 +196,9 @@
       "required": [
         "billId",
         "fundingId"
+      ],
+      "x-tags": [
+        "Models"
       ]
     }
   },
@@ -257,6 +269,9 @@
             },
             "description": ""
           }
+        ],
+        "tags": [
+          "Operations"
         ]
       }
     },
@@ -271,7 +286,9 @@
       ],
       "get": {
         "summary": "Query Bill Info by BillID",
-        "tags": [],
+        "tags": [
+          "Operations"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -304,7 +321,9 @@
       ],
       "get": {
         "summary": "Get Funding Trans of  Bill",
-        "tags": [],
+        "tags": [
+          "Operations"
+        ],
         "responses": {
           "200": {
             "description": "OK",
