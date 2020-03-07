@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "FxInstruct",
+    "title": "Currency ExChange",
     "version": "1.0"
   },
   "host": "localhost:3000",
@@ -16,21 +16,63 @@
   ],
   "paths": {
     "/exchanges": {
-      "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
-        "responses": {},
-        "operationId": "get-exchanges"
-      },
       "post": {
-        "summary": "",
+        "summary": "Make a Currency Exchange Transcation",
         "operationId": "post-exchanges",
         "responses": {
           "200": {
             "description": "OK"
           }
         },
-        "description": "1.验证相关billid是否为审核通过状态，reviewed,exchanged状态下可发起Fx.\n2.如果源币种余额不足，可生成INIT状态的代汇兑单据。"
+        "description": "1.验证相关billid是否为审核通过状态，reviewed,exchanged状态下可发起Fx.\n2.源币种余额不足，可生成INIT状态的代汇兑单据.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/FxInstructInfo"
+            }
+          }
+        ]
+      },
+      "get": {
+        "summary": "Query Bill Exchange Transcation",
+        "operationId": "get-exchanges",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/FxInstructInfo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "in": "query",
+            "name": "billid",
+            "description": " 查询指定billId下的汇兑分发记录"
+          }
+        ]
+      }
+    },
+    "/exchanges/{exchangeid}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "exchangeid",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get Exchange Status",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-exchanges-exchangeid"
       }
     }
   },
@@ -40,6 +82,10 @@
       "type": "object",
       "description": "对于状态为reviewed且账单的汇率未锁定情况，商户可发送汇兑分发指令，一般情况下，未自动汇兑的账单可进行汇兑（分发）处理。\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n1.如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n2.如果源币种与目标币种相同时,payeeBankAccount不为空,则进行外币汇出处理(不能为CNY).\n",
       "properties": {
+        "exchangeId": {
+          "type": "string",
+          "description": "汇兑交易ID，商户全局唯一"
+        },
         "billId": {
           "type": "string",
           "description": "对应账单的汇兑处理，一般情况下，未自动汇兑的账单可进行一次汇兑处理（分发）。"
@@ -67,13 +113,17 @@
         "payeeBankAccount": {
           "$ref": "#/definitions/PayeeBankAccountInfo"
         },
-        "referenceForBeneficiary": {
+        "rfb": {
           "type": "string",
           "description": "如果payeeBankAccount不为空,则可填写收款人附言"
         },
+        "tradeCode": {
+          "type": "string",
+          "description": "贸易编码\n|tradeCode|description|\n||留学费用|\n||手续费|"
+        },
         "status": {
           "type": "string",
-          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|WAIT_PAYMENT|汇兑完成等待付款|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|退汇处理成功|\n|PAYMENT_FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功|\n",
+          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED|退汇处理成功|\n|PAYMENT_FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功,如果需分发怎待分发中|\n",
           "enum": [
             "WAIT_PAYMENT",
             "PAYMENT_SUCCESS",
@@ -86,10 +136,6 @@
         "failReason": {
           "type": "string",
           "description": "失败原因 "
-        },
-        "tradeCode": {
-          "type": "string",
-          "description": "贸易编码\n|tradeCode|description|\n||留学费用|\n||手续费|"
         }
       },
       "required": [
@@ -97,7 +143,8 @@
         "pricingCurrency",
         "sourceCurrency",
         "targetCurrency",
-        "tradeCode"
+        "tradeCode",
+        "exchangeId"
       ]
     },
     "PayeeBankAccountInfo": {

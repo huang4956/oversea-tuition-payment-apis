@@ -193,7 +193,7 @@
   "paths": {
     "/bills": {
       "post": {
-        "summary": "",
+        "summary": "Create a Bill for Bank Transfer",
         "operationId": "post-bills",
         "responses": {
           "200": {
@@ -270,7 +270,7 @@
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "Query Bill Info by BillID",
         "tags": [],
         "responses": {
           "200": {
@@ -283,7 +283,7 @@
         "operationId": "get-bills-billid"
       },
       "delete": {
-        "summary": "",
+        "summary": "Cancel Bill by BillID",
         "operationId": "delete-bills-billid",
         "responses": {
           "200": {
@@ -303,7 +303,7 @@
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "Get Funding Trans of  Bill",
         "tags": [],
         "responses": {
           "200": {
@@ -316,7 +316,8 @@
             }
           }
         },
-        "operationId": "get-bills-billid-fundingtrans"
+        "operationId": "get-bills-billid-fundingtrans",
+        "description": ""
       }
     }
   },
