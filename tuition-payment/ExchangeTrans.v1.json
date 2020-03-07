@@ -137,7 +137,7 @@
         },
         "tradeCode": {
           "type": "string",
-          "description": "贸易编码\n|tradeCode|description|\n||留学费用|\n||手续费|"
+          "description": "贸易编码\n\n|tradeCode|description|\n|---------|-----------|\n|xxxx1|留学费用|\n|xxxx2|留学手续费|"
         },
         "status": {
           "type": "string",

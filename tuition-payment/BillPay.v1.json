@@ -185,7 +185,7 @@
           "type": "string",
           "description": "付款银行大额行号"
         },
-        "fundingAmount": {
+        "amount": {
           "type": "string",
           "description": "转帐金额(人民币)"
         },
