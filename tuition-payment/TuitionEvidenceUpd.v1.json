@@ -18,7 +18,7 @@
   "paths": {
     "/tuitionevidences": {
       "post": {
-        "summary": "",
+        "summary": "Send Tuition Evidence",
         "operationId": "post-tuitionevidences",
         "responses": {
           "200": {
@@ -64,7 +64,8 @@
         ],
         "tags": [
           "Operations"
-        ]
+        ],
+        "description": "调用该APIs前，需要先上传相关证明文件."
       }
     },
     "/tuitionevidences/{billid}": {
@@ -77,7 +78,7 @@
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "Get Tuition evidence of Bill",
         "tags": [
           "Operations"
         ],
@@ -90,7 +91,7 @@
           }
         },
         "operationId": "get-tuitionevidences-billid",
-        "description": "使用billid获取最新提交留学证明材料信息。"
+        "description": "使用billid获取最新提交留学证明材料审核结果信息."
       }
     }
   },
