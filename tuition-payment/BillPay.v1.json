@@ -203,6 +203,66 @@
         "billId",
         "fundingId"
       ]
+    },
+    "ReFundingTrans": {
+      "title": "5.ReFundingTrans",
+      "type": "object",
+      "description": "对于PsP代收人民币进行进行退款处理,退款的合计金额不能大于原账单已收款金额.\n当前PsP的人民币金额足够进行退款处理.",
+      "properties": {
+        "refundingId": {
+          "type": "string",
+          "description": "PsP退款id,全局唯一"
+        },
+        "billId": {
+          "type": "string",
+          "description": "对应账单编号"
+        },
+        "amount": {
+          "type": "string",
+          "description": "退款金额"
+        },
+        "bankName": {
+          "type": "string"
+        },
+        "bankBranchName": {
+          "type": "string"
+        },
+        "accountName": {
+          "type": "string",
+          "description": "收款人姓名"
+        },
+        "accountNo": {
+          "type": "string"
+        },
+        "cnapsBranchId": {
+          "type": "string",
+          "description": "收款银行大额行号"
+        },
+        "rbf": {
+          "type": "string",
+          "description": "退款银行附言"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "交易状态:\n\n|status|description|\n|------|------------|\n|INIT|退款指令申请成功|\n|SUCCESS|退款成功|\n|PROCESSING|处理中|\n|FAILED|退款失败|\n"
+        },
+        "failreason": {
+          "type": "string",
+          "description": "失败原因"
+        }
+      },
+      "required": [
+        "refundingId",
+        "billId",
+        "amount",
+        "accountName",
+        "accountNo",
+        "cnapsBranchId"
+      ]
     }
   },
   "paths": {
@@ -342,6 +402,57 @@
         },
         "operationId": "get-bills-billid-fundingtrans",
         "description": ""
+      }
+    },
+    "/bills/{billId}/refundingtrans": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "billId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "5.Create Refunding Trans",
+        "operationId": "post-bills-billId-refundingtrans",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
+          }
+        ],
+        "description": "对相关账单的收款进行退款处理"
+      }
+    },
+    "/bills/{billId}/refundingtrans/{refundingId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "billId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "name": "refundingId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "6.Get Refunding Trans",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-bills-billId-refundingtrans-refundingId"
       }
     }
   },
