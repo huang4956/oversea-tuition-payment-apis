@@ -139,6 +139,49 @@
           "description": "申报人（受益人）与受益人的关系\n\n由于中国外汇管制原因，所有资金出境均需进行申报，建议使用实际付款人进行申报.\n\n| relationship | description |\n|--------|-------------|\n|SELF|申报人为留学生本人|\n|FAILMY|申报人为留学生家人，一般要求直系亲属|\n"
         }
       }
+    },
+    "BillFundingTrans": {
+      "title": "BillFundingTrans",
+      "type": "object",
+      "description": "收款银行帐号转帐记录信息",
+      "properties": {
+        "billId": {
+          "type": "string",
+          "description": "账单编号"
+        },
+        "fundingId": {
+          "type": "string",
+          "description": "银行存款流水号"
+        },
+        "payerName": {
+          "type": "string",
+          "description": "付款人名字"
+        },
+        "payerBankAccout": {
+          "type": "string",
+          "description": "付款人银行帐号"
+        },
+        "cnapsBranchId": {
+          "type": "string",
+          "description": "付款银行大额行号"
+        },
+        "fundingAmount": {
+          "type": "string",
+          "description": "转帐金额(人民币)"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rfb": {
+          "type": "string",
+          "description": "银行转账交易附言"
+        }
+      },
+      "required": [
+        "billId",
+        "fundingId"
+      ]
     }
   },
   "paths": {},
