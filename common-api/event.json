@@ -162,7 +162,7 @@
         "bill.funded"
       ],
       "x-tags": [
-        "Models"
+        "Common"
       ]
     }
   },

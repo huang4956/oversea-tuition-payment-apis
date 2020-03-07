@@ -97,7 +97,7 @@
   },
   "definitions": {
     "TuitionInfo": {
-      "title": "TuitionInfo",
+      "title": "1-TuitionInfo",
       "type": "object",
       "description": "账单对应留学缴费资金的证明资料",
       "properties": {
