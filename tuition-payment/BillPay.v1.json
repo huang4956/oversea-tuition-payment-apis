@@ -10,7 +10,7 @@
       "properties": {
         "billId": {
           "type": "string",
-          "description": "PsP 账单编号"
+          "description": "PsP 账单编号 PsP全局唯一"
         },
         "paymentAmount": {
           "type": "string",
@@ -27,10 +27,7 @@
         "expiredTime": {
           "type": "string",
           "format": "date-time",
-          "description": "账单过期日期"
-        },
-        "recevingaccount": {
-          "$ref": "#/definitions/RecevingAccount"
+          "description": "账单过期时间,UTC+0"
         },
         "rateId": {
           "type": "string",
@@ -40,7 +37,10 @@
           "type": "string",
           "description": "锁定的汇率，与rateid一同出现。 "
         },
-        "BillItem": {
+        "recevingaccount": {
+          "$ref": "#/definitions/RecevingAccount"
+        },
+        "billItem": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/BillPayItemInfo"
@@ -69,8 +69,7 @@
         "paymentAmount",
         "billCurrency",
         "billAmount",
-        "recevingaccount",
-        "BillItem"
+        "recevingaccount"
       ]
     },
     "BillPayItemInfo": {
@@ -99,6 +98,9 @@
       "title": "3-RecevingAccount",
       "type": "object",
       "description": "银行转帐收付款帐号信息（国内账号含申报人信息），相关申报人信息需请求时填写，收款银行帐号信息由LianLianPay返回PSP。",
+      "x-tags": [
+        "Models"
+      ],
       "properties": {
         "beneficiaryName": {
           "type": "string",
@@ -118,7 +120,7 @@
             "self",
             "family"
           ],
-          "description": "申报人（受益人）与受益人的关系\n\n由于中国外汇管制原因，所有资金出境均需进行申报，建议使用实际付款人进行申报.\n\n| relationship | description |\n|--------|-------------|\n|SELF|申报人为留学生本人|\n|FAILMY|申报人为留学生家人，一般要求直系亲属|\n"
+          "description": "申报人（受益人）与受益人的关系\n\n由于中国外汇管制原因，所有资金出境均需进行申报，建议使用实际付款人进行申报.\n\n| relationship | description |\n|--------|-------------|\n|SELF|申报人为留学生本人|\n|FAMILY|申报人为留学生家人，一般要求直系亲属|\n"
         },
         "accountName": {
           "type": "string",
@@ -149,9 +151,6 @@
         "beneficiaryName",
         "beneficiaryId",
         "relationship"
-      ],
-      "x-tags": [
-        "Models"
       ]
     },
     "BillFundingTrans": {
@@ -177,6 +176,10 @@
         "payerBankAccout": {
           "type": "string",
           "description": "付款人银行帐号"
+        },
+        "payerBankName": {
+          "type": "string",
+          "description": "付款银行名称"
         },
         "cnapsBranchId": {
           "type": "string",

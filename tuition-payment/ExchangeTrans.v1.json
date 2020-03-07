@@ -74,6 +74,15 @@
                 "$ref": "#/definitions/ExchangeTrans"
               }
             }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ExchangeTrans"
+              }
+            }
           }
         },
         "parameters": [
