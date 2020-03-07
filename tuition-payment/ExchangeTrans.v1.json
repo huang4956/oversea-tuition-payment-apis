@@ -24,13 +24,13 @@
             "description": "OK"
           }
         },
-        "description": "1.验证相关billid是否为审核通过状态，reviewed,exchanged状态下可发起Fx.\n2.源币种余额不足，可生成INIT状态的代汇兑单据.",
+        "description": "1.验证相关billid是否为审核通过状态，reviewed,exchanged状态下可发起Fx.\n2.源币种余额不足，可生成INIT状态的代汇兑单.",
         "parameters": [
           {
             "in": "body",
             "name": "body",
             "schema": {
-              "$ref": "#/definitions/FxInstructInfo"
+              "$ref": "#/definitions/ExchangeTrans"
             }
           }
         ],
@@ -49,6 +49,30 @@
             "description": "Created",
             "schema": {
               "$ref": "#/definitions/FxInstructInfo"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/1-ExchangeTrans"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ExchangeTrans"
+              }
             }
           }
         },
@@ -79,16 +103,32 @@
         "tags": [
           "Operations"
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/1-ExchangeTrans"
+            }
+          },
+          "NaN": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ExchangeTrans"
+            }
+          }
+        },
         "operationId": "get-exchanges-exchangeid"
       }
     }
   },
   "definitions": {
-    "1-ExchangeTrans": {
+    "ExchangeTrans": {
       "title": "1-ExchangeTrans",
       "type": "object",
       "description": "对于状态为reviewed，exchanged且账单无锁定汇率，商户可发送汇兑分发指令.\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n\n注意：如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n\n",
+      "x-tags": [
+        "Models"
+      ],
       "properties": {
         "exchangeId": {
           "type": "string",
@@ -147,18 +187,15 @@
         }
       },
       "required": [
+        "exchangeId",
         "billId",
         "pricingCurrency",
         "sourceCurrency",
         "targetCurrency",
-        "tradeCode",
-        "exchangeId"
-      ],
-      "x-tags": [
-        "Models"
+        "tradeCode"
       ]
     },
-    "2-PayeeBankAccountInfo": {
+    "PayeeBankAccountInfo": {
       "title": "2-PayeeBankAccountInfo",
       "type": "object",
       "description": "境外收款人银行帐户信息",
