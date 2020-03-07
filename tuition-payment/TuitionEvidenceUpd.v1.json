@@ -144,6 +144,10 @@
         "status": {
           "type": "string",
           "description": "留学费用证明材料申请接口\n\n|status|descrption|\n|------|-------------|\n|INIT|申请状态|\n|APPROVED|审核通过,可以进行汇兑分发交易处理|\n|REJECT|审核拒绝，重新提交材料|"
+        },
+        "failedReason": {
+          "type": "string",
+          "description": "拒绝原因"
         }
       }
     }
