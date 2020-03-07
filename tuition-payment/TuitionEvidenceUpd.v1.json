@@ -1,0 +1,59 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TuitionEventic",
+    "version": "1.0"
+  },
+  "host": "localhost:3000",
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "TuitionInfo": {
+      "title": "TuitionInfo",
+      "type": "object",
+  "description": "账单对应留学缴费资金的证明资料",
+      "properties": {
+    "billId": {
+      "type": "string",
+      "description": "账单编号"
+    },
+    "universityName": {
+      "type": "string",
+      "description": "学校名称"
+    },
+    "country": {
+      "type": "string",
+      "description": "学校国家代码"
+    },
+    "tuitionCurrency": {
+      "type": "string",
+      "description": "学费币种"
+    },
+    "tuitionAmount": {
+      "type": "string",
+      "description": "学费金额"
+    },
+    "studentName": {
+      "type": "string",
+      "description": "学生姓名，对应受益人"
+    },
+    "attachment": {
+      "type": "array",
+      "description": "上传文件，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件",
+      "maxItems": 5,
+      "items": {
+        "$ref": ""
+      }
+    }
+      }
+    }
+  }
+}
