@@ -262,6 +262,9 @@
         "accountName",
         "accountNo",
         "cnapsBranchId"
+      ],
+      "x-tags": [
+        "Models"
       ]
     }
   },
@@ -430,7 +433,10 @@
             }
           }
         ],
-        "description": "对相关账单的收款进行退款处理"
+        "description": "对相关账单的收款进行退款处理",
+        "tags": [
+          "Operations"
+        ]
       }
     },
     "/bills/{billId}/refundingtrans/{refundingId}": {
@@ -450,7 +456,9 @@
       ],
       "get": {
         "summary": "6.Get Refunding Trans",
-        "tags": [],
+        "tags": [
+          "Operations"
+        ],
         "responses": {},
         "operationId": "get-bills-billId-refundingtrans-refundingId"
       }
