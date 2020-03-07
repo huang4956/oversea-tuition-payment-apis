@@ -132,6 +132,7 @@
           "type": "array",
           "description": "上传文件，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件",
           "maxItems": 5,
+          "minItems": 1,
           "items": {
             "$ref": "../common-api/document.json#/definitions/document"
           }

@@ -43,40 +43,7 @@
         "operationId": "get-exchanges",
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/FxInstructInfo"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/1-ExchangeTrans"
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object"
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ExchangeTrans"
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
+            "description": "OK",
             "schema": {
               "type": "array",
               "items": {
@@ -115,12 +82,6 @@
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/1-ExchangeTrans"
-            }
-          },
-          "NaN": {
-            "description": "",
             "schema": {
               "$ref": "#/definitions/ExchangeTrans"
             }
