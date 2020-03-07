@@ -85,10 +85,10 @@
     }
   },
   "definitions": {
-    "FxInstructInfo": {
-      "title": "FxInstructInfo",
+    "ExchangeTrans": {
+      "title": "ExchangeTrans",
       "type": "object",
-      "description": "对于状态为reviewed且账单的汇率未锁定情况，商户可发送汇兑分发指令，一般情况下，未自动汇兑的账单可进行汇兑（分发）处理。\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n1.如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n2.如果源币种与目标币种相同时,payeeBankAccount不为空,则进行外币汇出处理(不能为CNY).\n",
+      "description": "对于状态为reviewed，exchanged且账单无锁定汇率，商户可发送汇兑分发指令.\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n\n注意：如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n\n",
       "properties": {
         "exchangeId": {
           "type": "string",
