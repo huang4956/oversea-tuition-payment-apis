@@ -208,6 +208,9 @@
       "title": "5.ReFundingTrans",
       "type": "object",
       "description": "",
+      "x-tags": [
+        "Models"
+      ],
       "properties": {
         "refundingId": {
           "type": "string",
@@ -232,7 +235,8 @@
           "description": "收款人姓名"
         },
         "accountNo": {
-          "type": "string"
+          "type": "string",
+          "description": "收款人银行帐号"
         },
         "cnapsBranchId": {
           "type": "string",
@@ -262,9 +266,6 @@
         "accountName",
         "accountNo",
         "cnapsBranchId"
-      ],
-      "x-tags": [
-        "Models"
       ]
     }
   },
