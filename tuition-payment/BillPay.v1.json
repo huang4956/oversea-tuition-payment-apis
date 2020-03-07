@@ -307,7 +307,10 @@
             "description": "OK"
           }
         },
-        "description": "对于INIT状态的账单可以进行撤销操作"
+        "description": "对于INIT状态的账单可以进行撤销操作",
+        "tags": [
+          "Operations"
+        ]
       }
     },
     "/bills/{billid}/fundingtrans": {
