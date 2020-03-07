@@ -3,7 +3,7 @@
     "BillPayInfo": {
       "title": "1-BillPayInfo",
       "type": "object",
-      "description": "该账单只支持银行转帐支付方式进行缴款,账单信息包含用户需支付费用及转入的银行帐号信息。\n        \n用户支付信息包含:\n \n  (1)应转帐打款的收款银行账号信息.\n             \n  (2).应缴的人民币金额\n                              \n  (3).账单的有效时间（可选）",
+      "description": "账单支付信息",
       "x-tags": [
         "Models"
       ],
@@ -207,7 +207,7 @@
     "ReFundingTrans": {
       "title": "5.ReFundingTrans",
       "type": "object",
-      "description": "对于PsP代收人民币进行进行退款处理,退款的合计金额不能大于原账单已收款金额.\n当前PsP的人民币金额足够进行退款处理.",
+      "description": "",
       "properties": {
         "refundingId": {
           "type": "string",
@@ -278,7 +278,7 @@
             "description": "OK"
           }
         },
-        "description": "创建一张待银行转帐支付的账单，必须填写用户需要支付的人民币金额.",
+        "description": "该账单只支持银行转帐支付方式进行缴款,账单信息包含用户需支付费用及转入的银行帐号信息。\n        \n用户支付信息包含:\n \n  (1)应转帐打款的收款银行账号信息.\n             \n  (2).应缴的人民币金额\n                              \n  (3).账单的有效时间（可选）",
         "parameters": [
           {
             "in": "body",
@@ -433,7 +433,7 @@
             }
           }
         ],
-        "description": "对相关账单的收款进行退款处理",
+        "description": "对于PsP代收人民币进行进行退款处理,退款的合计金额不能大于原账单已收款金额.\n当前PsP的人民币金额足够进行退款处理.",
         "tags": [
           "Operations"
         ]
@@ -459,7 +459,14 @@
         "tags": [
           "Operations"
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
+          }
+        },
         "operationId": "get-bills-billId-refundingtrans-refundingId"
       }
     }
