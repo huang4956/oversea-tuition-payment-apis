@@ -2,7 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "TuitionEventic",
-    "version": "1.0"
+    "version": "1.0",
+    "description": "成功提交账单信息后，提交相关留学账单的证明材料，相关材料会经过LianLian Pay 审核,审核成功后才能进行汇兑分发处理（当然客户需完成缴费）.\n\n通过billId，相关证明材料已最后一份为准，通过查询也是查询最后一份提交材料的信息。\n如果相关账单对应材料已经审核通过，则相关账单不能再进行材料提交或补充。\n\n对于被reject的账单，可重新提交材料。\n\n请先使用Document Api 上传材料文件，注意：文件名称如果重复，相关老文件将被覆盖。"
   },
   "host": "localhost:3000",
   "schemes": [
@@ -14,45 +15,122 @@
   "consumes": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/tuitionevidences": {
+      "post": {
+        "summary": "",
+        "operationId": "post-tuitionevidences",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "billId": {
+                  "type": "string"
+                },
+                "universityName": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "tuitionCurrency": {
+                  "type": "string"
+                },
+                "tuitionAmount": {
+                  "type": "string"
+                },
+                "studentName": {
+                  "type": "string"
+                },
+                "attachment": {
+                  "type": "array",
+                  "maxItems": 5,
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "../common-api/document.json#/definitions/document"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/tuitionevidences/{billid}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "billid",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TuitionInfo"
+            }
+          }
+        },
+        "operationId": "get-tuitionevidences-billid",
+        "description": "使用billid获取最新提交留学证明材料信息。"
+      }
+    }
+  },
   "definitions": {
     "TuitionInfo": {
       "title": "TuitionInfo",
       "type": "object",
-  "description": "账单对应留学缴费资金的证明资料",
+      "description": "账单对应留学缴费资金的证明资料",
       "properties": {
-    "billId": {
-      "type": "string",
-      "description": "账单编号"
-    },
-    "universityName": {
-      "type": "string",
-      "description": "学校名称"
-    },
-    "country": {
-      "type": "string",
-      "description": "学校国家代码"
-    },
-    "tuitionCurrency": {
-      "type": "string",
-      "description": "学费币种"
-    },
-    "tuitionAmount": {
-      "type": "string",
-      "description": "学费金额"
-    },
-    "studentName": {
-      "type": "string",
-      "description": "学生姓名，对应受益人"
-    },
-    "attachment": {
-      "type": "array",
-      "description": "上传文件，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件",
-      "maxItems": 5,
-      "items": {
-        "$ref": ""
-      }
-    }
+        "billId": {
+          "type": "string",
+          "description": "账单编号"
+        },
+        "universityName": {
+          "type": "string",
+          "description": "学校名称"
+        },
+        "country": {
+          "type": "string",
+          "description": "学校国家代码"
+        },
+        "tuitionCurrency": {
+          "type": "string",
+          "description": "学费币种"
+        },
+        "tuitionAmount": {
+          "type": "string",
+          "description": "学费金额"
+        },
+        "studentName": {
+          "type": "string",
+          "description": "学生姓名，对应受益人"
+        },
+        "attachment": {
+          "type": "array",
+          "description": "上传文件，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件",
+          "maxItems": 5,
+          "items": {
+            "$ref": "../common-api/document.json#/definitions/document"
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "留学费用证明材料申请接口\n\n|status|descrption|\n|------|-------------|\n|INIT|申请状态|\n|APPROVED|审核通过,可以进行汇兑分发交易处理|\n|REJECT|审核拒绝，重新提交材料|"
+        }
       }
     }
   }

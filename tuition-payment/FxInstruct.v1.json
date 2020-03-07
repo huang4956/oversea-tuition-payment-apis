@@ -14,12 +14,31 @@
   "consumes": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/exchanges": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-exchanges"
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-exchanges",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "1.验证相关billid是否为审核通过状态，reviewed,exchanged状态下可发起Fx.\n2.如果源币种余额不足，可生成INIT状态的代汇兑单据。"
+      }
+    }
+  },
   "definitions": {
     "FxInstructInfo": {
       "title": "FxInstructInfo",
       "type": "object",
-      "description": "对于状态为reviewed且账单的汇率未锁定情况，商户可发送汇兑分发指令，一般情况下，未自动汇兑的账单可进行一次汇兑处理（分发）。\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n1.如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n2.如果源币种与目标币种相同时,payeeBankAccount不为空,则进行外币汇出处理(不能为CNY).\n",
+      "description": "对于状态为reviewed且账单的汇率未锁定情况，商户可发送汇兑分发指令，一般情况下，未自动汇兑的账单可进行汇兑（分发）处理。\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n1.如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n2.如果源币种与目标币种相同时,payeeBankAccount不为空,则进行外币汇出处理(不能为CNY).\n",
       "properties": {
         "billId": {
           "type": "string",
@@ -46,7 +65,7 @@
           "description": "目的(汇出)金额:汇出的金额，当定价币种为目的币种必填，例：10.11。"
         },
         "payeeBankAccount": {
-          "$ref": "./PayeeBankAccountInfo.v1.json"
+          "$ref": "#/definitions/PayeeBankAccountInfo"
         },
         "referenceForBeneficiary": {
           "type": "string",
@@ -54,7 +73,7 @@
         },
         "status": {
           "type": "string",
-          "description": "汇兑分发指令处理状态\n| status | description |\n|--------|-------------|\n|WAIT_PAYMENT|汇兑完成等待付款|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|退汇处理成功|\n|FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功|\n",
+          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|WAIT_PAYMENT|汇兑完成等待付款|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|退汇处理成功|\n|PAYMENT_FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功|\n",
           "enum": [
             "WAIT_PAYMENT",
             "PAYMENT_SUCCESS",
@@ -67,69 +86,83 @@
         "failReason": {
           "type": "string",
           "description": "失败原因 "
+        },
+        "tradeCode": {
+          "type": "string",
+          "description": "贸易编码\n|tradeCode|description|\n||留学费用|\n||手续费|"
         }
       },
       "required": [
         "billId",
         "pricingCurrency",
         "sourceCurrency",
-        "targetCurrency"
+        "targetCurrency",
+        "tradeCode"
       ]
     },
     "PayeeBankAccountInfo": {
       "title": "PayeeBankAccountInfo",
       "type": "object",
-  "description": "境外收款人银行帐户信息",
+      "description": "境外收款人银行帐户信息",
       "properties": {
-    "payeeCountryCode": {
-      "type": "string",
-      "description": "收款人国家或地区编码:\nISO 3166 Alpha-3，如 USA。"
-    },
-    "payeeName": {
-      "type": "string",
-      "description": "收款人姓名"
-    },
-    "payeeAddress": {
-      "type": "string",
-      "description": "收款人地址"
-    },
-    "payeeBankDistrict": {
-      "type": "string",
-      "description": "收款人开户银行所在国家或地区编码:\nISO 3166 Alpha-3，如 US."
-    },
-    "payeeBankAccountType": {
-      "type": "string",
-      "description": "|payeeBankAccountType| description |\n|--------|-------------|\n|INDIVIDUAL|个人|\n|CORPORATE|企业|\n收款人银行账号类型.\n",
-      "enum": [
-        "INDIVIDUAL",
-        "CORPORATE"
+        "payeeCountryCode": {
+          "type": "string",
+          "description": "收款人国家或地区编码:\nISO 3166 Alpha-3，如 USA。"
+        },
+        "payeeName": {
+          "type": "string",
+          "description": "收款人姓名"
+        },
+        "payeeAddress": {
+          "type": "string",
+          "description": "收款人地址"
+        },
+        "payeeBankDistrict": {
+          "type": "string",
+          "description": "收款人开户银行所在国家或地区编码:\nISO 3166 Alpha-3，如 US."
+        },
+        "payeeBankAccountType": {
+          "type": "string",
+          "description": "|payeeBankAccountType| description |\n|--------|-------------|\n|INDIVIDUAL|个人|\n|CORPORATE|企业|\n收款人银行账号类型.\n",
+          "enum": [
+            "INDIVIDUAL",
+            "CORPORATE"
+          ]
+        },
+        "payeeBankName": {
+          "type": "string",
+          "description": "收款人银行名称"
+        },
+        "payeeBankType": {
+          "type": "string",
+          "description": "|payeeBankType| description |\n|--------|-------------|\n|IBAN|欧洲地区国际银行账号|\n|SORT|英国地区银行账户|\n收款银行国际编码类型"
+        },
+        "payeeBankCode": {
+          "type": "string",
+          "description": "收款银行国际编码:\n如已填写 payeeBankType，此处填写\n对应 IBAN 值或 Sortcode 值"
+        },
+        "payeeAccount": {
+          "type": "string",
+          "description": "收款人银行账号"
+        },
+        "payeeBankAddress": {
+          "type": "string",
+          "description": "收款人银行地址"
+        },
+        "payeeBankSwiftCode": {
+          "type": "string",
+          "description": "收款银行\nSwiftCode"
+        }
+      },
+      "required": [
+        "payeeCountryCode",
+        "payeeName",
+        "payeeBankName",
+        "payeeBankCode",
+        "payeeAccount",
+        "payeeBankAddress",
+        "payeeBankSwiftCode"
       ]
-    },
-    "payeeBankName": {
-      "type": "string",
-      "description": "收款人银行名称"
-    },
-    "payeeBankType": {
-      "type": "string",
-      "description": "|payeeBankType| description |\n|--------|-------------|\n|IBAN|欧洲地区国际银行账号|\n|SORT|英国地区银行账户|\n收款银行国际编码类型"
-    },
-    "payeeBankCode": {
-      "type": "string",
-      "description": "收款银行国际编码:\n如已填写 payeeBankType，此处填写\n对应 IBAN 值或 Sortcode 值"
-    },
-    "payeeAccount": {
-      "type": "string",
-      "description": "收款人银行账号"
-    },
-    "payeeBankAddress": {
-      "type": "string",
-      "description": "收款人银行地址"
-    },
-    "payeeBankSwiftCode": {
-      "type": "string",
-      "description": "收款银行\nSwiftCode"
-    }
-      }
     }
   }
 }

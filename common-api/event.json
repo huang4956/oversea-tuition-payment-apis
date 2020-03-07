@@ -125,7 +125,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "description": "Object type related to this event. One of:\n\n| type | description |\n|------|-------------|\n| bill | Bill object defined in Lianlina Pay's system. Get bill details by requesting `Get Bill` API|\n| funding| Funding object defined in Lianlian Pay's system. Get bill details by requesting `Get Funding` API|\n|fxinstruct|exchange object Get More informition use `Get FxInstruct` API|",
+              "description": "Object type related to this event. One of:\n\n| type | description |\n|------|-------------|\n| bill | Bill object defined in Lianlina Pay's system. Get bill details by requesting `Get Bill` API|\n| funding| Funding object defined in Lianlian Pay's system. Get bill details by requesting `Get Funding` API|\n|fxinstruct|exchange object Get More information use `Get FxInstruct` API|\n|tuitionEvidence|tuitionevidence object defined use Get TuitionEvidence API get the lastest TuitionEvidence Object information.|",
               "enum": [
                 "profile",
                 "bill",
