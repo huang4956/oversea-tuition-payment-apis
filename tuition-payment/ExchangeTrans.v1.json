@@ -108,7 +108,10 @@
             }
           }
         ],
-        "description": "1.退汇只支持原汇兑交易状态为EXCHANGE_SUCCESS的交易\n\n2.且原汇兑交易未指定收款银行信息及分发处理\n\n3.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。"
+        "description": "1.退汇只支持原汇兑交易状态为EXCHANGE_SUCCESS的交易\n\n2.且原汇兑交易未指定收款银行信息及分发处理\n\n3.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
+        "tags": [
+          "Operations"
+        ]
       }
     },
     "/exchangereturns/{exchangReturnId}": {
@@ -122,7 +125,9 @@
       ],
       "get": {
         "summary": "5.Get Exchange Return Status",
-        "tags": [],
+        "tags": [
+          "Operations"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -277,7 +282,7 @@
       ]
     },
     "ExchangeReturn": {
-      "title": "ExchangeReturn",
+      "title": "3-ExchangeReturn",
       "type": "object",
       "description": "",
       "properties": {
@@ -307,7 +312,10 @@
         "failReason": {
           "type": "string"
         }
-      }
+      },
+      "x-tags": [
+        "Models"
+      ]
     }
   }
 }
