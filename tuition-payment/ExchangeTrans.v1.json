@@ -89,6 +89,50 @@
         },
         "operationId": "get-exchanges-exchangeid"
       }
+    },
+    "/exchangereturns": {
+      "post": {
+        "summary": "4.Return the exchange trans",
+        "operationId": "post-exchangereturns",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ExchangeReturn"
+            }
+          }
+        ],
+        "description": "1.退汇只支持原汇兑交易状态为EXCHANGE_SUCCESS的交易\n\n2.且原汇兑交易未指定收款银行信息及分发处理\n\n3.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。"
+      }
+    },
+    "/exchangereturns/{exchangReturnId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "exchangReturnId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "5.Get Exchange Return Status",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ExchangeReturn"
+            }
+          }
+        },
+        "operationId": "get-exchangereturns-exchangReturnId"
+      }
     }
   },
   "definitions": {
@@ -231,6 +275,39 @@
       "x-tags": [
         "Models"
       ]
+    },
+    "ExchangeReturn": {
+      "title": "ExchangeReturn",
+      "type": "object",
+      "description": "",
+      "properties": {
+        "exchangeReturnId": {
+          "type": "string",
+          "description": "退汇指令编号，全局唯一"
+        },
+        "exchangeId": {
+          "type": "string",
+          "description": "原汇兑指令编号"
+        },
+        "returnCurrency": {
+          "type": "string",
+          "description": "原汇兑的目标币种"
+        },
+        "returnAmount": {
+          "type": "string",
+          "description": "退汇的外汇金额"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "退汇交易状态\n\n|status|description|\n|------|------------|\n|INIT|退汇申请成功|\n|SUCCESS|汇兑成功|\n|FAILED|汇兑失败|"
+        },
+        "failReason": {
+          "type": "string"
+        }
+      }
     }
   }
 }
