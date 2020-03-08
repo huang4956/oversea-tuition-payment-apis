@@ -92,7 +92,7 @@
     },
     "/exchangereturns": {
       "post": {
-        "summary": "4.Return the exchange trans",
+        "summary": "4.Return Exchange Trans",
         "operationId": "post-exchangereturns",
         "responses": {
           "200": {
@@ -285,6 +285,9 @@
       "title": "3-ExchangeReturn",
       "type": "object",
       "description": "",
+      "x-tags": [
+        "Models"
+      ],
       "properties": {
         "exchangeReturnId": {
           "type": "string",
@@ -313,8 +316,11 @@
           "type": "string"
         }
       },
-      "x-tags": [
-        "Models"
+      "required": [
+        "exchangeReturnId",
+        "exchangeId",
+        "returnCurrency",
+        "returnAmount"
       ]
     }
   }
