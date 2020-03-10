@@ -62,7 +62,16 @@
                 "tradeCode": {
                   "type": "string"
                 }
-              }
+              },
+              "required": [
+                "exchangeId",
+                "billId",
+                "pricingCurrency",
+                "sourceCurrency",
+                "targetCurrency",
+                "payeeBankAccount",
+                "tradeCode"
+              ]
             }
           }
         ],

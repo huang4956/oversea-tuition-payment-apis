@@ -351,7 +351,7 @@
         }
       ],
       "get": {
-        "summary": "2.Query Bill Info by BillID",
+        "summary": "2.Get Bill Info by BillID",
         "tags": [
           "Operations"
         ],
@@ -477,7 +477,7 @@
             }
           }
         ],
-        "description": "对于PsP代收人民币进行进行退款处理,已受理或退款成功的退合计金额不能大于原账单已收款金额.\n当前PsP的人民币金额足够进行退款处理.",
+        "description": "对于PsP代收人民币进行进行退款处理,已受理或退款成功的合计金额不能大于原账单已收款金额.\n当前PsP的人民币帐户需金额足够才能进行退款处理.",
         "tags": [
           "Operations"
         ]
