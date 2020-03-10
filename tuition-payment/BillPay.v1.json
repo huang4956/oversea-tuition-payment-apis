@@ -296,7 +296,8 @@
                   "description": "需支付的人民币金额"
                 },
                 "billCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "当前支持CNY"
                 },
                 "billAmount": {
                   "type": "string",
