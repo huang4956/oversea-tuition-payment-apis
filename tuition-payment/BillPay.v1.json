@@ -37,7 +37,7 @@
           "type": "string",
           "description": "锁定的汇率，与rateid一同出现。 "
         },
-        "recevingaccount": {
+        "recevingAccount": {
           "$ref": "#/definitions/RecevingAccount"
         },
         "billItem": {
@@ -69,7 +69,7 @@
         "paymentAmount",
         "billCurrency",
         "billAmount",
-        "recevingaccount"
+        "recevingAccount"
       ]
     },
     "BillPayItemInfo": {
