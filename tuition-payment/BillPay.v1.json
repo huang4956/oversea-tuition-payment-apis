@@ -106,7 +106,7 @@
           "type": "string",
           "description": "申报人（受益人）姓名"
         },
-        "beneficiaryId": {
+        "beneficiaryID": {
           "type": "string",
           "description": "申报人（受益人）身份证号码,当该域作为返回值时，相关内容作前4后6Mask处理 "
         },
@@ -149,7 +149,7 @@
       },
       "required": [
         "beneficiaryName",
-        "beneficiaryId",
+        "beneficiaryID",
         "relationship"
       ]
     },
@@ -296,23 +296,11 @@
                   "description": "需支付的人民币金额"
                 },
                 "billCurrency": {
-                  "type": "string",
-                  "description": "暂只支持人民币"
+                  "type": "string"
                 },
                 "billAmount": {
                   "type": "string",
                   "description": "人民币时该金额与paymentAmount相同"
-                },
-                "rate": {
-                  "type": "string"
-                },
-                "rateid": {
-                  "type": "string"
-                },
-                "expiredTime": {
-                  "type": "string",
-                  "format": "date-time",
-                  "description": "UTC 0"
                 },
                 "billItem": {
                   "type": "array",
@@ -321,8 +309,17 @@
                     "$ref": "#/definitions/BillPayItemInfo"
                   }
                 },
-                "payeebankInfo": {
-                  "$ref": "#/definitions/RecevingAccount"
+                "beneficiaryName": {
+                  "type": "string"
+                },
+                "beneficiaryID": {
+                  "type": "string"
+                },
+                "beneficiaryPhone": {
+                  "type": "string"
+                },
+                "relationship": {
+                  "type": "string"
                 }
               },
               "required": [
@@ -330,7 +327,10 @@
                 "paymentAmount",
                 "billCurrency",
                 "billAmount",
-                "payeebankInfo"
+                "beneficiaryName",
+                "beneficiaryID",
+                "beneficiaryPhone",
+                "relationship"
               ]
             },
             "description": ""
@@ -379,17 +379,10 @@
         ]
       }
     },
-    "/bills/{billId}/fundingtrans": {
-      "parameters": [
-        {
-          "type": "string",
-          "name": "billId",
-          "in": "path",
-          "required": true
-        }
-      ],
+    "/fundingtrans": {
+      "parameters": [],
       "get": {
-        "summary": "4.Get Funding Trans of  Bill",
+        "summary": "4.Query Funding Trans of  Bill",
         "tags": [
           "Operations"
         ],
@@ -405,18 +398,29 @@
           }
         },
         "operationId": "get-bills-billid-fundingtrans",
-        "description": ""
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BillFundingTrans"
+              }
+            }
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "billId",
+            "required": true
+          }
+        ]
       }
     },
-    "/bills/{billId}/refundingtrans": {
-      "parameters": [
-        {
-          "type": "string",
-          "name": "billId",
-          "in": "path",
-          "required": true
-        }
-      ],
+    "/refundingtrans": {
+      "parameters": [],
       "post": {
         "summary": "5.Create Refunding Trans",
         "operationId": "post-bills-billId-refundingtrans",
@@ -430,7 +434,46 @@
             "in": "body",
             "name": "body",
             "schema": {
-              "$ref": "#/definitions/ReFundingTrans"
+              "type": "object",
+              "properties": {
+                "refundingId": {
+                  "type": "string"
+                },
+                "billId": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "string"
+                },
+                "bankName": {
+                  "type": "string"
+                },
+                "bankBranchName": {
+                  "type": "string"
+                },
+                "accountName": {
+                  "type": "string"
+                },
+                "accountNo": {
+                  "type": "string"
+                },
+                "cnapsBranchId": {
+                  "type": "string"
+                },
+                "rbf": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "refundingId",
+                "billId",
+                "amount",
+                "bankName",
+                "bankBranchName",
+                "accountName",
+                "accountNo",
+                "cnapsBranchId"
+              ]
             }
           }
         ],
@@ -440,14 +483,8 @@
         ]
       }
     },
-    "/bills/{billId}/refundingtrans/{refundingId}": {
+    "/refundingtrans/{refundingId}": {
       "parameters": [
-        {
-          "type": "string",
-          "name": "billId",
-          "in": "path",
-          "required": true
-        },
         {
           "type": "string",
           "name": "refundingId",
@@ -466,9 +503,14 @@
             "schema": {
               "$ref": "#/definitions/ReFundingTrans"
             }
+          },
+          "": {
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
           }
         },
-        "operationId": "get-bills-billId-refundingtrans-refundingId"
+        "operationId": "get-refundingtrans"
       }
     }
   },

@@ -30,7 +30,39 @@
             "in": "body",
             "name": "body",
             "schema": {
-              "$ref": "#/definitions/ExchangeTrans"
+              "type": "object",
+              "properties": {
+                "exchangeId": {
+                  "type": "string"
+                },
+                "billId": {
+                  "type": "string"
+                },
+                "pricingCurrency": {
+                  "type": "string"
+                },
+                "sourceCurrency": {
+                  "type": "string"
+                },
+                "sourceAmount": {
+                  "type": "string"
+                },
+                "targetCurrency": {
+                  "type": "string"
+                },
+                "targetAmount": {
+                  "type": "string"
+                },
+                "payeeBankAccount": {
+                  "$ref": "#/definitions/PayeeBankAccountInfo"
+                },
+                "rfb": {
+                  "type": "string"
+                },
+                "tradeCode": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
@@ -104,7 +136,30 @@
             "in": "body",
             "name": "body",
             "schema": {
-              "$ref": "#/definitions/ExchangeReturn"
+              "type": "object",
+              "properties": {
+                "exchangeReturnId": {
+                  "type": "string"
+                },
+                "exchangeId": {
+                  "type": "string"
+                },
+                "returnCurrency": {
+                  "type": "string"
+                },
+                "returnAmount": {
+                  "type": "string"
+                },
+                "memo": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "exchangeReturnId",
+                "exchangeId",
+                "returnCurrency",
+                "returnAmount"
+              ]
             }
           }
         ],
@@ -314,6 +369,10 @@
         },
         "failReason": {
           "type": "string"
+        },
+        "memo": {
+          "type": "string",
+          "description": "退汇原因"
         }
       },
       "required": [
