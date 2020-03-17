@@ -24,7 +24,7 @@
             "description": "OK"
           }
         },
-        "description": "1.验证相关贸易材料是否为审核通过状态，且汇兑金额不能超过账单金额和虚拟卡加款金额的百分之x的浮动\n2.源币种余额不足，可生成INIT状态的代汇兑单.--待明确",
+        "description": "汇兑分发申请接口，最终汇兑分发结果异步返回或调用方使用查询接口。\n\n1.验证相关贸易材料是否为审核通过状态\n\n2.汇兑金额不能超过账单金额或虚拟卡累计加款金额的百分之三的浮动\n\n3.账单不存在汇兑申请中或成功汇兑的交易",
         "parameters": [
           {
             "in": "body",
@@ -154,7 +154,8 @@
                   "type": "string"
                 },
                 "returnCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "支持cny"
                 },
                 "returnAmount": {
                   "type": "string"
@@ -172,7 +173,7 @@
             }
           }
         ],
-        "description": "1.退汇只支持原汇兑交易状态为EXCHANGE_SUCCESS的交易\n\n2.且原汇兑交易未指定收款银行信息及分发处理\n\n3.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n5.仅支持部分退汇,如发起后无法再次发起正向指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
+        "description": "部分退汇申请接口，最终退汇结果异步返回或调用方使用查询接口。\n\n1.退汇只支持原汇兑交易状态为EXCHANGE_SUCCESS的交易\n\n2.且原汇兑交易未指定收款银行信息进进行分发处理\n\n3.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n5.支持原交易源币种或目的币种进行退汇\n\n6.仅支持部分退汇,如发起后无法再次发起相同账单的汇兑指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
         "tags": [
           "Operations"
         ]
@@ -204,15 +205,24 @@
       }
     },
     "/exchangecancel": {
-      "post": {
-        "summary": "6.Cancel Exchange Trans",
-        "operationId": "post-exchangecancel",
+      "put": {
+        "summary": "",
+        "operationId": "put-exchangecancel",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "": {
+                  "type": "string"
+                }
+              }
+            }
           }
         },
-        "description": "针对状态为EXCHANGE_SUCCESS的交易发起全部退汇，退汇成功后可再次发起汇兑单,如果退汇失败，指令回到EXCHANGE_SUCCESS状态",
         "parameters": [
           {
             "in": "body",
@@ -226,7 +236,8 @@
               }
             }
           }
-        ]
+        ],
+        "description": "针对状态为EXCHANGE_SUCCESS的交易发起全部退汇，退汇成功后可再次发起汇兑单,如果退汇失败，指令回到EXCHANGE_SUCCESS状态"
       }
     }
   },
@@ -281,7 +292,7 @@
         },
         "status": {
           "type": "string",
-          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|银行退汇处理成功|\n|FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功,如果需分发则待分发中|\n|EXCHANGE_CANCELING|退汇中|\n|EXCHANGE_CANCEL|退汇成功|\n",
+          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|银行退汇处理成功|\n|FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功,如果需分发则待分发中|\n|EXCHANGE_CANCEL|退汇成功|\n",
           "enum": [
             "PAYMENT_SUCCESS",
             "PAYMENT_REVERSED_AFTER_SUCCESS",
@@ -292,6 +303,10 @@
             "EXCHANGE_CANCEL",
             "EXCHANGE_CANCELING"
           ]
+        },
+        "cancelStatus": {
+          "type": "string",
+          "description": "| cancelStatus | description |\n|--------|-------------|\n|PROCESSING|处理中|\n|SUCCESS|分发成功|\n|FAILED |处理失败|\n"
         },
         "failReason": {
           "type": "string",

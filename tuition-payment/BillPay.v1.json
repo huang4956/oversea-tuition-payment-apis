@@ -98,7 +98,7 @@
           "type": "string",
           "description": "银行名称"
         },
-        "bankZone": {
+        "bankLocation": {
           "type": "string",
           "description": "银行地区"
         },
@@ -243,7 +243,7 @@
             }
           }
         },
-        "description": "该账单只支持银行转帐支付方式进行缴款,账单信息包含用户需支付费用及转入的银行帐号信息。\n        \n用户支付信息包含:\n \n  (1)应转帐打款的收款银行账号信息.\n             \n  (2).应缴的人民币金额\n                              \n  (3).账单的有效时间（可选）",
+        "description": "该账单只支持银行转帐支付方式进行缴款,账单信息包含用户需支付费用及转入的银行帐号信息。\n        \n用户支付信息包含:\n \n  (1).应转帐打款的收款银行账号信息.\n             \n  (2).应缴的人民币金额\n                              \n  (3).账单申报人信息",
         "parameters": [
           {
             "in": "body",
@@ -259,38 +259,39 @@
                   "type": "string",
                   "description": "需支付的人民币金额"
                 },
-                "beneficiaryName": {
+                "payerName": {
                   "type": "string",
-                  "description": "申报人名称"
+                  "description": "付款人名称"
                 },
-                "beneficiaryID": {
+                "payerID": {
                   "type": "string",
-                  "description": "申报人证件号"
+                  "description": "付款人证件号"
                 },
-                "beneficiaryPhone": {
+                "payerContactNumber": {
                   "type": "string",
-                  "description": "申报人联系号码"
+                  "description": "付款人联系号码,企业付款人必传"
                 },
                 "relationship": {
                   "type": "string",
-                  "description": "申报人与受益人关系\n由于中国外汇管制原因，所有资金出境均需进行申报，建议使用实际付款人进行申报.\n\n| relationship | description |\n|--------|-------------|\n|SELF|申报人为留学生本人|\n|FAMILY|申报人为留学生家人，一般要求直系亲属|"
+                  "description": "付款人与受益人关系\n由于中国外汇管制原因，所有资金出境均需进行申报，\n\n| relationship | description |\n|--------|-------------|\n|SELF|付款人为留学生本人|\n|FAMILY|付款人为留学生家人，一般要求直系亲属|"
                 },
-                "beneficiaryType": {
+                "payerType": {
                   "type": "string",
-                  "description": "申报人类型\n| beneficiaryType| description |\n|--------|-------------|\n|INDIVIDUAL|个人|\n|CORPORATE|企业|"
+                  "description": "付款人类型\n\n| beneficiaryType| description |\n|--------|-------------|\n|INDIVIDUAL|个人|\n|CORPORATE|企业|"
                 },
-                "beneficiaryIdType": {
+                "payerIDType": {
                   "type": "string",
-                  "description": "申报人证件类型\n| beneficiaryType| description |\n|--------|-------------|\n|ID_CARD|身份证|\n|UNIFIED_CREDIT_CODE|企业社会信用号|"
+                  "description": "付款人证件类型\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD|身份证|\n|UNIFIED_CREDIT_CODE|企业社会信用号|"
                 }
               },
               "required": [
                 "billId",
                 "paymentAmount",
-                "beneficiaryName",
-                "beneficiaryID",
-                "beneficiaryPhone",
-                "relationship"
+                "payerName",
+                "payerID",
+                "relationship",
+                "payerType",
+                "payerIDType"
               ]
             },
             "description": ""
@@ -423,7 +424,7 @@
             }
           }
         ],
-        "description": "对于PsP代收人民币进行进行退款处理,已受理或退款成功的合计金额不能大于原账单已收款金额.\n当前PsP的人民币帐户需金额足够才能进行退款处理.",
+        "description": "本交易为退款申请接口，退款结果异步通知返回或调用方查询确认\n\n(1).对于PsP代收人民币进行进行退款处理,已受理或退款成功的合计金额不能大于原账单已收款金额.\n\n(2).当前PsP的人民币帐户需金额足够才能进行退款处理.",
         "tags": [
           "Operations"
         ]
