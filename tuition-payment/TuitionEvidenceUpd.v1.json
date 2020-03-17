@@ -54,11 +54,11 @@
                 },
                 "studentName": {
                   "type": "string",
-                  "description": "学生名字"
+                  "description": "学生姓名，对应受益人"
                 },
                 "attachment": {
                   "type": "string",
-                  "description": "传documentID,逗号隔开，最多支持五个附件，例："
+                  "description": "上传文件id，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件，例：2018072227039320,2018072227039320"
                 }
               },
               "required": [
@@ -76,7 +76,7 @@
         "tags": [
           "Operations"
         ],
-        "description": "调用该APIs前，需要先上传相关证明文件.\n\n1.校验账单是否存在\n\n2.校验documentId是否有效\n\n3.如果billId对应的材料已审核通过，不允许上传"
+        "description": "材料提交接口，调用该APIs前，需要先调用document接口上传相关证明文件，材料审核结果异步返回或调用方通过查询接口。\n\n1.校验账单是否存在\n\n2.校验documentId是否有效\n\n3.如果billId对应的材料已审核通过，不允许上传"
       }
     },
     "/tuitionevidences/{billId}": {
@@ -141,7 +141,7 @@
         },
         "attachment": {
           "type": "string",
-          "description": "上传文件，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件"
+          "description": "上传文件id，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件，例：2018072227039320,2018072227039320"
         },
         "createTime": {
           "type": "string",
