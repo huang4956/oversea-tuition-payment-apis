@@ -205,7 +205,7 @@
     },
     "/exchangecancel": {
       "post": {
-        "summary": "",
+        "summary": "6.Cancel Exchange Trans",
         "operationId": "post-exchangecancel",
         "responses": {
           "200": {
