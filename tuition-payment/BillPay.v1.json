@@ -8,6 +8,14 @@
         "Models"
       ],
       "properties": {
+        "billId": {
+          "type": "string",
+          "description": "PsP 账单编号 PsP全局唯一"
+        },
+        "paymentAmount": {
+          "type": "number",
+          "description": "支付人民币金额"
+        },
         "recevingAccount": {
           "$ref": "#/definitions/RecevingAccount"
         },
@@ -16,42 +24,12 @@
           "default": "sysdate",
           "format": "date-time",
           "description": "账单支付信息生成时间 UT+0"
-        },
-        "paymentAmount": {
-          "type": "string",
-          "description": "支付人民币金额"
-        },
-        "billId": {
-          "type": "string",
-          "description": "PsP 账单编号 PsP全局唯一"
         }
       },
       "required": [
-        "recevingAccount",
+        "billId",
         "paymentAmount",
-        "billId"
-      ]
-    },
-    "BillPayItemInfo": {
-      "title": "4-BillPayItemInfo",
-      "type": "object",
-      "properties": {
-        "tradeCode": {
-          "type": "string",
-          "description": "该交易项目对应的贸易编码"
-        },
-        "ItemAmount": {
-          "type": "string",
-          "description": "项目金额"
-        },
-        "ItemName": {
-          "type": "string",
-          "description": "项目名称"
-        }
-      },
-      "description": "账单金额的构成，币种与账单币种同,且ItemAmount的汇总金额要等于billAmount.",
-      "x-tags": [
-        "Models"
+        "recevingAccount"
       ]
     },
     "RecevingAccount": {
@@ -62,15 +40,23 @@
         "Models"
       ],
       "properties": {
-        "beneficiaryName": {
+        "payerName": {
           "type": "string",
           "description": "申报人（受益人）姓名"
         },
-        "beneficiaryID": {
+        "payerType": {
+          "type": "string",
+          "description": "付款人类型\n\n| beneficiaryType| description |\n|--------|-------------|\n|INDIVIDUAL|个人|\n|CORPORATE|企业|"
+        },
+        "payerIDType": {
+          "type": "string",
+          "description": "付款人证件类型\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD|身份证|\n|UNIFIED_CREDIT_CODE|企业社会信用号|"
+        },
+        "payerID": {
           "type": "string",
           "description": "申报人（受益人）身份证号码,当该域作为返回值时，相关内容作前4后6Mask处理 "
         },
-        "beneficiaryPhone": {
+        "payerContactNumber": {
           "type": "string",
           "description": "申报人（受益人）联系手机号码"
         },
@@ -108,9 +94,9 @@
         }
       },
       "required": [
-        "beneficiaryName",
-        "beneficiaryID",
-        "beneficiaryPhone",
+        "payerName",
+        "payerID",
+        "payerContactNumber",
         "relationship"
       ]
     },
@@ -147,7 +133,7 @@
           "description": "付款银行大额行号"
         },
         "amount": {
-          "type": "string",
+          "type": "number",
           "description": "转帐金额(人民币)"
         },
         "createTime": {
@@ -182,7 +168,7 @@
           "description": "对应源账单编号"
         },
         "amount": {
-          "type": "string",
+          "type": "number",
           "description": "退款金额"
         },
         "bankName": {
@@ -263,6 +249,14 @@
                   "type": "string",
                   "description": "付款人名称"
                 },
+                "payerType": {
+                  "type": "string",
+                  "description": "付款人类型\n\n| beneficiaryType| description |\n|--------|-------------|\n|INDIVIDUAL|个人|\n|CORPORATE|企业|"
+                },
+                "payerIDType": {
+                  "type": "string",
+                  "description": "付款人证件类型\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD|身份证|\n|UNIFIED_CREDIT_CODE|企业社会信用号|"
+                },
                 "payerID": {
                   "type": "string",
                   "description": "付款人证件号"
@@ -274,14 +268,6 @@
                 "relationship": {
                   "type": "string",
                   "description": "付款人与受益人关系\n由于中国外汇管制原因，所有资金出境均需进行申报，\n\n| relationship | description |\n|--------|-------------|\n|SELF|付款人为留学生本人|\n|FAMILY|付款人为留学生家人，一般要求直系亲属|"
-                },
-                "payerType": {
-                  "type": "string",
-                  "description": "付款人类型\n\n| beneficiaryType| description |\n|--------|-------------|\n|INDIVIDUAL|个人|\n|CORPORATE|企业|"
-                },
-                "payerIDType": {
-                  "type": "string",
-                  "description": "付款人证件类型\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD|身份证|\n|UNIFIED_CREDIT_CODE|企业社会信用号|"
                 }
               },
               "required": [

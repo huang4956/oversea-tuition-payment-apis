@@ -225,19 +225,16 @@
         },
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "exchangeId": {
-                  "type": "string"
-                }
-              }
-            }
+            "in": "formData",
+            "type": "string",
+            "name": "exchangeId",
+            "description": "汇兑指令编号"
           }
         ],
-        "description": "针对状态为EXCHANGE_SUCCESS的交易发起全部退汇，退汇成功后可再次发起汇兑单,如果退汇失败，指令回到EXCHANGE_SUCCESS状态"
+        "description": "汇兑取消接口,最终取消结果异步返回或调用方使用查询接口。\n1.针对状态为EXCHANGE_SUCCESS的交易发起全部退汇\n2.退汇成功后可再次发起汇兑单,如果退汇失败，指令仍为EXCHANGE_SUCCESS状态",
+        "tags": [
+          "Operations"
+        ]
       }
     }
   },
@@ -306,7 +303,12 @@
         },
         "cancelStatus": {
           "type": "string",
-          "description": "| cancelStatus | description |\n|--------|-------------|\n|PROCESSING|处理中|\n|SUCCESS|分发成功|\n|FAILED |处理失败|\n"
+          "description": "| cancelStatus | description |\n|--------|-------------|\n|PROCESSING|处理中|\n|SUCCESS|分发成功|\n|FAILED |处理失败|\n",
+          "enum": [
+            "PROCESSING",
+            "SUCCESS",
+            "FAILED"
+          ]
         },
         "failReason": {
           "type": "string",
