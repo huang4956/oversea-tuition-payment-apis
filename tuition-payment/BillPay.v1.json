@@ -364,7 +364,7 @@
                 },
                 "cardType": {
                   "type": "string",
-                  "description": "银行卡类型\n\n|cardType|description|\n|------|------------|\n|INDIVIDUAL|对私|\n|CORPORATE|对公|\n\n\n"
+                  "description": "银行卡类型\n\n|customerType|description|\n|------|------------|\n|INDIVIDUAL|对私|\n|CORPORATE|对公|"
                 },
                 "bankName": {
                   "type": "string",
@@ -398,8 +398,7 @@
                 "cardType",
                 "bankName",
                 "accountName",
-                "accountNo",
-                "cardType"
+                "accountNo"
               ]
             }
           }
