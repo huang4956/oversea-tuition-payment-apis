@@ -33,39 +33,50 @@
               "type": "object",
               "properties": {
                 "billId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "账单编号"
                 },
                 "universityName": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "学校名称"
                 },
                 "country": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "学校所在国家或地区"
                 },
                 "tuitionCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "学费币种"
                 },
                 "tuitionAmount": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "学费金额"
                 },
                 "studentName": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "学生名字"
                 },
                 "attachment": {
-                  "type": "array",
-                  "maxItems": 5,
-                  "minItems": 1,
-                  "items": {
-                    "$ref": "../common-api/document.json#/definitions/document"
-                  }
+                  "type": "string",
+                  "description": "传documentID,逗号隔开，最多支持五个附件，例："
                 }
-              }
+              },
+              "required": [
+                "billId",
+                "universityName",
+                "country",
+                "tuitionCurrency",
+                "tuitionAmount",
+                "studentName",
+                "attachment"
+              ]
             }
           }
         ],
         "tags": [
           "Operations"
         ],
-        "description": "调用该APIs前，需要先上传相关证明文件."
+        "description": "调用该APIs前，需要先上传相关证明文件.\n\n1.校验账单是否存在\n\n2.校验documentId是否有效\n\n3.如果billId对应的材料已审核通过，不允许上传"
       }
     },
     "/tuitionevidences/{billId}": {
@@ -129,13 +140,8 @@
           "description": "学生姓名，对应受益人"
         },
         "attachment": {
-          "type": "array",
-          "description": "上传文件，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件",
-          "maxItems": 5,
-          "minItems": 1,
-          "items": {
-            "$ref": "../common-api/document.json#/definitions/document"
-          }
+          "type": "string",
+          "description": "上传文件，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件"
         },
         "createTime": {
           "type": "string",
