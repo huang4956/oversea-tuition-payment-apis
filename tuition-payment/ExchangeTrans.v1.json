@@ -24,7 +24,7 @@
             "description": "OK"
           }
         },
-        "description": "1.验证相关billid是否为审核通过状态，reviewed,exchanged状态下可发起Fx.\n2.源币种余额不足，可生成INIT状态的代汇兑单.",
+        "description": "1.验证相关贸易材料是否为审核通过状态，且汇兑金额不能超过账单金额和虚拟卡加款金额的百分之x的浮动\n2.源币种余额不足，可生成INIT状态的代汇兑单.--待明确",
         "parameters": [
           {
             "in": "body",
@@ -172,7 +172,7 @@
             }
           }
         ],
-        "description": "1.退汇只支持原汇兑交易状态为EXCHANGE_SUCCESS的交易\n\n2.且原汇兑交易未指定收款银行信息及分发处理\n\n3.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
+        "description": "1.退汇只支持原汇兑交易状态为EXCHANGE_SUCCESS的交易\n\n2.且原汇兑交易未指定收款银行信息及分发处理\n\n3.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n5.仅支持部分退汇,如发起后无法再次发起正向指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
         "tags": [
           "Operations"
         ]
@@ -202,6 +202,32 @@
         },
         "operationId": "get-exchangereturns-exchangReturnId"
       }
+    },
+    "/exchangecancel": {
+      "post": {
+        "summary": "",
+        "operationId": "post-exchangecancel",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "针对状态为EXCHANGE_SUCCESS的交易发起全部退汇，退汇成功后可再次发起汇兑单,如果退汇失败，指令回到EXCHANGE_SUCCESS状态",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "exchangeId": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -212,6 +238,7 @@
       "x-tags": [
         "Models"
       ],
+      "x-examples": {},
       "properties": {
         "exchangeId": {
           "type": "string",
@@ -254,19 +281,25 @@
         },
         "status": {
           "type": "string",
-          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED|退汇处理成功|\n|PAYMENT_FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功,如果需分发怎待分发中|\n",
+          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|银行退汇处理成功|\n|FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功,如果需分发则待分发中|\n|EXCHANGE_CANCELING|退汇中|\n|EXCHANGE_CANCEL|退汇成功|\n",
           "enum": [
-            "WAIT_PAYMENT",
             "PAYMENT_SUCCESS",
             "PAYMENT_REVERSED_AFTER_SUCCESS",
             "EXCHANGE_SUCCESS",
             "PROCESSING",
-            "FAILED"
+            "FAILED",
+            "INIT",
+            "EXCHANGE_CANCEL",
+            "EXCHANGE_CANCELING"
           ]
         },
         "failReason": {
           "type": "string",
           "description": "失败原因 "
+        },
+        "rate": {
+          "type": "string",
+          "description": "汇兑汇率"
         }
       },
       "required": [
