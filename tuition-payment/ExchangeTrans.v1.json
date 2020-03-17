@@ -206,7 +206,7 @@
     },
     "/exchanges/{exchangeId}/cancel": {
       "put": {
-        "summary": "",
+        "summary": "6.Cancel Exchange Trans",
         "operationId": "put-exchangecancel",
         "responses": {
           "200": {
@@ -290,7 +290,7 @@
         },
         "status": {
           "type": "string",
-          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|银行退汇处理成功|\n|FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功,如果需分发则待分发中|\n|EXCHANGE_CANCEL|退汇成功|\n",
+          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|银行退汇处理成功|\n|FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功,如果需分发则待分发中|\n|EXCHANGE_CANCEL|汇兑取消成功|\n",
           "enum": [
             "PAYMENT_SUCCESS",
             "PAYMENT_REVERSED_AFTER_SUCCESS",
