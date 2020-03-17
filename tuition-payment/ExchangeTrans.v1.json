@@ -231,7 +231,7 @@
             "description": "汇兑指令编号"
           }
         ],
-        "description": "汇兑取消接口,最终取消结果异步返回或调用方使用查询接口。\n1.针对状态为EXCHANGE_SUCCESS的交易发起全部退汇\n2.退汇成功后可再次发起汇兑单,如果退汇失败，指令仍为EXCHANGE_SUCCESS状态",
+        "description": "汇兑取消接口,最终取消结果异步返回或调用方使用查询接口。\n\n1.针对状态为EXCHANGE_SUCCESS的交易发起全部退汇\n\n2.退汇成功后可再次发起汇兑单,如果退汇失败，指令仍为EXCHANGE_SUCCESS状态",
         "tags": [
           "Operations"
         ]
@@ -265,7 +265,7 @@
           "description": "源币种:一般为CNY"
         },
         "sourceAmount": {
-          "type": "string",
+          "type": "number",
           "description": "源币种金额:当定价币种为源币种必传，必填。例：10.11"
         },
         "targetCurrency": {
@@ -273,8 +273,8 @@
           "description": "目的币种:汇出的币种"
         },
         "targetAmount": {
-          "type": "string",
-          "description": "目的(汇出)金额:汇出的金额，当定价币种为目的币种必填，例：10.11。"
+          "description": "目的(汇出)金额:汇出的金额，当定价币种为目的币种必填，例：10.11。",
+          "type": "number"
         },
         "payeeBankAccount": {
           "$ref": "#/definitions/PayeeBankAccountInfo"
