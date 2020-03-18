@@ -172,9 +172,9 @@
           "description": "银行名称"
         },
         "bankAccountType": {
-                  "type": "string",
-                  "description": "银行卡类型\n\n|customerType|description|\n|------|------------|\n|INDIVIDUAL|对私|\n|CORPORATE|对公|"
-                },
+          "type": "string",
+          "description": "银行卡类型\n\n|customerType|description|\n|------|------------|\n|INDIVIDUAL|对私|\n|CORPORATE|对公|"
+        },
         "accountName": {
           "type": "string",
           "description": "收款人姓名"
