@@ -33,34 +33,43 @@
               "type": "object",
               "properties": {
                 "exchangeId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "汇出指令编号"
                 },
                 "billId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "账单编号"
                 },
                 "pricingCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "ISO 3166 Alpha-3，源币种或目的币\n种，当值为源币种时，根据\nsourceAmount 及汇率计算\ntargetAmount\n当值为目的币种时，根据\ntargetAmount 及汇率计算\nsourceAmount"
                 },
                 "sourceCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "CNY"
                 },
                 "sourceAmount": {
-                  "type": "string"
+                  "type": "string",
+                  "description": " 当定价币种为源币种必传，单位元，必填。例：\n10.11"
                 },
                 "targetCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "汇出的币种"
                 },
                 "targetAmount": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "汇出的金额，当定价币种为目的币种必\n填，单位元，例：10.11"
                 },
                 "payeeBankAccount": {
                   "$ref": "#/definitions/PayeeBankAccountInfo"
                 },
                 "rfb": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "交易附言"
                 },
                 "tradeCode": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "贸易编码"
                 }
               },
               "required": [
@@ -72,7 +81,8 @@
                 "payeeBankAccount",
                 "tradeCode"
               ]
-            }
+            },
+            "description": ""
           }
         ],
         "tags": [
@@ -148,20 +158,24 @@
               "type": "object",
               "properties": {
                 "exchangeReturnId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "退汇指令id"
                 },
                 "exchangeId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "原汇出指令id"
                 },
                 "returnCurrency": {
                   "type": "string",
                   "description": "支持cny"
                 },
                 "returnAmount": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "退汇金额"
                 },
                 "memo": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "备注"
                 }
               },
               "required": [
@@ -421,14 +435,16 @@
           "description": "退汇的外汇金额"
         },
         "createTime": {
-          "type": "string"
+          "type": "string",
+          "description": "创建时间"
         },
         "status": {
           "type": "string",
           "description": "退汇交易状态\n\n|status|description|\n|------|------------|\n|INIT|退汇申请成功|\n|SUCCESS|汇兑成功|\n|FAILED|汇兑失败|"
         },
         "failReason": {
-          "type": "string"
+          "type": "string",
+          "description": "失败原因"
         },
         "memo": {
           "type": "string",
