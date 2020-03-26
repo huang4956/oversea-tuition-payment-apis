@@ -24,7 +24,7 @@
             "description": "OK"
           }
         },
-        "description": "汇兑分发申请接口，最终汇兑分发结果异步返回或调用方使用查询接口。\n\n1.验证相关贸易材料是否为审核通过状态\n\n2.汇兑金额不能超过账单金额或虚拟卡累计加款金额的百分之三的浮动\n\n3.账单不存在汇兑申请中或成功汇兑的交易",
+        "description": "汇兑分发申请接口，最终汇兑分发结果异步返回或调用方使用查询接口。\n\n汇兑指令提交必须满足以下条件\n\n1.相关贸易材料必须为审核通过状态\n\n2.汇兑金额不能超过账单金额或虚拟卡累计加款金额的百分之三的浮动\n\n3.账单不存在汇兑申请中或成功汇兑的交易\n\n如果境外收款银行账户不传则只做汇兑",
         "parameters": [
           {
             "in": "body",
@@ -54,7 +54,7 @@
                 },
                 "targetCurrency": {
                   "type": "string",
-                  "description": "汇出的币种"
+                  "description": "汇出的币种\n\n| currency | description  |\n|--------|-------------|\n|USD |美元|\n|EUR |欧元|\n|GBP |英镑|\n|CAD |加币|\n|JPY |日元|\n|THB |泰铢|\n|IDR |印尼盾|\n|AED |迪拉姆|\n|HKD |港币|\n|CNH |离岸人民币|\n\n"
                 },
                 "targetAmount": {
                   "type": "string",
@@ -78,7 +78,6 @@
                 "pricingCurrency",
                 "sourceCurrency",
                 "targetCurrency",
-                "payeeBankAccount",
                 "tradeCode"
               ]
             },
@@ -238,7 +237,7 @@
           }
         },
         "parameters": [],
-        "description": "汇兑取消申请接口,最终取消结果异步返回或调用方使用查询接口。\n\n1.针对状态为EXCHANGE_SUCCESS且取消状态为空的交易发起汇兑取消\n\n2.且原汇兑交易未指定收款银行信息进行分发处理\n\n3.采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.汇兑取消成功后可再次发起汇兑单,如果退汇失败，指令仍为EXCHANGE_SUCCESS状态",
+        "description": "汇兑取消申请接口,最终取消结果异步返回或调用方使用查询接口。\n\n1.针对状态为EXCHANGE_SUCCESS且取消状态为空的交易发起汇兑取消\n\n2.原汇兑交易如果指定收款银行信息进行分发处理不允许取消\n\n3.发起过部分退汇的指令不允许发起汇兑取消\n\n4.采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n5.汇兑取消成功后可重新发起汇兑交易",
         "tags": [
           "Operations"
         ]
