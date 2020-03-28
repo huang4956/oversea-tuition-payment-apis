@@ -13,7 +13,7 @@
           "description": "PsP 账单编号 PsP全局唯一"
         },
         "paymentAmount": {
-          "type": "number",
+          "type": "string",
           "description": "支付人民币金额"
         },
         "recevingAccount": {
@@ -129,7 +129,7 @@
           "description": "付款银行名称"
         },
         "amount": {
-          "type": "number",
+          "type": "string",
           "description": "转帐金额(人民币)"
         },
         "createTime": {
@@ -164,7 +164,7 @@
           "description": "对应源账单编号"
         },
         "amount": {
-          "type": "number",
+          "type": "string",
           "description": "退款金额"
         },
         "bankName": {
@@ -211,7 +211,7 @@
     }
   },
   "paths": {
-    "/bills": {
+    "/bill": {
       "post": {
         "summary": "1.Create a Bill for Bank Transfer",
         "operationId": "post-bills",
@@ -268,10 +268,10 @@
                 "billId",
                 "paymentAmount",
                 "payerName",
-                "payerID",
-                "relationship",
                 "payerType",
-                "payerIDType"
+                "payerIDType",
+                "payerID",
+                "relationship"
               ]
             },
             "description": ""
@@ -280,9 +280,10 @@
         "tags": [
           "Operations"
         ]
-      }
+      },
+      "parameters": []
     },
-    "/bills/{billId}": {
+    "/bill/{billId}": {
       "parameters": [
         {
           "type": "string",

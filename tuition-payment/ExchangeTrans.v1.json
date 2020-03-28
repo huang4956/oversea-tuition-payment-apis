@@ -15,7 +15,7 @@
     "application/json"
   ],
   "paths": {
-    "/exchanges": {
+    "/exchange": {
       "post": {
         "summary": "1.Create Currency Exchange Transcation",
         "operationId": "post-exchanges",
@@ -113,9 +113,10 @@
         "tags": [
           "Operations"
         ]
-      }
+      },
+      "parameters": []
     },
-    "/exchanges/{exchangeId}": {
+    "/exchange/{exchangeId}": {
       "parameters": [
         {
           "type": "string",
@@ -140,7 +141,7 @@
         "operationId": "get-exchanges-exchangeid"
       }
     },
-    "/exchangereturns": {
+    "/exchangereturn": {
       "post": {
         "summary": "4.Return Exchange Trans",
         "operationId": "post-exchangereturns",
@@ -190,9 +191,10 @@
         "tags": [
           "Operations"
         ]
-      }
+      },
+      "parameters": []
     },
-    "/exchangereturns/{exchangReturnId}": {
+    "/exchangereturn/{exchangReturnId}": {
       "parameters": [
         {
           "type": "string",
@@ -217,7 +219,7 @@
         "operationId": "get-exchangereturns-exchangReturnId"
       }
     },
-    "/exchanges/{exchangeId}/cancel": {
+    "/exchange/{exchangeId}/cancel": {
       "put": {
         "summary": "6.Cancel Exchange Trans",
         "operationId": "put-exchangecancel",
@@ -279,7 +281,7 @@
           "description": "源币种:一般为CNY"
         },
         "sourceAmount": {
-          "type": "number",
+          "type": "string",
           "description": "源币种金额:当定价币种为源币种必传，必填。例：10.11"
         },
         "targetCurrency": {
@@ -288,7 +290,7 @@
         },
         "targetAmount": {
           "description": "目的(汇出)金额:汇出的金额，当定价币种为目的币种必填，例：10.11。",
-          "type": "number"
+          "type": "string"
         },
         "payeeBankAccount": {
           "$ref": "#/definitions/PayeeBankAccountInfo"
