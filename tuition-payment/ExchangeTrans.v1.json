@@ -70,6 +70,10 @@
                 "tradeCode": {
                   "type": "string",
                   "description": "贸易编码"
+                },
+                "payeeMerchantId": {
+                  "type": "string",
+                  "description": "收款商户号"
                 }
               },
               "required": [
@@ -305,7 +309,7 @@
         },
         "status": {
           "type": "string",
-          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED_AFTER_SUCCESS|银行退汇处理成功|\n|PAYMENT_FAILED |处理失败|\n|CANCEL|取消成功|\n",
+          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|指令受理成功|\n|PROCESSING|处理中|\n|SUCCESS|处理成功|\n|FAILED|处理失败|\n|PAYMENT_REVERSED_AFTER_SUCCESS|银行退汇处理成功|\n|CANCEL|取消成功|\n",
           "enum": [
             "PAYMENT_SUCCESS",
             "PAYMENT_REVERSED_AFTER_SUCCESS",
