@@ -460,6 +460,5 @@
     "version": "1.0",
     "description": ""
   },
-  "swagger": "2.0",
-  "basePath": "CN/HK Production"
+  "swagger": "2.0"
 }
