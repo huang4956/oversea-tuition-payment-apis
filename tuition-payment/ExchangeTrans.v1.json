@@ -4,9 +4,9 @@
     "title": "c.Currency ExChange API",
     "version": "1.0"
   },
-  "host": "localhost:3000",
+  "host": "https://global-api.lianlianpay.com/service/payment/v1",
   "schemes": [
-    "http"
+    "https"
   ],
   "produces": [
     "application/json"

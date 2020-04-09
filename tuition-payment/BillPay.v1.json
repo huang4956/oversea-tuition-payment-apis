@@ -452,12 +452,14 @@
     "application/json"
   ],
   "schemes": [
-    "http"
+    "https"
   ],
-  "host": "localhost:3000",
+  "host": "https://global-api.lianlianpay.com/service/payment/v1",
   "info": {
     "title": "a.BillPay API",
-    "version": "1.0"
+    "version": "1.0",
+    "description": ""
   },
-  "swagger": "2.0"
+  "swagger": "2.0",
+  "basePath": "CN/HK Production"
 }
