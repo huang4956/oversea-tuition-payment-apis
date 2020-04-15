@@ -134,7 +134,6 @@
         },
         "createTime": {
           "type": "string",
-          "format": "date-time",
           "description": "UTC+0"
         },
         "rfb": {
