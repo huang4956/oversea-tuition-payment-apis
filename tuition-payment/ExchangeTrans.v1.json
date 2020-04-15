@@ -71,9 +71,15 @@
                   "type": "string",
                   "description": "贸易编码"
                 },
-                "payeeMerchantId": {
+                "payeeLlpAccount": {
+                  "$ref": "#/definitions/payeelliAccount"
+                },
+                "payeeAccountType": {
                   "type": "string",
-                  "description": "收款商户号"
+                  "enum": [
+                    "BANK_ACCOUNT",
+                    "LL_ACCOUNT"
+                  ]
                 }
               },
               "required": [
@@ -466,6 +472,15 @@
         "returnCurrency",
         "returnAmount"
       ]
+    },
+    "payeelliAccount": {
+      "title": "PayeeLlpAccount",
+      "type": "object",
+      "properties": {
+        "payeeAccount": {
+          "type": "string"
+        }
+      }
     }
   }
 }

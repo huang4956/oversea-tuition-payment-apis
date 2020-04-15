@@ -42,7 +42,7 @@
       "properties": {
         "payerName": {
           "type": "string",
-          "description": "申报人（受益人）姓名"
+          "description": "付款人姓名"
         },
         "payerType": {
           "type": "string",
@@ -54,7 +54,7 @@
         },
         "payerID": {
           "type": "string",
-          "description": "申报人（受益人）身份证号码,当该域作为返回值时，相关内容作前4后6Mask处理 "
+          "description": "付款人身份证号码,当该域作为返回值时，保留前4后6，中间做脱敏处理 "
         },
         "payerContactNumber": {
           "type": "string",
@@ -261,7 +261,11 @@
                 },
                 "relationship": {
                   "type": "string",
-                  "description": "付款人与受益人关系\n由于中国外汇管制原因，所有资金出境均需进行申报，\n\n| relationship | description |\n|--------|-------------|\n|SELF|付款人为留学生本人|\n|FAMILY|付款人为留学生家人，一般要求直系亲属|"
+                  "description": "付款人与受益人关系\n由于中国外汇管制原因，所有资金出境均需进行申报，\n\n| relationship | description |\n|--------|-------------|\n|SELF|付款人为留学生本人|\n|FAMILY|付款人为留学生家人，一般要求直系亲属|",
+                  "enum": [
+                    "SELF",
+                    "FAMILY"
+                  ]
                 }
               },
               "required": [
@@ -270,8 +274,7 @@
                 "payerName",
                 "payerType",
                 "payerIDType",
-                "payerID",
-                "relationship"
+                "payerID"
               ]
             },
             "description": ""
@@ -311,7 +314,7 @@
     "/fundingtrans": {
       "parameters": [],
       "get": {
-        "summary": "4.Query Funding Trans of  Bill",
+        "summary": "3.Query Funding Trans of  Bill",
         "tags": [
           "Operations"
         ],
@@ -327,7 +330,7 @@
           }
         },
         "operationId": "get-bills-billid-fundingtrans",
-        "description": "",
+        "description": "查询账单银行加款流水",
         "parameters": [
           {
             "type": "string",
@@ -341,7 +344,7 @@
     "/refundingtrans": {
       "parameters": [],
       "post": {
-        "summary": "5.Create Refunding Trans",
+        "summary": "4.Create Refunding Trans",
         "operationId": "post-bills-billId-refundingtrans",
         "responses": {
           "200": {
@@ -424,7 +427,7 @@
         }
       ],
       "get": {
-        "summary": "6.Get Refunding Trans",
+        "summary": "5.Get Refunding Trans",
         "tags": [
           "Operations"
         ],

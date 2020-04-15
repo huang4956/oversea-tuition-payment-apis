@@ -76,7 +76,7 @@
         "tags": [
           "Operations"
         ],
-        "description": "材料提交接口，调用该APIs前，需要先调用document接口上传相关证明文件，材料审核结果异步返回或调用方通过查询接口。\n\n1.校验账单是否存在\n\n2.校验documentId是否有效\n\n3.如果billId对应的材料已审核通过，不允许上传"
+        "description": "材料提交接口，调用该APIs前，需要先调用document接口上传相关证明文件，材料审核结果异步返回或调用方通过查询接口。\n\n1.校验账单是否存在\n\n2.校验documentId是否有效\n\n3.如果billId对应的材料已审核通过，不允许上传\n\n4.如果有审核中或者审核成功，不允许上传新的留学材料。"
       }
     },
     "/tuitionevidences/{billId}": {
