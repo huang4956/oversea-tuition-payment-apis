@@ -310,8 +310,15 @@
         "operationId": "get-bills-billid"
       }
     },
-    "/fundingtrans": {
-      "parameters": [],
+    "/fundingtrans/{billId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "billId",
+          "in": "path",
+          "required": true
+        }
+      ],
       "get": {
         "summary": "3.Query Funding Trans of  Bill",
         "tags": [
@@ -330,14 +337,7 @@
         },
         "operationId": "get-bills-billid-fundingtrans",
         "description": "查询账单银行加款流水",
-        "parameters": [
-          {
-            "type": "string",
-            "in": "query",
-            "name": "billId",
-            "required": true
-          }
-        ]
+        "parameters": []
       }
     },
     "/refundingtrans": {
