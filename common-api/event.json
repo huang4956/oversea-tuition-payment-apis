@@ -150,8 +150,8 @@
           "type": "object",
           "description": "Event details",
           "required": [
-            "objectType",
-            "objectId"
+            "objectId",
+            "objectType"
           ],
           "properties": {
             "url": {
@@ -164,7 +164,7 @@
             },
             "objectType": {
               "type": "string",
-              "description": "Object type related to this event. One of:\n\n| type | description |\n|------|-------------|\n| profile | Profile object defined in Lianlian Pay's system. Get profile details by requesting `Get Profile` API|\n| bill | Bill object defined in Lianlina Pay's system. Get bill details by requesting `Get Bill` API|\n| account | Account object defined in Lianlina Pay's system. Get bill details by requesting `Get Account` API|\n| document | Document stored in Lianlina Pay's system. Get document file by requesting `Download Document` API|",
+              "description": "Object type related to this event. One of:\n\n| type | description |\n|------|-------------|\n ",
               "enum": [
                 "profile",
                 "bill",
@@ -198,8 +198,8 @@
         "topic",
         "data",
         "createTime",
-        "status",
-        "webhookURL"
+        "webhookURL",
+        "status"
       ]
     },
     "event-topic-enum": {

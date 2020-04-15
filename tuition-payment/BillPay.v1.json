@@ -295,7 +295,7 @@
         }
       ],
       "get": {
-        "summary": "2.Get Bill Info by BillID",
+        "summary": "2.Query Bill Info by BillID",
         "tags": [
           "Operations"
         ],
@@ -359,7 +359,7 @@
               "properties": {
                 "refundingId": {
                   "type": "string",
-                  "description": "退款id"
+                  "description": "PsP退款id,全局唯一"
                 },
                 "billId": {
                   "type": "string",
@@ -407,7 +407,8 @@
                 "accountName",
                 "accountNo"
               ]
-            }
+            },
+            "description": ""
           }
         ],
         "description": "本交易为退款申请接口，退款结果异步通知返回或调用方查询确认\n\n(1).对于PsP代收人民币进行进行退款处理,已受理或退款成功的合计金额不能大于原账单已收款金额.\n\n(2).当前PsP的人民币帐户需金额足够才能进行退款处理.",

@@ -66,20 +66,6 @@
                 "rfb": {
                   "type": "string",
                   "description": "交易附言"
-                },
-                "tradeCode": {
-                  "type": "string",
-                  "description": "贸易编码"
-                },
-                "payeeLlpAccount": {
-                  "$ref": "#/definitions/payeelliAccount"
-                },
-                "payeeAccountType": {
-                  "type": "string",
-                  "enum": [
-                    "BANK_ACCOUNT",
-                    "LL_ACCOUNT"
-                  ]
                 }
               },
               "required": [
@@ -87,8 +73,7 @@
                 "billId",
                 "pricingCurrency",
                 "sourceCurrency",
-                "targetCurrency",
-                "tradeCode"
+                "targetCurrency"
               ]
             },
             "description": ""
@@ -136,7 +121,7 @@
         }
       ],
       "get": {
-        "summary": "3.Get Exchange Status",
+        "summary": "3.Query Exchange Trans",
         "tags": [
           "Operations"
         ],
@@ -197,7 +182,7 @@
             }
           }
         ],
-        "description": "部分退汇申请接口，最终退汇结果异步返回或调用方使用查询接口。\n\n1.退汇只支持FX指令\n\n2.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n3.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n4.支持原交易源币种或目的币种进行退汇\n\n5.仅支持部分退汇,如发起后无法再次发起相同账单的汇兑指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
+        "description": "部分退汇申请接口，最终退汇结果异步返回或调用方使用查询接口。\n\n1.退汇只支持FX指令\n\n2.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n3.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n4.支持原交易源币种或目的币种进行退汇\n\n5.支持部分退汇,如发起后无法再次发起相同账单的汇兑指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
         "tags": [
           "Operations"
         ]
@@ -214,7 +199,7 @@
         }
       ],
       "get": {
-        "summary": "5.Get Exchange Return Status",
+        "summary": "5.Get Exchange Return Trans",
         "tags": [
           "Operations"
         ],
@@ -268,7 +253,7 @@
     "ExchangeTrans": {
       "title": "1-ExchangeTrans",
       "type": "object",
-      "description": "对于状态为reviewed，exchanged且账单无锁定汇率，商户可发送汇兑分发指令.\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n\n注意：如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n\n",
+      "description": "\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n\n注意：如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n\n",
       "x-tags": [
         "Models"
       ],
@@ -280,7 +265,7 @@
         },
         "billId": {
           "type": "string",
-          "description": "对应账单的汇兑处理，一般情况下，未自动汇兑的账单可进行一次汇兑处理（分发）。"
+          "description": "汇兑处理对应的账单编号"
         },
         "pricingCurrency": {
           "type": "string",
@@ -308,10 +293,6 @@
         "rfb": {
           "type": "string",
           "description": "如果payeeBankAccount不为空,则可填写收款人附言"
-        },
-        "tradeCode": {
-          "type": "string",
-          "description": "贸易编码\n\n|tradeCode|description|\n|---------|-----------|\n|xxxx1|留学费用|\n|xxxx2|留学手续费|"
         },
         "status": {
           "type": "string",
@@ -354,8 +335,7 @@
         "billId",
         "pricingCurrency",
         "sourceCurrency",
-        "targetCurrency",
-        "tradeCode"
+        "targetCurrency"
       ]
     },
     "PayeeBankAccountInfo": {
@@ -402,7 +382,7 @@
           "type": "string",
           "description": "收款银行国际编码:\n如已填写 payeeBankType，此处填写\n对应 IBAN 值或 Sortcode 值"
         },
-        "payeeAccount": {
+        "payeeAccountNo": {
           "type": "string",
           "description": "收款人银行账号"
         },
@@ -419,8 +399,7 @@
         "payeeCountryCode",
         "payeeName",
         "payeeBankName",
-        "payeeBankCode",
-        "payeeAccount",
+        "payeeAccountNo",
         "payeeBankAddress",
         "payeeBankSwiftCode"
       ]
@@ -455,7 +434,7 @@
         },
         "status": {
           "type": "string",
-          "description": "退汇交易状态\n\n|status|description|\n|------|------------|\n|INIT|退汇申请成功|\n|PROCESSING|退汇中|\n|SUCCESS|退汇成功|\n|FAILED|退汇失败失败|"
+          "description": "退汇交易状态\n\n|status|description|\n|------|------------|\n|INIT|退汇申请成功|\n|PROCESSING|退汇中|\n|SUCCESS|退汇成功|\n|FAILED|退汇失败|"
         },
         "failReason": {
           "type": "string",
