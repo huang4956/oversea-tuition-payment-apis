@@ -90,7 +90,7 @@
         "tags": [
           "Operations"
         ],
-        "description": "材料提交接口，调用该APIs前，需要先调用document接口上传相关证明文件，材料审核结果异步返回或调用方通过查询接口。\n\n1.校验账单是否存在\n\n2.校验documentId是否有效\n\n3.如果billId对应的材料已审核通过，不允许上传\n\n4.如果有审核中或者审核成功，不允许上传新的留学材料。"
+        "description": "材料提交接口，调用该接口前，需先调用document接口上传相关证明文件，材料审核结果异步返回或调用方通过调用接口查询。\n\n提交材料会做以下校验：\n\n1.校验账单是否存在\n\n2.校验documentId是否有效\n\n3.如果billId对应的材料已审核通过，不允许上传\n\n4.如果有审核中或者审核成功，不允许上传新的留学材料。"
       }
     },
     "/tuitionevidences/{billId}": {
@@ -103,7 +103,7 @@
         }
       ],
       "get": {
-        "summary": "2.Get Tuition evidence of Bill",
+        "summary": "2.Query Tuition evidence of Bill",
         "tags": [
           "Operations"
         ],
@@ -123,7 +123,7 @@
           }
         },
         "operationId": "get-tuitionevidences-billid",
-        "description": "使用billid获取最新提交留学证明材料审核结果信息."
+        "description": "通过账单编号获取最新提交的留学材料信息."
       }
     }
   },

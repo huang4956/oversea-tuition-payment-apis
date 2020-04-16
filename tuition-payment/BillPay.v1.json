@@ -504,7 +504,7 @@
         }
       ],
       "get": {
-        "summary": "5.Get Refunding Trans",
+        "summary": "5.Query Refunding Trans",
         "tags": [
           "Operations"
         ],
