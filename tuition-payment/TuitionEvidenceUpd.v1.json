@@ -23,6 +23,20 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020301|有效贸易材料已存在 |\n| 020302|贸易材料数量超过上限|\n| 020401|账单不存在或已失效|\n| 020303|账单金额与贸易材料金额相差过大|\n| 020501|申报人信息不存在|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "parameters": [
@@ -98,6 +112,13 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/TuitionInfo"
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           }
         },

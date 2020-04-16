@@ -22,6 +22,20 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020304|贸易材料未通过审核 |\n| 020601|汇出指令已存在|\n| 020602|汇兑金额超过上限或下限|\n| 020403|账单未加款|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "description": "汇兑分发申请接口，最终汇兑分发结果异步返回或调用方使用查询接口。\n\n汇兑指令提交必须满足以下条件\n\n1.相关贸易材料必须为审核通过状态\n\n2.汇兑金额不能超过账单金额或虚拟卡累计加款金额的百分之三的浮动\n\n3.账单不存在汇兑申请中或成功汇兑的交易\n\n如果境外收款银行账户不传则只做汇兑",
@@ -95,6 +109,20 @@
                 "$ref": "#/definitions/ExchangeTrans"
               }
             }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "parameters": [
@@ -131,6 +159,20 @@
             "schema": {
               "$ref": "#/definitions/ExchangeTrans"
             }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "operationId": "get-exchanges-exchangeid"
@@ -143,6 +185,20 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603|汇出指令已取消 |\n| 020604退汇指令币种不一致 |\n| 020605|退汇金额超过原单金额 |\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "parameters": [
@@ -207,7 +263,21 @@
           "200": {
             "description": "OK",
             "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
               "$ref": "#/definitions/ExchangeReturn"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           }
         },
@@ -222,7 +292,18 @@
           "200": {
             "description": "OK"
           },
-          "201": {
+          "400": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020606|汇出指令状态不支持退汇 |\n| 020607|汇出指令存在退汇指令|\n| 999995 |Parameter is error. |"
+          },
+          "500": {
             "schema": {
               "type": "object",
               "properties": {

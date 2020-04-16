@@ -222,7 +222,14 @@
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020101|KYC审核错误 |\n| 020201|账单申卡失败 |\n| 020402|账单已存在 |\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
             "schema": {
               "type": "object",
               "properties": {}
@@ -312,6 +319,20 @@
             "schema": {
               "$ref": "#/definitions/BillPayInfo"
             }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "operationId": "get-bills-billid"
@@ -340,6 +361,20 @@
                 "$ref": "#/definitions/BillFundingTrans"
               }
             }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "operationId": "get-bills-billid-fundingtrans",
@@ -355,6 +390,20 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020608| CNY退款金额大于加款金额 |\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "parameters": [
@@ -442,6 +491,20 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/ReFundingTrans"
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           },
           "": {
