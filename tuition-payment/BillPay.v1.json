@@ -373,10 +373,6 @@
                   "type": "string",
                   "description": "银行卡类型\n\n|customerType|description|\n|------|------------|\n|INDIVIDUAL|对私|\n|CORPORATE|对公|"
                 },
-                "bankName": {
-                  "type": "string",
-                  "description": "银行名称"
-                },
                 "bankBranchName": {
                   "type": "string",
                   "description": "支行名称"
@@ -396,6 +392,10 @@
                 "rbf": {
                   "type": "string",
                   "description": "交易附言"
+                },
+                "bankName": {
+                  "type": "string",
+                  "description": "银行名称"
                 }
               },
               "required": [
@@ -403,7 +403,6 @@
                 "billId",
                 "amount",
                 "bankAccountType",
-                "bankName",
                 "accountName",
                 "accountNo"
               ]
