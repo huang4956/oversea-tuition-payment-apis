@@ -4,9 +4,9 @@
     "title": "c.Currency ExChange API",
     "version": "1.0"
   },
-  "host": "localhost:3000",
+  "host": "https://global-api.lianlianpay.com/service/payment/v1",
   "schemes": [
-    "http"
+    "https"
   ],
   "produces": [
     "application/json"
@@ -15,16 +15,30 @@
     "application/json"
   ],
   "paths": {
-    "/exchanges": {
+    "/exchange": {
       "post": {
         "summary": "1.Create Currency Exchange Transcation",
         "operationId": "post-exchanges",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020304|贸易材料未通过审核 |\n| 020601|汇出指令已存在|\n| 020602|汇兑金额超过上限或下限|\n| 020403|账单未加款|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
-        "description": "1.验证相关billid是否为审核通过状态，reviewed,exchanged状态下可发起Fx.\n2.源币种余额不足，可生成INIT状态的代汇兑单.",
+        "description": "汇出指令申请接口，最终结果异步返回或调用方通过接口查询。\n\n指令提交必须满足以下条件\n\n1.相关贸易材料必须为审核通过状态\n\n2.汇兑金额不能大于小于账单金额或账单累计加款金额百分之三的浮动\n\n3.一笔账单只能发起一次成功汇出的指令（如果汇兑取消可重新发起）\n\n如果收款账户不传则指令只做汇兑",
         "parameters": [
           {
             "in": "body",
@@ -33,34 +47,39 @@
               "type": "object",
               "properties": {
                 "exchangeId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "汇出指令编号"
                 },
                 "billId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "账单编号"
                 },
                 "pricingCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "ISO 3166 Alpha-3，源币种或目的币\n种，当值为源币种时，根据\nsourceAmount 及汇率计算\ntargetAmount\n当值为目的币种时，根据\ntargetAmount 及汇率计算\nsourceAmount"
                 },
                 "sourceCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "CNY"
                 },
                 "sourceAmount": {
-                  "type": "string"
+                  "type": "string",
+                  "description": " 当定价币种为源币种必传，单位元，必填。例：\n10.11"
                 },
                 "targetCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "汇出的币种\n\n| currency | description  |\n|--------|-------------|\n|USD |美元|\n|EUR |欧元|\n|GBP |英镑|\n|CAD |加币|\n|JPY |日元|\n|THB |泰铢|\n|IDR |印尼盾|\n|AED |迪拉姆|\n|HKD |港币|\n|CNH |离岸人民币|\n\n"
                 },
                 "targetAmount": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "汇出的金额，当定价币种为目的币种必\n填，单位元，例：10.11"
                 },
                 "payeeBankAccount": {
                   "$ref": "#/definitions/PayeeBankAccountInfo"
                 },
                 "rfb": {
-                  "type": "string"
-                },
-                "tradeCode": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "交易附言"
                 }
               },
               "required": [
@@ -68,11 +87,10 @@
                 "billId",
                 "pricingCurrency",
                 "sourceCurrency",
-                "targetCurrency",
-                "payeeBankAccount",
-                "tradeCode"
+                "targetCurrency"
               ]
-            }
+            },
+            "description": ""
           }
         ],
         "tags": [
@@ -91,6 +109,20 @@
                 "$ref": "#/definitions/ExchangeTrans"
               }
             }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "parameters": [
@@ -98,15 +130,17 @@
             "type": "string",
             "in": "query",
             "name": "billId",
-            "description": " 查询指定billId下的汇兑分发记录"
+            "description": "账单编号"
           }
         ],
         "tags": [
           "Operations"
-        ]
-      }
+        ],
+        "description": "通过账单编号查询支付指令记录"
+      },
+      "parameters": []
     },
-    "/exchanges/{exchangeId}": {
+    "/exchange/{exchangeId}": {
       "parameters": [
         {
           "type": "string",
@@ -116,7 +150,7 @@
         }
       ],
       "get": {
-        "summary": "3.Get Exchange Status",
+        "summary": "3.Query Exchange Trans",
         "tags": [
           "Operations"
         ],
@@ -126,18 +160,47 @@
             "schema": {
               "$ref": "#/definitions/ExchangeTrans"
             }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
-        "operationId": "get-exchanges-exchangeid"
+        "operationId": "get-exchanges-exchangeid",
+        "description": "通过汇出指令编号查询对应的汇出指令"
       }
     },
-    "/exchangereturns": {
+    "/exchangereturn": {
       "post": {
         "summary": "4.Return Exchange Trans",
         "operationId": "post-exchangereturns",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603|汇出指令已取消 |\n| 020604退汇指令币种不一致 |\n| 020605|退汇金额超过原单金额 |\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "parameters": [
@@ -148,19 +211,24 @@
               "type": "object",
               "properties": {
                 "exchangeReturnId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "退汇指令id"
                 },
                 "exchangeId": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "原汇出指令id"
                 },
                 "returnCurrency": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "支持cny"
                 },
                 "returnAmount": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "退汇金额"
                 },
                 "memo": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "备注"
                 }
               },
               "required": [
@@ -172,13 +240,14 @@
             }
           }
         ],
-        "description": "1.退汇只支持原汇兑交易状态为EXCHANGE_SUCCESS的交易\n\n2.且原汇兑交易未指定收款银行信息及分发处理\n\n3.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.退汇总金额（原汇兑多次退汇情况）不能大于原汇兑交易的外币交易金额\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
+        "description": "部分退汇申请接口，最终退汇结果异步返回或调用方通过接口查询。\n\n1.退汇只支持只做汇兑的指令\n\n2.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n3.退汇总金额不能大于原汇出交易的金额\n\n4.支持原交易源币种或目的币种进行退汇\n\n5.支持部分退汇,发起后对应账单无法再次发起汇出指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
         "tags": [
           "Operations"
         ]
-      }
+      },
+      "parameters": []
     },
-    "/exchangereturns/{exchangReturnId}": {
+    "/exchangereturn/{exchangReturnId}": {
       "parameters": [
         {
           "type": "string",
@@ -188,7 +257,7 @@
         }
       ],
       "get": {
-        "summary": "5.Get Exchange Return Status",
+        "summary": "5.Query Exchange Return Trans",
         "tags": [
           "Operations"
         ],
@@ -196,38 +265,99 @@
           "200": {
             "description": "OK",
             "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
               "$ref": "#/definitions/ExchangeReturn"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           }
         },
-        "operationId": "get-exchangereturns-exchangReturnId"
+        "operationId": "get-exchangereturns-exchangReturnId",
+        "description": "通过退汇指令id查询退汇信息"
       }
+    },
+    "/exchange/{exchangeId}/cancel": {
+      "put": {
+        "summary": "6.Cancel Exchange Trans",
+        "operationId": "put-exchangecancel",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020606|汇出指令状态不支持退汇 |\n| 020607|汇出指令存在退汇指令|\n| 999995 |Parameter is error. |"
+          },
+          "500": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "description": "汇兑取消申请接口,最终取消结果异步返回或调用方通过调用接口查询。\n\n1.退汇只支持只做汇兑的指令\n\n2.发起过部分退汇的指令不允许发起汇兑取消\n\n3.采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.汇兑取消成功后可重新发起汇出指令",
+        "tags": [
+          "Operations"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "exchangeId",
+          "in": "path",
+          "required": true
+        }
+      ]
     }
   },
   "definitions": {
     "ExchangeTrans": {
       "title": "1-ExchangeTrans",
       "type": "object",
-      "description": "对于状态为reviewed，exchanged且账单无锁定汇率，商户可发送汇兑分发指令.\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n\n注意：如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n\n",
+      "description": "\n汇出指令信息\n注意：如果相关指令中payeeBankAccount为空,则只做汇兑处理,如果指定收款银行信息则进行目标币种的分发处理.\n\n",
       "x-tags": [
         "Models"
       ],
+      "x-examples": {},
       "properties": {
         "exchangeId": {
           "type": "string",
-          "description": "汇兑交易ID，商户全局唯一"
+          "description": "汇出交易ID，psp全局唯一"
         },
         "billId": {
           "type": "string",
-          "description": "对应账单的汇兑处理，一般情况下，未自动汇兑的账单可进行一次汇兑处理（分发）。"
+          "description": "指令对应的账单编号"
         },
         "pricingCurrency": {
           "type": "string",
-          "description": "定价币种:\nISO 3166 Alpha-3，源币种或目的币\n种，当值为源币种时，根据\nsourceAmount 及汇率计算\ntargetAmount\n当值为目的币种时，根据\ntargetAmount 及汇率计算\nsourceAmount"
+          "description": "定价币种:\nISO 3166 Alpha-3，传源币种或目的币\n种，当值为源币种时，根据\nsourceAmount 及汇率计算\ntargetAmount\n当值为目的币种时，根据\ntargetAmount 及汇率计算\nsourceAmount"
         },
         "sourceCurrency": {
           "type": "string",
-          "description": "源币种:一般为CNY"
+          "description": "源币种:CNY"
         },
         "sourceAmount": {
           "type": "string",
@@ -238,8 +368,12 @@
           "description": "目的币种:汇出的币种"
         },
         "targetAmount": {
+          "description": "目的(汇出)金额:汇出的金额，当定价币种为目的币种必填，例：10.11。",
+          "type": "string"
+        },
+        "rate": {
           "type": "string",
-          "description": "目的(汇出)金额:汇出的金额，当定价币种为目的币种必填，例：10.11。"
+          "description": "汇兑汇率"
         },
         "payeeBankAccount": {
           "$ref": "#/definitions/PayeeBankAccountInfo"
@@ -248,25 +382,36 @@
           "type": "string",
           "description": "如果payeeBankAccount不为空,则可填写收款人附言"
         },
-        "tradeCode": {
-          "type": "string",
-          "description": "贸易编码\n\n|tradeCode|description|\n|---------|-----------|\n|xxxx1|留学费用|\n|xxxx2|留学手续费|"
-        },
         "status": {
           "type": "string",
-          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|申请成功初始状态|\n|PROCESSING|处理中|\n|PAYMENT_SUCCESS|汇兑分发成功|\n|PAYMENT_REVERSED|退汇处理成功|\n|PAYMENT_FAILED |处理失败|\n|EXCHANGE_SUCCESS|汇兑成功,如果需分发怎待分发中|\n",
+          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|指令受理成功|\n|PROCESSING|处理中|\n|SUCCESS|处理成功|\n|FAILED|处理失败|\n|PAYMENT_REVERSED_AFTER_SUCCESS|银行退汇处理成功|\n|CANCEL|取消成功|\n",
           "enum": [
-            "WAIT_PAYMENT",
             "PAYMENT_SUCCESS",
             "PAYMENT_REVERSED_AFTER_SUCCESS",
             "EXCHANGE_SUCCESS",
             "PROCESSING",
+            "FAILED",
+            "INIT",
+            "EXCHANGE_CANCEL",
+            "EXCHANGE_CANCELING"
+          ]
+        },
+        "cancelStatus": {
+          "type": "string",
+          "description": "| cancelStatus | description |\n|--------|-------------|\n|INIT|初始化|\n|PROCESSING|处理中|\n|SUCCESS|取消成功|\n|FAILED |处理失败|\n",
+          "enum": [
+            "PROCESSING",
+            "SUCCESS",
             "FAILED"
           ]
         },
         "failReason": {
           "type": "string",
           "description": "失败原因 "
+        },
+        "createTime": {
+          "type": "string",
+          "description": "创建时间"
         }
       },
       "required": [
@@ -274,14 +419,16 @@
         "billId",
         "pricingCurrency",
         "sourceCurrency",
-        "targetCurrency",
-        "tradeCode"
+        "targetCurrency"
       ]
     },
     "PayeeBankAccountInfo": {
       "title": "2-PayeeBankAccountInfo",
       "type": "object",
       "description": "境外收款人银行帐户信息",
+      "x-tags": [
+        "Models"
+      ],
       "properties": {
         "payeeCountryCode": {
           "type": "string",
@@ -319,7 +466,7 @@
           "type": "string",
           "description": "收款银行国际编码:\n如已填写 payeeBankType，此处填写\n对应 IBAN 值或 Sortcode 值"
         },
-        "payeeAccount": {
+        "payeeAccountNo": {
           "type": "string",
           "description": "收款人银行账号"
         },
@@ -336,13 +483,9 @@
         "payeeCountryCode",
         "payeeName",
         "payeeBankName",
-        "payeeBankCode",
-        "payeeAccount",
+        "payeeAccountNo",
         "payeeBankAddress",
         "payeeBankSwiftCode"
-      ],
-      "x-tags": [
-        "Models"
       ]
     },
     "ExchangeReturn": {
@@ -370,14 +513,16 @@
           "description": "退汇的外汇金额"
         },
         "createTime": {
-          "type": "string"
+          "type": "string",
+          "description": "创建时间"
         },
         "status": {
           "type": "string",
-          "description": "退汇交易状态\n\n|status|description|\n|------|------------|\n|INIT|退汇申请成功|\n|SUCCESS|汇兑成功|\n|FAILED|汇兑失败|"
+          "description": "退汇交易状态\n\n|status|description|\n|------|------------|\n|INIT|退汇申请成功|\n|PROCESSING|退汇中|\n|SUCCESS|退汇成功|\n|FAILED|退汇失败|"
         },
         "failReason": {
-          "type": "string"
+          "type": "string",
+          "description": "失败原因"
         },
         "memo": {
           "type": "string",
@@ -390,6 +535,15 @@
         "returnCurrency",
         "returnAmount"
       ]
+    },
+    "payeelliAccount": {
+      "title": "PayeeLlpAccount",
+      "type": "object",
+      "properties": {
+        "payeeAccount": {
+          "type": "string"
+        }
+      }
     }
   }
 }
