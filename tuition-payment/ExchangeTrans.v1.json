@@ -38,7 +38,7 @@
             }
           }
         },
-        "description": "汇兑分发申请接口，最终汇兑分发结果异步返回或调用方使用查询接口。\n\n汇兑指令提交必须满足以下条件\n\n1.相关贸易材料必须为审核通过状态\n\n2.汇兑金额不能超过账单金额或虚拟卡累计加款金额的百分之三的浮动\n\n3.账单不存在汇兑申请中或成功汇兑的交易\n\n如果境外收款银行账户不传则只做汇兑",
+        "description": "汇出指令申请接口，最终结果异步返回或调用方通过接口查询。\n\n指令提交必须满足以下条件\n\n1.相关贸易材料必须为审核通过状态\n\n2.汇兑金额不能大于小于账单金额或账单累计加款金额百分之三的浮动\n\n3.一笔账单只能发起一次成功汇出的指令（如果汇兑取消可重新发起）\n\n如果收款账户不传则指令只做汇兑",
         "parameters": [
           {
             "in": "body",
@@ -135,7 +135,8 @@
         ],
         "tags": [
           "Operations"
-        ]
+        ],
+        "description": "通过账单编号查询支付指令记录"
       },
       "parameters": []
     },
@@ -175,7 +176,8 @@
             }
           }
         },
-        "operationId": "get-exchanges-exchangeid"
+        "operationId": "get-exchanges-exchangeid",
+        "description": "通过汇出指令编号查询对应的汇出指令"
       }
     },
     "/exchangereturn": {
@@ -334,7 +336,7 @@
     "ExchangeTrans": {
       "title": "1-ExchangeTrans",
       "type": "object",
-      "description": "\n注:相关接口及对象参照<连连跨境支付标准汇出接口文档 version 1.7>中 4.7 汇出指令申请 和 <连连跨境支付汇兑汇出接口文档v1.0>\n中3.1汇兑汇出.\n\n注意：如果相关指令中payeeBankAccount为空,则只做货币转换处理,如果指定银行帐号则进行目标币种的分发处理.\n\n",
+      "description": "\n汇出指令信息\n注意：如果相关指令中payeeBankAccount为空,则只做汇兑处理,如果指定收款银行信息则进行目标币种的分发处理.\n\n",
       "x-tags": [
         "Models"
       ],
@@ -342,19 +344,19 @@
       "properties": {
         "exchangeId": {
           "type": "string",
-          "description": "汇兑交易ID，商户全局唯一"
+          "description": "汇出交易ID，psp全局唯一"
         },
         "billId": {
           "type": "string",
-          "description": "汇兑处理对应的账单编号"
+          "description": "指令对应的账单编号"
         },
         "pricingCurrency": {
           "type": "string",
-          "description": "定价币种:\nISO 3166 Alpha-3，源币种或目的币\n种，当值为源币种时，根据\nsourceAmount 及汇率计算\ntargetAmount\n当值为目的币种时，根据\ntargetAmount 及汇率计算\nsourceAmount"
+          "description": "定价币种:\nISO 3166 Alpha-3，传源币种或目的币\n种，当值为源币种时，根据\nsourceAmount 及汇率计算\ntargetAmount\n当值为目的币种时，根据\ntargetAmount 及汇率计算\nsourceAmount"
         },
         "sourceCurrency": {
           "type": "string",
-          "description": "源币种:一般为CNY"
+          "description": "源币种:CNY"
         },
         "sourceAmount": {
           "type": "string",
@@ -367,6 +369,10 @@
         "targetAmount": {
           "description": "目的(汇出)金额:汇出的金额，当定价币种为目的币种必填，例：10.11。",
           "type": "string"
+        },
+        "rate": {
+          "type": "string",
+          "description": "汇兑汇率"
         },
         "payeeBankAccount": {
           "$ref": "#/definitions/PayeeBankAccountInfo"
@@ -401,10 +407,6 @@
         "failReason": {
           "type": "string",
           "description": "失败原因 "
-        },
-        "rate": {
-          "type": "string",
-          "description": "汇兑汇率"
         },
         "createTime": {
           "type": "string",
