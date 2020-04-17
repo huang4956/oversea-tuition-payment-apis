@@ -63,7 +63,7 @@
         },
         "bankName": {
           "type": "string",
-          "description": "银行名称"
+          "description": "银行名称,对公账户必传"
         },
         "cnapsBranchId": {
           "type": "string",
@@ -288,7 +288,8 @@
                 },
                 "rbf": {
                   "type": "string",
-                  "description": "交易附言"
+                  "description": "交易附言",
+                  "maxLength": 40
                 }
               },
               "required": [
@@ -537,9 +538,6 @@
           "Operations"
         ]
       },
-      "parameters": []
-    },
-    "": {
       "parameters": []
     }
   },

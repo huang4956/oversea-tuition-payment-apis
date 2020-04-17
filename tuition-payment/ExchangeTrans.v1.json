@@ -79,7 +79,8 @@
                 },
                 "rfb": {
                   "type": "string",
-                  "description": "交易附言"
+                  "description": "交易附言",
+                  "maxLength": 105
                 }
               },
               "required": [
@@ -240,7 +241,7 @@
             }
           }
         ],
-        "description": "部分退汇申请接口，最终退汇结果异步返回或调用方通过接口查询。\n\n1.退汇只支持只做汇兑的指令\n\n2.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n3.退汇总金额不能大于原汇出交易的金额\n\n4.支持原交易源币种或目的币种进行退汇\n\n5.支持部分退汇,发起后对应账单无法再次发起汇出指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
+        "description": "部分退汇申请接口，最终退汇结果异步返回或调用方通过接口查询。\n\n1.退汇只支持原指令为单独汇兑指令\n\n2.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n3.退汇总金额不能大于原汇出交易的金额\n\n4.支持原交易源币种或目的币种进行退汇\n\n5.支持部分退汇,发起后对应账单无法再次发起汇出指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
         "tags": [
           "Operations"
         ]
@@ -266,13 +267,17 @@
             "description": "OK",
             "schema": {
               "type": "object",
-              "properties": {}
+              "properties": {
+                "exchangeReturn": {
+                  "$ref": "#/definitions/ExchangeReturn"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
             "schema": {
-              "$ref": "#/definitions/ExchangeReturn"
+              "type": "null"
             }
           },
           "500": {
@@ -506,11 +511,11 @@
         },
         "returnCurrency": {
           "type": "string",
-          "description": "原汇兑的目标币种"
+          "description": "退汇币种"
         },
         "returnAmount": {
           "type": "string",
-          "description": "退汇的外汇金额"
+          "description": "退汇金额"
         },
         "createTime": {
           "type": "string",
@@ -535,15 +540,6 @@
         "returnCurrency",
         "returnAmount"
       ]
-    },
-    "payeelliAccount": {
-      "title": "PayeeLlpAccount",
-      "type": "object",
-      "properties": {
-        "payeeAccount": {
-          "type": "string"
-        }
-      }
     }
   }
 }
