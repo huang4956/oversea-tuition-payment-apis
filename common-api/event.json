@@ -3,10 +3,10 @@
   "info": {
     "title": "EVENT API",
     "version": "1.0",
+    "description": "This section contains operations and models of Lianlian Pay notification system. Lianlian Pay uses hypermedia to provide additional information for the client to better processing an Lianlian Pay system generated event. \n\nClient should register event callbacks via Lianlian Pay webhook API in order to receive any event.\n\nProduction Endpoint - **global-api.lianlianpay.com**",
     "contact": {
       "email": "fx_support@lianlianpay.com"
-    },
-    "description": "This section contains operations and models of Lianlian Pay notification system. Lianlian Pay uses hypermedia to provide additional information for the client to better processing an Lianlian Pay system generated event. \n\nClient should register event callbacks via Lianlian Pay webhook API in order to receive any event.\n\nProduction Endpoint - **global-api.lianlianpay.com**"
+    }
   },
   "host": "global-api-sandbox.lianlianpay-inc.com",
   "paths": {
@@ -154,14 +154,6 @@
             "objectType"
           ],
           "properties": {
-            "url": {
-              "type": "string",
-              "description": "Event related API endpoint. Can be used to retrive the data object related to this event from Lianlian Pay's system. \n\nHttp method accepted is `GET`, type is `application/json`"
-            },
-            "objectId": {
-              "type": "string",
-              "description": "Id of the object that related in this event"
-            },
             "objectType": {
               "type": "string",
               "description": "Object type related to this event. One of:\n\n| type | description |\n|------|-------------|\n ",
@@ -171,6 +163,14 @@
                 "account",
                 "document"
               ]
+            },
+            "objectId": {
+              "type": "string",
+              "description": "Id of the object that related in this event"
+            },
+            "url": {
+              "type": "string",
+              "description": "Event related API endpoint. Can be used to retrive the data object related to this event from Lianlian Pay's system. \n\nHttp method accepted is `GET`, type is `application/json`"
             }
           }
         },
@@ -178,10 +178,6 @@
           "type": "string",
           "description": "Event created time, UTC+0",
           "format": "date-time"
-        },
-        "webhookURL": {
-          "type": "string",
-          "description": "Registered webhook url for this event"
         },
         "status": {
           "type": "string",
@@ -191,6 +187,10 @@
             "SUCCESS",
             "MAXIMUM_RETRIES_REACHED"
           ]
+        },
+        "webhookURL": {
+          "type": "string",
+          "description": "Registered webhook url for this event"
         }
       },
       "required": [
@@ -222,6 +222,8 @@
   "produces": [
     "application/json"
   ],
+  "basePath": "/common/V1",
+  "securityDefinitions": {},
   "security": [
     {
       "authorization": []
@@ -229,20 +231,5 @@
     {
       "llpay-signature": []
     }
-  ],
-  "securityDefinitions": {
-    "authorization": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header",
-      "description": "LianLian Pay API uses an API key to authenticate requests. To request Lianlian Pay developer account, send the following two information to `fx_support@lianlianpay.com`:\n<!-- theme: info -->\n>**developer_name**\n>\n>**developer_public_key**\n\nAfter process, Lianlian Pay will replay with:\n<!-- theme: info -->\n>**developer_master_token** - api authentication\n>\n>**developer_refresh_token** - refresh developer master token, valid for a year. Can be updated by sending request to `fx_support@lianlianpay.com`\n>\n>**LianlianPay_public_key**\n\nThe `Authorization` header must be included in all requests with the following format:\n\n```\nAuthorization: Basic {master_token}\n```"
-    },
-    "llpay-signature": {
-      "type": "apiKey",
-      "name": "LLPAY-Signature",
-      "in": "header",
-      "description": "The LLPAY-Signature header contains a timestamp and one or more signatures. The timestamp is prefixed by t=, and each signature is prefixed by a scheme. Schemes start with v, potentially followed by an integer.\n\n```\nLLPAY-Signature: t=1492774577, v=5257a869e7ecebeda32affa62cdca3fa51cad7e77a0e56ff536d0ce8e108d8bd\n```\n\nNote that newlines have been added in the example above for clarity, but a real LLPAY-Signature header will be all one line.\n\nLianlian Pay and clients shall exchange each party’s public key.  The LLPAY-Signature will be signed by with the RSA private key.\n\n**Step 1:** Determine the signature payload\n\nCreate a `payload` string which is the following connected with `&`\n\n* HTTP_METHOD: The actual method defined for specific API endpoint `POST`\n* URI: The request's URL Path, such as `/profiles/{profileId}`\n* REQUEST_EPOCH: The seconds elapsed since 1970/1/1 00:00:00 GMT, same as value of `t`\n* REQUEST_PAYLOAD: The contents of request body in JSON format. \n* QUERY_STRING: The query string of the URL, URL Encoded, such as `attr1%3Dvalue1%26attr2%3Dvalue2`\n\n<!-- theme: info -->\n>Case 1: QUERY_STRING is empty:\n>\n>**Formula is**: HTTP_METHOD&URI&REQUEST_EPOCH&REQUEST_PAYLOAD\n>\n>---\n>Case 2: REQUEST_PAYLOAD is empty:\n>\n>**Formula is**: HTTP_METHOD&URI&REQUEST_EPOCH&&QUERY_STRING\n>\n>---\n>Case 3: REQUEST_PAYLOAD and QUERY_STRING both are empty:\n>\n>**Formula is**: HTTP_METHOD&URI&REQUEST_EPOCH&\n\n\nPut typical GET and POST examples here.\n\nExample POST `payload`:\n```\nPOST&/kyc/v1/profiles&19879234&{\"profileId\":\"string\",\"countryOfOrigin\":\"CN\",\"type\":\"COMPANY\",\"email\":\"abc@xyz.com\",\"mobile\":\"string\",\"indicator\":\"string\",\"kyc\":{\"name\":\"string\",\"idNumber\":\"string\",\"idFrontCopy\":\"string\",\"idBackCopy\":\"string\",\"address\":{\"lineOne\":\"string\",\"lineTwo\":\"string\",\"city\":\"string\",\"province\":\"string\",\"region\":\"string\",\"postalCode\":\"string\"}}}\n```\n\nExample GET `payload`:\n```\nGET&/events/v1&19879234&&status%3DMAXIMUM_RETRIES_REACHED\n```\n\n\n\n**Step 2:** Prepare the `LLPAY-Signature` string\n\nAchieve this by concatenating:\n* The timestamp (Seconds elapsed since 1970/1/1 00:00:00 GMT as a string)\n* Use your RSA private key and calculate the string `BASE64(RSAwithSHA256(STEP_1_RESULT)))` from Step 1\n\n### Result Signature\n\nLianLian Pay result headers also contain the `LLPAY-Signature` header as described above but signed with Lianlian Pay's private RSA key.  You may verify the signature corresponds to the Result body by calculating the signature and comparing it to the unencrypted version of `LLPAY-Signature` using the Lianlian Pay's public RSA key.  Here are the steps:\n\n**Step 1:** Determine the signature `payload`\n\nCreate a `payload` string which is the following separated by `&`\n\n* Response Timestamp: Extract t from LLPay-Signature and use it as timestamp\n* Response Payload: The contents of response body in JSON format\n\nExample `payload`:\n```\n19879234&{\"profileId\":\"string\",\"countryOfOrigin\":\"CN\",\"type\":\"COMPANY\",\"email\":\"abc@xyz.com\",\"mobile\":\"string\",\"indicator\":\"string\",\"kyc\":{\"name\":\"string\",\"idNumber\":\"string\",\"idFrontCopy\":\"string\",\"idBackCopy\":\"string\",\"address\":{\"lineOne\":\"string\",\"lineTwo\":\"string\",\"city\":\"string\",\"province\":\"string\",\"region\":\"string\",\"postalCode\":\"string\"}}}\n```\n\n**Step 2:** Use RSA Verify to compare signatures\n\nCompare the LLPay-Signature received with the `payload` calculated in Step 1 using the Lianlian Pay's Public Key using the following algorithm:\n\n```\nRSA.verify( LLPAY-Signature, \n            '19879234&{\"profileId\":\"string\",\"countryOfOrigin\":\"CN\",\"type\":\"COMPANY\",\"email\":\"abc@xyz.com\",\"mobile\":\"string\",\"indicator\":\"string\",\"kyc\":{\"name\":\"string\",\"idNumber\":\"string\",\"idFrontCopy\":\"string\",\"idBackCopy\":\"string\",\"address\":{\"lineOne\":\"string\",\"lineTwo\":\"string\",\"city\":\"string\",\"province\":\"string\",\"region\":\"string\",\"postalCode\":\"string\"}}}', \n            Lianlian Pay Public Key )\n```\n"
-    }
-  },
-  "basePath": "/common/V1"
+  ]
 }

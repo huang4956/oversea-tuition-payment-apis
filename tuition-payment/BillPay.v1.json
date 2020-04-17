@@ -17,14 +17,14 @@
           "type": "string",
           "description": "支付人民币金额"
         },
-        "recevingAccount": {
-          "$ref": "#/definitions/RecevingAccount"
-        },
         "createTime": {
           "type": "string",
           "default": "sysdate",
           "format": "date-time",
           "description": "账单支付信息生成时间 UT+0"
+        },
+        "recevingAccount": {
+          "$ref": "#/definitions/RecevingAccount"
         }
       },
       "required": [
@@ -41,6 +41,34 @@
         "Models"
       ],
       "properties": {
+        "relationship": {
+          "type": "string",
+          "enum": [
+            "self",
+            "family"
+          ],
+          "description": "付款人与受益人的关系\n\n由于中国外汇管制原因，所有资金出境均需进行申报，建议使用实际付款人进行申报.\n\n| relationship | description |\n|--------|-------------|\n|SELF|申报人为留学生本人|\n|FAMILY|申报人为留学生家人，一般要求直系亲属|\n"
+        },
+        "accountName": {
+          "type": "string",
+          "description": "账户户名"
+        },
+        "accountNo": {
+          "type": "string",
+          "description": "收款帐号"
+        },
+        "bankBranchName": {
+          "type": "string",
+          "description": "支行名称"
+        },
+        "bankName": {
+          "type": "string",
+          "description": "银行名称,对公账户必传"
+        },
+        "cnapsBranchId": {
+          "type": "string",
+          "description": "大额行号"
+        },
         "payerName": {
           "type": "string",
           "description": "付款人姓名"
@@ -59,35 +87,7 @@
         },
         "payerContactNumber": {
           "type": "string",
-          "description": "申报人（受益人）联系手机号码"
-        },
-        "relationship": {
-          "type": "string",
-          "enum": [
-            "self",
-            "family"
-          ],
-          "description": "申报人（受益人）与受益人的关系\n\n由于中国外汇管制原因，所有资金出境均需进行申报，建议使用实际付款人进行申报.\n\n| relationship | description |\n|--------|-------------|\n|SELF|申报人为留学生本人|\n|FAMILY|申报人为留学生家人，一般要求直系亲属|\n"
-        },
-        "accountName": {
-          "type": "string",
-          "description": "账户户名"
-        },
-        "accountNo": {
-          "type": "string",
-          "description": "收款帐号"
-        },
-        "bankBranchName": {
-          "type": "string",
-          "description": "支行名称"
-        },
-        "bankName": {
-          "type": "string",
-          "description": "银行名称"
-        },
-        "cnapsBranchId": {
-          "type": "string",
-          "description": "大额行号"
+          "description": "付款人联系手机号码"
         },
         "bankDistrict": {
           "type": "string",
@@ -95,10 +95,10 @@
         }
       },
       "required": [
-        "payerName",
         "payerID",
-        "payerContactNumber",
-        "relationship"
+        "payerIDType",
+        "payerType",
+        "payerName"
       ]
     },
     "BillFundingTrans": {
@@ -171,10 +171,6 @@
           "type": "string",
           "description": "银行名称"
         },
-        "bankAccountType": {
-          "type": "string",
-          "description": "银行卡类型\n\n|customerType|description|\n|------|------------|\n|INDIVIDUAL|对私|\n|CORPORATE|对公|"
-        },
         "accountName": {
           "type": "string",
           "description": "收款人姓名"
@@ -198,6 +194,10 @@
         "failreason": {
           "type": "string",
           "description": "失败原因"
+        },
+        "bankAccountType": {
+          "type": "string",
+          "description": "银行卡类型\n\n|customerType|description|\n|------|------------|\n|INDIVIDUAL|对私|\n|CORPORATE|对公|"
         }
       },
       "required": [
@@ -396,6 +396,51 @@
         "parameters": []
       }
     },
+    "/refundingtrans/{refundingId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "refundingId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "5.Query Refunding Trans",
+        "tags": [
+          "Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "": {
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
+          }
+        },
+        "operationId": "get-refundingtrans",
+        "description": "人民币退款交易查询接口"
+      }
+    },
     "/refundingtrans": {
       "parameters": [],
       "post": {
@@ -473,7 +518,8 @@
                 },
                 "rbf": {
                   "type": "string",
-                  "description": "交易附言"
+                  "description": "交易附言",
+                  "maxLength": 40
                 }
               },
               "required": [
@@ -493,51 +539,6 @@
           "Operations"
         ]
       }
-    },
-    "/refundingtrans/{refundingId}": {
-      "parameters": [
-        {
-          "type": "string",
-          "name": "refundingId",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "get": {
-        "summary": "5.Query Refunding Trans",
-        "tags": [
-          "Operations"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ReFundingTrans"
-            }
-          },
-          "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "": {
-            "schema": {
-              "$ref": "#/definitions/ReFundingTrans"
-            }
-          }
-        },
-        "operationId": "get-refundingtrans",
-        "description": "人民币退款交易查询接口"
-      }
     }
   },
   "consumes": [
@@ -549,7 +550,7 @@
   "schemes": [
     "https"
   ],
-  "host": "https://global-api.lianlianpay.com/service/payment/v1",
+  "host": "global-api.lianlianpay.com/service/payment/v1",
   "info": {
     "title": "a.BillPay API",
     "version": "1.0",

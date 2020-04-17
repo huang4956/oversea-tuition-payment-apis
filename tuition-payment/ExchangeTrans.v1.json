@@ -4,7 +4,7 @@
     "title": "c.Currency ExChange API",
     "version": "1.0"
   },
-  "host": "https://global-api.lianlianpay.com/service/payment/v1",
+  "host": "global-api.lianlianpay.com/service/payment/v1",
   "schemes": [
     "https"
   ],
@@ -15,6 +15,202 @@
     "application/json"
   ],
   "paths": {
+    "/exchange/{exchangeId}/cancel": {
+      "put": {
+        "summary": "6.Cancel Exchange Trans",
+        "operationId": "put-exchangecancel",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020606|汇出指令状态不支持退汇 |\n| 020607|汇出指令存在退汇指令|\n| 999995 |Parameter is error. |"
+          },
+          "500": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "description": "汇兑取消申请接口,最终取消结果异步返回或调用方通过调用接口查询。\n\n1.退汇只支持只做汇兑的指令\n\n2.发起过部分退汇的指令不允许发起汇兑取消\n\n3.采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.汇兑取消成功后可重新发起汇出指令",
+        "tags": [
+          "Operations"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "exchangeId",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/exchangereturn/{exchangReturnId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "exchangReturnId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "5.Query Exchange Return Trans",
+        "tags": [
+          "Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "exchangeReturn": {
+                  "$ref": "#/definitions/ExchangeReturn"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "null"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "operationId": "get-exchangereturns-exchangReturnId",
+        "description": "通过退汇指令id查询退汇信息"
+      }
+    },
+    "/exchangereturn": {
+      "post": {
+        "summary": "4.Return Exchange Trans",
+        "operationId": "post-exchangereturns",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603|汇出指令已取消 |\n| 020605|退汇金额超过原单金额 |\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "exchangeReturnId": {
+                  "type": "string",
+                  "description": "退汇指令id"
+                },
+                "exchangeId": {
+                  "type": "string",
+                  "description": "原汇出指令id"
+                },
+                "returnCurrency": {
+                  "type": "string",
+                  "description": "支持cny"
+                },
+                "returnAmount": {
+                  "type": "string",
+                  "description": "退汇金额"
+                },
+                "memo": {
+                  "type": "string",
+                  "description": "备注"
+                }
+              },
+              "required": [
+                "exchangeReturnId",
+                "exchangeId",
+                "returnCurrency",
+                "returnAmount"
+              ]
+            }
+          }
+        ],
+        "description": "部分退汇申请接口，最终退汇结果异步返回或调用方通过接口查询。\n\n1.退汇只支持原指令为单独汇兑指令\n\n2.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n3.退汇总金额不能大于原汇出交易的金额\n\n4.支持原交易源币种或目的币种进行退汇\n\n5.支持部分退汇,发起后对应账单无法再次发起汇出指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
+        "tags": [
+          "Operations"
+        ]
+      },
+      "parameters": []
+    },
+    "/exchange/{exchangeId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "exchangeId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "3.Query Exchange Trans",
+        "tags": [
+          "Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ExchangeTrans"
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "operationId": "get-exchanges-exchangeid",
+        "description": "通过汇出指令编号查询对应的汇出指令"
+      }
+    },
     "/exchange": {
       "post": {
         "summary": "1.Create Currency Exchange Transcation",
@@ -79,7 +275,8 @@
                 },
                 "rfb": {
                   "type": "string",
-                  "description": "交易附言"
+                  "description": "交易附言",
+                  "maxLength": 105
                 }
               },
               "required": [
@@ -139,198 +336,6 @@
         "description": "通过账单编号查询支付指令记录"
       },
       "parameters": []
-    },
-    "/exchange/{exchangeId}": {
-      "parameters": [
-        {
-          "type": "string",
-          "name": "exchangeId",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "get": {
-        "summary": "3.Query Exchange Trans",
-        "tags": [
-          "Operations"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ExchangeTrans"
-            }
-          },
-          "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        },
-        "operationId": "get-exchanges-exchangeid",
-        "description": "通过汇出指令编号查询对应的汇出指令"
-      }
-    },
-    "/exchangereturn": {
-      "post": {
-        "summary": "4.Return Exchange Trans",
-        "operationId": "post-exchangereturns",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603|汇出指令已取消 |\n| 020604退汇指令币种不一致 |\n| 020605|退汇金额超过原单金额 |\n| 999995 |Parameter is error. |",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        },
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "exchangeReturnId": {
-                  "type": "string",
-                  "description": "退汇指令id"
-                },
-                "exchangeId": {
-                  "type": "string",
-                  "description": "原汇出指令id"
-                },
-                "returnCurrency": {
-                  "type": "string",
-                  "description": "支持cny"
-                },
-                "returnAmount": {
-                  "type": "string",
-                  "description": "退汇金额"
-                },
-                "memo": {
-                  "type": "string",
-                  "description": "备注"
-                }
-              },
-              "required": [
-                "exchangeReturnId",
-                "exchangeId",
-                "returnCurrency",
-                "returnAmount"
-              ]
-            }
-          }
-        ],
-        "description": "部分退汇申请接口，最终退汇结果异步返回或调用方通过接口查询。\n\n1.退汇只支持只做汇兑的指令\n\n2.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n3.退汇总金额不能大于原汇出交易的金额\n\n4.支持原交易源币种或目的币种进行退汇\n\n5.支持部分退汇,发起后对应账单无法再次发起汇出指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
-        "tags": [
-          "Operations"
-        ]
-      },
-      "parameters": []
-    },
-    "/exchangereturn/{exchangReturnId}": {
-      "parameters": [
-        {
-          "type": "string",
-          "name": "exchangReturnId",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "get": {
-        "summary": "5.Query Exchange Return Trans",
-        "tags": [
-          "Operations"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
-            "schema": {
-              "$ref": "#/definitions/ExchangeReturn"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        },
-        "operationId": "get-exchangereturns-exchangReturnId",
-        "description": "通过退汇指令id查询退汇信息"
-      }
-    },
-    "/exchange/{exchangeId}/cancel": {
-      "put": {
-        "summary": "6.Cancel Exchange Trans",
-        "operationId": "put-exchangecancel",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "": {
-                  "type": "string"
-                }
-              }
-            },
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020606|汇出指令状态不支持退汇 |\n| 020607|汇出指令存在退汇指令|\n| 999995 |Parameter is error. |"
-          },
-          "500": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [],
-        "description": "汇兑取消申请接口,最终取消结果异步返回或调用方通过调用接口查询。\n\n1.退汇只支持只做汇兑的指令\n\n2.发起过部分退汇的指令不允许发起汇兑取消\n\n3.采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.汇兑取消成功后可重新发起汇出指令",
-        "tags": [
-          "Operations"
-        ]
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "exchangeId",
-          "in": "path",
-          "required": true
-        }
-      ]
     }
   },
   "definitions": {
@@ -341,7 +346,6 @@
       "x-tags": [
         "Models"
       ],
-      "x-examples": {},
       "properties": {
         "exchangeId": {
           "type": "string",
@@ -371,10 +375,6 @@
           "description": "目的(汇出)金额:汇出的金额，当定价币种为目的币种必填，例：10.11。",
           "type": "string"
         },
-        "rate": {
-          "type": "string",
-          "description": "汇兑汇率"
-        },
         "payeeBankAccount": {
           "$ref": "#/definitions/PayeeBankAccountInfo"
         },
@@ -396,6 +396,14 @@
             "EXCHANGE_CANCELING"
           ]
         },
+        "failReason": {
+          "type": "string",
+          "description": "失败原因 "
+        },
+        "createTime": {
+          "type": "string",
+          "description": "创建时间"
+        },
         "cancelStatus": {
           "type": "string",
           "description": "| cancelStatus | description |\n|--------|-------------|\n|INIT|初始化|\n|PROCESSING|处理中|\n|SUCCESS|取消成功|\n|FAILED |处理失败|\n",
@@ -405,13 +413,9 @@
             "FAILED"
           ]
         },
-        "failReason": {
+        "rate": {
           "type": "string",
-          "description": "失败原因 "
-        },
-        "createTime": {
-          "type": "string",
-          "description": "创建时间"
+          "description": "汇兑汇率"
         }
       },
       "required": [
@@ -420,7 +424,8 @@
         "pricingCurrency",
         "sourceCurrency",
         "targetCurrency"
-      ]
+      ],
+      "x-examples": {}
     },
     "PayeeBankAccountInfo": {
       "title": "2-PayeeBankAccountInfo",
@@ -466,10 +471,6 @@
           "type": "string",
           "description": "收款银行国际编码:\n如已填写 payeeBankType，此处填写\n对应 IBAN 值或 Sortcode 值"
         },
-        "payeeAccountNo": {
-          "type": "string",
-          "description": "收款人银行账号"
-        },
         "payeeBankAddress": {
           "type": "string",
           "description": "收款人银行地址"
@@ -477,6 +478,10 @@
         "payeeBankSwiftCode": {
           "type": "string",
           "description": "收款银行\nSwiftCode"
+        },
+        "payeeAccountNo": {
+          "type": "string",
+          "description": "收款人银行账号"
         }
       },
       "required": [
@@ -506,11 +511,11 @@
         },
         "returnCurrency": {
           "type": "string",
-          "description": "原汇兑的目标币种"
+          "description": "退汇币种"
         },
         "returnAmount": {
           "type": "string",
-          "description": "退汇的外汇金额"
+          "description": "退汇金额"
         },
         "createTime": {
           "type": "string",
@@ -535,15 +540,6 @@
         "returnCurrency",
         "returnAmount"
       ]
-    },
-    "payeelliAccount": {
-      "title": "PayeeLlpAccount",
-      "type": "object",
-      "properties": {
-        "payeeAccount": {
-          "type": "string"
-        }
-      }
     }
   }
 }
