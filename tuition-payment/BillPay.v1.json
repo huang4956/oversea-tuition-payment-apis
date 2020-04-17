@@ -550,7 +550,7 @@
   "schemes": [
     "https"
   ],
-  "host": "https://global-api.lianlianpay.com/service/payment/v1",
+  "host": "global-api.lianlianpay.com/service/payment/v1",
   "info": {
     "title": "a.BillPay API",
     "version": "1.0",
