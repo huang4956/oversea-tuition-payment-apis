@@ -190,7 +190,7 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603|汇出指令已取消 |\n| 020604退汇指令币种不一致 |\n| 020605|退汇金额超过原单金额 |\n| 999995 |Parameter is error. |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603|汇出指令已取消 |\n| 020605|退汇金额超过原单金额 |\n| 999995 |Parameter is error. |",
             "schema": {
               "type": "object",
               "properties": {}
