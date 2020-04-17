@@ -482,6 +482,7 @@
       "required": [
         "payeeCountryCode",
         "payeeName",
+        "payeeAddress",
         "payeeBankName",
         "payeeAccountNo",
         "payeeBankAddress",
