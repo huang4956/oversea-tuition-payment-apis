@@ -4,7 +4,7 @@
     "title": "c.Currency ExChange API",
     "version": "1.0"
   },
-  "host": "global-api.lianlianpay.com/service/payment/v1",
+  "host": "global-api.lianlianpay.com/outbound/bill/v1",
   "schemes": [
     "https"
   ],
