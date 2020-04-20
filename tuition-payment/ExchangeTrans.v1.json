@@ -32,7 +32,7 @@
                 }
               }
             },
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020606|汇出指令状态不支持退汇 |\n| 020607|汇出指令存在退汇指令|\n| 999995 |Parameter is error. |"
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020606|exchange transaction cannot support FX cancel |\n| 020607|exchange transaction has been FX reversed|\n| 999995 |Parameter is error. |"
           },
           "500": {
             "schema": {
@@ -113,10 +113,15 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603|汇出指令已取消 |\n| 020605|退汇金额超过原单金额 |\n| 999995 |Parameter is error. |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603 |exchange transaction has been cancelled|\n| 020605 |FX reverse amount exceed original exchange amount|\n| 999995 |Parameter is error. |",
             "schema": {
               "type": "object",
               "properties": {}
+            },
+            "headers": {
+              "header-0": {
+                "type": "string"
+              }
             }
           },
           "500": {
@@ -136,23 +141,23 @@
               "properties": {
                 "exchangeReturnId": {
                   "type": "string",
-                  "description": "退汇指令id"
+                  "description": "unique FX reverse id from client"
                 },
                 "exchangeId": {
                   "type": "string",
-                  "description": "原汇出指令id"
+                  "description": "Original unique exchange id from client"
                 },
                 "returnCurrency": {
                   "type": "string",
-                  "description": "支持cny"
+                  "description": "FX reverse currency"
                 },
                 "returnAmount": {
                   "type": "string",
-                  "description": "退汇金额"
+                  "description": "FX reverse amount"
                 },
                 "memo": {
                   "type": "string",
-                  "description": "备注"
+                  "description": "Memo"
                 }
               },
               "required": [
@@ -161,7 +166,8 @@
                 "returnCurrency",
                 "returnAmount"
               ]
-            }
+            },
+            "description": ""
           }
         ],
         "description": "Initiate a partial FX reverse request, Result will be noticed by webhook event, client can also get corresponding results via `Query Exchange Trans`\n\n1. Partial FX request is only supported for certain instructions which the original instruction is separate foreign exchange instruction.\n2. The original FX rate and materials is used to conduct re-exchange and the refund declaration will be performed.\n3. Requested FX reverse amount cannot exceed the amount of original payout. \n4. FX reverse request is only able to performed in original transaction and target currency.\n5. It’s allowed to partially exchange and once it’s initiated, the corresponding bill cannot be used to send the payout instruction.\n\nFX reverse is only supported from foreign currency into CNY. For the refund in CNY returned to customer’s bank account, please use `Create Refunding Trans` API\n",
@@ -220,7 +226,7 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020304|贸易材料未通过审核 |\n| 020601|汇出指令已存在|\n| 020602|汇兑金额超过上限或下限|\n| 020403|账单未加款|\n| 999995 |Parameter is error. |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020304|trading material document audit failure |\n| 020601|exchangeId already exist|\n| 020602|exchange amount abnormal|\n| 020403|bill has no funding|\n| 999995 |Parameter is error. |",
             "schema": {
               "type": "object",
               "properties": {}
@@ -252,7 +258,7 @@
                 },
                 "pricingCurrency": {
                   "type": "string",
-                  "description": "ISO 3166 Alpha-3，源币种或目的币\n种，当值为源币种时，根据\nsourceAmount 及汇率计算\ntargetAmount\n当值为目的币种时，根据\ntargetAmount 及汇率计算\nsourceAmount"
+                  "description": "Pricing currency:\nISO 3166 Alpha-3，if pricing currency is sourcing currency, the targetAmount is calculated according to sourceAmount and exchange rate"
                 },
                 "sourceCurrency": {
                   "type": "string",
@@ -260,7 +266,7 @@
                 },
                 "sourceAmount": {
                   "type": "string",
-                  "description": " 当定价币种为源币种必传，单位元，必填。例：\n10.11"
+                  "description": "Sourcing Amount"
                 },
                 "targetCurrency": {
                   "type": "string",
@@ -358,7 +364,7 @@
         },
         "pricingCurrency": {
           "type": "string",
-          "description": "定价币种:\nISO 3166 Alpha-3，传源币种或目的币\n种，当值为源币种时，根据\nsourceAmount 及汇率计算\ntargetAmount\n当值为目的币种时，根据\ntargetAmount 及汇率计算\nsourceAmount"
+          "description": "Pricing currency:\nISO 3166 Alpha-3，if pricing currency is sourcing currency, the targetAmount is calculated according to sourceAmount and exchange rate"
         },
         "sourceCurrency": {
           "type": "string",
@@ -454,7 +460,7 @@
         },
         "payeeBankAccountType": {
           "type": "string",
-          "description": "|payeeBankAccountType| description |\n|--------|-------------|\n|INDIVIDUAL|个人|\n|CORPORATE|企业|\n收款人银行账号类型.\n",
+          "description": "|payeeBankAccountType| description |\n|--------|-------------|\n|INDIVIDUAL|个人|\n|CORPORATE|企业|\n",
           "enum": [
             "INDIVIDUAL",
             "CORPORATE"
@@ -462,7 +468,7 @@
         },
         "payeeBankName": {
           "type": "string",
-          "description": "收款人银行名称"
+          "description": "Beneficiary bank name"
         },
         "payeeBankType": {
           "type": "string",
@@ -528,7 +534,7 @@
         },
         "failReason": {
           "type": "string",
-          "description": "失败原因"
+          "description": "Failure reason"
         },
         "memo": {
           "type": "string",

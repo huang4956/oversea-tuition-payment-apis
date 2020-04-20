@@ -17,14 +17,14 @@
           "type": "string",
           "description": "payment amount in CNY"
         },
+        "recevingAccount": {
+          "$ref": "#/definitions/RecevingAccount"
+        },
         "createTime": {
           "type": "string",
           "default": "sysdate",
           "format": "date-time",
           "description": "Bill create time, UT+0"
-        },
-        "recevingAccount": {
-          "$ref": "#/definitions/RecevingAccount"
         }
       },
       "required": [
@@ -41,6 +41,26 @@
         "Models"
       ],
       "properties": {
+        "payerName": {
+          "type": "string",
+          "description": "payer name"
+        },
+        "payerType": {
+          "type": "string",
+          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |"
+        },
+        "payerIDType": {
+          "type": "string",
+          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|"
+        },
+        "payerID": {
+          "type": "string",
+          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked."
+        },
+        "payerContactNumber": {
+          "type": "string",
+          "description": "Payer contact number"
+        },
         "relationship": {
           "type": "string",
           "enum": [
@@ -67,27 +87,7 @@
         },
         "cnapsBranchId": {
           "type": "string",
-          "description": "大额行号"
-        },
-        "payerName": {
-          "type": "string",
-          "description": "payer name"
-        },
-        "payerType": {
-          "type": "string",
-          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |"
-        },
-        "payerIDType": {
-          "type": "string",
-          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|"
-        },
-        "payerID": {
-          "type": "string",
-          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked."
-        },
-        "payerContactNumber": {
-          "type": "string",
-          "description": "Payer contact number"
+          "description": "CNAPS code"
         },
         "bankDistrict": {
           "type": "string",
@@ -150,6 +150,7 @@
     "ReFundingTrans": {
       "title": "ReFundingTrans",
       "type": "object",
+      "description": "Refunding transication record object in Lianlian Pay's system",
       "x-tags": [
         "Models"
       ],
@@ -169,6 +170,10 @@
         "bankName": {
           "type": "string",
           "description": "beneficiary bank name"
+        },
+        "bankAccountType": {
+          "type": "string",
+          "description": "Beneficiary account type, one of:\n\n|value|description|\n|------|------------|\n|INDIVIDUAL|Individual account|\n|CORPORATE|Corporate account|"
         },
         "accountName": {
           "type": "string",
@@ -194,10 +199,6 @@
         "failreason": {
           "type": "string",
           "description": "Refund failure reason"
-        },
-        "bankAccountType": {
-          "type": "string",
-          "description": "Beneficiary account type, one of:\n\n|value|description|\n|------|------------|\n|INDIVIDUAL|Individual account|\n|CORPORATE|Corporate account|"
         }
       },
       "required": [
@@ -207,8 +208,7 @@
         "bankName",
         "accountName",
         "accountNo"
-      ],
-      "description": "Refunding transication record object in Lianlian Pay's system"
+      ]
     }
   },
   "paths": {
@@ -224,7 +224,7 @@
             }
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020101|KYC审核错误 |\n| 020201|账单申卡失败 |\n| 020402|账单已存在 |\n| 999995 |Parameter is error. |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020101|Payer audit failure |\n| 020201|Beneficiary account apply failure |\n| 020402|billId already exist|\n| 999995 |Parameter is error. |",
             "schema": {
               "type": "object",
               "properties": {}
@@ -350,96 +350,13 @@
           }
         },
         "operationId": "get-bills-billid",
-        "description": "查询成功创建的账单信息\n\nGet bill details in Lianlian Pay's system by `billId`"
-      }
-    },
-    "/fundingtrans/{billId}": {
-      "parameters": [
-        {
-          "type": "string",
-          "name": "billId",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "get": {
-        "summary": "Query Funding Trans of  Bill",
-        "tags": [
-          "Operations"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/BillFundingTrans"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
+        "description": "Get bill details in Lianlian Pay's system by `billId`",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string"
           }
-        },
-        "operationId": "get-bills-billid-fundingtrans",
-        "description": "查询账单加款流水信息\n\nGet bill transication records by `billId`",
-        "parameters": []
-      }
-    },
-    "/refundingtrans/{refundingId}": {
-      "parameters": [
-        {
-          "type": "string",
-          "name": "refundingId",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "get": {
-        "summary": "Query Refunding Trans",
-        "tags": [
-          "Operations"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ReFundingTrans"
-            }
-          },
-          "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "": {
-            "schema": {
-              "$ref": "#/definitions/ReFundingTrans"
-            }
-          }
-        },
-        "operationId": "get-refundingtrans",
-        "description": "人民币退款交易查询接口\n\nGet refund request details by `refundingId`"
+        ]
       }
     },
     "/refundingtrans": {
@@ -452,7 +369,7 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020608| CNY退款金额大于加款金额 |\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020608| CNY refunding amount exceed total funding amount |\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
             "schema": {
               "type": "object",
               "properties": {}
@@ -535,10 +452,99 @@
             "description": ""
           }
         ],
-        "description": "本交易为人民币退款申请接口，退款结果异步通知返回或调用方查询确认\n\n(1).累计退款金额不能大于账单累积的加款金额\n\nCreate a single refund request, results will be noticed via webhook event. Client can also use `Query Refunding Trans` API to retrieve coresponding request results.\n\nRequested total refudning amount shall no larger than total funding amount.",
+        "description": "Create a single refund request, results will be noticed via webhook event. Client can also use `Query Refunding Trans` API to retrieve coresponding request results.\n\nRequested total refudning amount shall no larger than total funding amount.",
         "tags": [
           "Operations"
         ]
+      }
+    },
+    "/refundingtrans/{refundingId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "refundingId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Query Refunding Trans",
+        "tags": [
+          "Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "": {
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
+          }
+        },
+        "operationId": "get-refundingtrans",
+        "description": "Get refund request details by `refundingId`"
+      }
+    },
+    "/fundingtrans/{billId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "billId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Query Funding Trans of  Bill",
+        "tags": [
+          "Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BillFundingTrans"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "operationId": "get-bills-billid-fundingtrans",
+        "description": "Get bill transication records by `billId`",
+        "parameters": []
       }
     }
   },
