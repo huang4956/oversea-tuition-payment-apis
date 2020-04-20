@@ -1,10 +1,10 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "c.Currency ExChange API",
+    "title": "Currency ExChange API",
     "version": "1.0"
   },
-  "host": "https://global-api.lianlianpay.com/service/payment/v1",
+  "host": "global-api.lianlianpay.com/outbound/bill/v1",
   "schemes": [
     "https"
   ],
@@ -17,7 +17,7 @@
   "paths": {
     "/exchange/{exchangeId}/cancel": {
       "put": {
-        "summary": "6.Cancel Exchange Trans",
+        "summary": "Cancel Exchange Trans",
         "operationId": "put-exchangecancel",
         "responses": {
           "200": {
@@ -46,7 +46,7 @@
           }
         },
         "parameters": [],
-        "description": "汇兑取消申请接口,最终取消结果异步返回或调用方通过调用接口查询。\n\n1.退汇只支持只做汇兑的指令\n\n2.发起过部分退汇的指令不允许发起汇兑取消\n\n3.采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n4.汇兑取消成功后可重新发起汇出指令",
+        "description": "Reverse a previously created FX request. Result will be noticed by webhook event, client can also get corresponding results via `Query Exchange Trans`\n\n1. Only FX without balance transfer request can be reversed\n2. Partialy reversed FX request(reversed via `Return Exchange Trans`) can not be reversed\n3. Orgional FX rate will be used to reverse the FX request.\n4. After reverse, a new FX can be created if necessary",
         "tags": [
           "Operations"
         ]
@@ -70,7 +70,7 @@
         }
       ],
       "get": {
-        "summary": "5.Query Exchange Return Trans",
+        "summary": "Query Exchange Return Trans",
         "tags": [
           "Operations"
         ],
@@ -79,13 +79,17 @@
             "description": "OK",
             "schema": {
               "type": "object",
-              "properties": {}
+              "properties": {
+                "exchangeReturn": {
+                  "$ref": "#/definitions/ExchangeReturn"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
             "schema": {
-              "$ref": "#/definitions/ExchangeReturn"
+              "type": "null"
             }
           },
           "500": {
@@ -97,19 +101,19 @@
           }
         },
         "operationId": "get-exchangereturns-exchangReturnId",
-        "description": "通过退汇指令id查询退汇信息"
+        "description": "Get FX reverse transaction record details by `exchangReturnId`"
       }
     },
     "/exchangereturn": {
       "post": {
-        "summary": "4.Return Exchange Trans",
+        "summary": "Return Exchange Trans",
         "operationId": "post-exchangereturns",
         "responses": {
           "200": {
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603|汇出指令已取消 |\n| 020604退汇指令币种不一致 |\n| 020605|退汇金额超过原单金额 |\n| 999995 |Parameter is error. |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603|汇出指令已取消 |\n| 020605|退汇金额超过原单金额 |\n| 999995 |Parameter is error. |",
             "schema": {
               "type": "object",
               "properties": {}
@@ -160,7 +164,7 @@
             }
           }
         ],
-        "description": "部分退汇申请接口，最终退汇结果异步返回或调用方通过接口查询。\n\n1.退汇只支持只做汇兑的指令\n\n2.退汇采用原汇兑交易汇率及信息进行退汇及反向申报处理。\n\n3.退汇总金额不能大于原汇出交易的金额\n\n4.支持原交易源币种或目的币种进行退汇\n\n5.支持部分退汇,发起后对应账单无法再次发起汇出指令，如需全部退汇请调用exchangecancel指令\n\n退汇只负责外币退回人民币，对于人民币退回到用户的银行账户，请使用退款接口。",
+        "description": "Initiate a partial FX reverse request, Result will be noticed by webhook event, client can also get corresponding results via `Query Exchange Trans`\n\n1. Partial FX request is only supported for certain instructions which the original instruction is separate foreign exchange instruction.\n2. The original FX rate and materials is used to conduct re-exchange and the refund declaration will be performed.\n3. Requested FX reverse amount cannot exceed the amount of original payout. \n4. FX reverse request is only able to performed in original transaction and target currency.\n5. It’s allowed to partially exchange and once it’s initiated, the corresponding bill cannot be used to send the payout instruction.\n\nFX reverse is only supported from foreign currency into CNY. For the refund in CNY returned to customer’s bank account, please use `Create Refunding Trans` API\n",
         "tags": [
           "Operations"
         ]
@@ -177,7 +181,7 @@
         }
       ],
       "get": {
-        "summary": "3.Query Exchange Trans",
+        "summary": "Query Exchange Trans",
         "tags": [
           "Operations"
         ],
@@ -204,12 +208,12 @@
           }
         },
         "operationId": "get-exchanges-exchangeid",
-        "description": "通过汇出指令编号查询对应的汇出指令"
+        "description": "Get FX transaction record details by `exchangeId`"
       }
     },
     "/exchange": {
       "post": {
-        "summary": "1.Create Currency Exchange Transcation",
+        "summary": "Create Currency Exchange Transcation",
         "operationId": "post-exchanges",
         "responses": {
           "200": {
@@ -230,7 +234,7 @@
             }
           }
         },
-        "description": "汇出指令申请接口，最终结果异步返回或调用方通过接口查询。\n\n指令提交必须满足以下条件\n\n1.相关贸易材料必须为审核通过状态\n\n2.汇兑金额不能大于小于账单金额或账单累计加款金额百分之三的浮动\n\n3.一笔账单只能发起一次成功汇出的指令（如果汇兑取消可重新发起）\n\n如果收款账户不传则指令只做汇兑",
+        "description": "Create a single FX request, result will be returned via webhook event. Client can also use `Query Exchange Trans` API to get the corresponding request results.\n\nPre-requirements:\n1. Corresponding trading material documents must be `APPROVED` \n2. FX request amount should within the range of 3% positive/negative bill amount floating and the range of 3% positive/negative total funding amount floating\n3. One FX request per bill.\n\nIf no beneficiary account information are included in request body, Lianlian Pay will initiate FX without balance transfer.",
         "parameters": [
           {
             "in": "body",
@@ -240,11 +244,11 @@
               "properties": {
                 "exchangeId": {
                   "type": "string",
-                  "description": "汇出指令编号"
+                  "description": "unique exchange id from client"
                 },
                 "billId": {
                   "type": "string",
-                  "description": "账单编号"
+                  "description": "bill id from client"
                 },
                 "pricingCurrency": {
                   "type": "string",
@@ -260,18 +264,19 @@
                 },
                 "targetCurrency": {
                   "type": "string",
-                  "description": "汇出的币种\n\n| currency | description  |\n|--------|-------------|\n|USD |美元|\n|EUR |欧元|\n|GBP |英镑|\n|CAD |加币|\n|JPY |日元|\n|THB |泰铢|\n|IDR |印尼盾|\n|AED |迪拉姆|\n|HKD |港币|\n|CNH |离岸人民币|\n\n"
+                  "description": "FX targeting currency code, one of\n\n| value | description  |\n|--------|-------------|\n|USD |USD |\n|EUR |EUR |\n|GBP |GBP|\n|CAD |CAD|\n|JPY |JPY|\n|THB |THB|\n|IDR |IDR|\n|AED |AED|\n|HKD |HKD|\n|CNH |CNH|\n\n"
                 },
                 "targetAmount": {
                   "type": "string",
-                  "description": "汇出的金额，当定价币种为目的币种必\n填，单位元，例：10.11"
+                  "description": "FX amount, mandatory if transaction currency is targeting currency."
                 },
                 "payeeBankAccount": {
                   "$ref": "#/definitions/PayeeBankAccountInfo"
                 },
                 "rfb": {
                   "type": "string",
-                  "description": "交易附言"
+                  "description": "rfb",
+                  "maxLength": 105
                 }
               },
               "required": [
@@ -290,7 +295,7 @@
         ]
       },
       "get": {
-        "summary": "2.Query Bill Exchange Transcation",
+        "summary": "Query Bill Exchange Transcation",
         "operationId": "get-exchanges",
         "responses": {
           "200": {
@@ -328,27 +333,28 @@
         "tags": [
           "Operations"
         ],
-        "description": "通过账单编号查询支付指令记录"
+        "description": "Get payment transaction record details by billId"
       },
       "parameters": []
     }
   },
   "definitions": {
     "ExchangeTrans": {
-      "title": "1-ExchangeTrans",
+      "title": "ExchangeTrans",
       "type": "object",
-      "description": "\n汇出指令信息\n注意：如果相关指令中payeeBankAccount为空,则只做汇兑处理,如果指定收款银行信息则进行目标币种的分发处理.\n\n",
+      "description": "FX object defined in Lianlian Pay system.\n\nIf payeeBankAccount is blank, Lianlian Pay will initiate FX withou out balance transfer.\n\n\n",
       "x-tags": [
         "Models"
       ],
+      "x-examples": {},
       "properties": {
         "exchangeId": {
           "type": "string",
-          "description": "汇出交易ID，psp全局唯一"
+          "description": "FX request id from client"
         },
         "billId": {
           "type": "string",
-          "description": "指令对应的账单编号"
+          "description": "Bill id from client"
         },
         "pricingCurrency": {
           "type": "string",
@@ -356,18 +362,18 @@
         },
         "sourceCurrency": {
           "type": "string",
-          "description": "源币种:CNY"
+          "description": "sourcing currency"
         },
         "sourceAmount": {
           "type": "string",
-          "description": "源币种金额:当定价币种为源币种必传，必填。例：10.11"
+          "description": "sourcing currency, mandatory if targeting currency is pricing currency"
         },
         "targetCurrency": {
           "type": "string",
-          "description": "目的币种:汇出的币种"
+          "description": "targeting currency"
         },
         "targetAmount": {
-          "description": "目的(汇出)金额:汇出的金额，当定价币种为目的币种必填，例：10.11。",
+          "description": "targeting amount, mandatory if targeting currency is pricing currency",
           "type": "string"
         },
         "payeeBankAccount": {
@@ -375,11 +381,11 @@
         },
         "rfb": {
           "type": "string",
-          "description": "如果payeeBankAccount不为空,则可填写收款人附言"
+          "description": "rfb"
         },
         "status": {
           "type": "string",
-          "description": "汇兑分发指令处理状态\n\n| status | description |\n|--------|-------------|\n|INIT|指令受理成功|\n|PROCESSING|处理中|\n|SUCCESS|处理成功|\n|FAILED|处理失败|\n|PAYMENT_REVERSED_AFTER_SUCCESS|银行退汇处理成功|\n|CANCEL|取消成功|\n",
+          "description": "request status, one of:\n\n| value | description |\n|--------|-------------|\n|INIT|Init|\n|PROCESSING|Processing|\n|SUCCESS|Success|\n|FAILED|Failed|\n|PAYMENT_REVERSED_AFTER_SUCCESS|Reverse success|\n|CANCEL|Canceled|\n",
           "enum": [
             "PAYMENT_SUCCESS",
             "PAYMENT_REVERSED_AFTER_SUCCESS",
@@ -393,15 +399,15 @@
         },
         "failReason": {
           "type": "string",
-          "description": "失败原因 "
+          "description": "request failure reason"
         },
         "createTime": {
           "type": "string",
-          "description": "创建时间"
+          "description": "create time"
         },
         "cancelStatus": {
           "type": "string",
-          "description": "| cancelStatus | description |\n|--------|-------------|\n|INIT|初始化|\n|PROCESSING|处理中|\n|SUCCESS|取消成功|\n|FAILED |处理失败|\n",
+          "description": "Cancel status, one of:\n| value | description |\n|--------|-------------|\n|INIT|Init|\n|PROCESSING|Processing|\n|SUCCESS|Success|\n|FAILED |Failed|\n",
           "enum": [
             "PROCESSING",
             "SUCCESS",
@@ -410,7 +416,7 @@
         },
         "rate": {
           "type": "string",
-          "description": "汇兑汇率"
+          "description": "FX rate"
         }
       },
       "required": [
@@ -418,33 +424,33 @@
         "billId",
         "pricingCurrency",
         "sourceCurrency",
-        "targetCurrency"
-      ],
-      "x-examples": {}
+        "targetCurrency",
+        "status"
+      ]
     },
     "PayeeBankAccountInfo": {
-      "title": "2-PayeeBankAccountInfo",
+      "title": "PayeeBankAccountInfo",
       "type": "object",
-      "description": "境外收款人银行帐户信息",
+      "description": "Beneficiary bank account information",
       "x-tags": [
         "Models"
       ],
       "properties": {
         "payeeCountryCode": {
           "type": "string",
-          "description": "收款人国家或地区编码:\nISO 3166 Alpha-3，如 USA。"
+          "description": "Beneficiary account country, ISO 3166 code"
         },
         "payeeName": {
           "type": "string",
-          "description": "收款人姓名"
+          "description": "beneficiary name"
         },
         "payeeAddress": {
           "type": "string",
-          "description": "收款人地址"
+          "description": "beneficiary address"
         },
         "payeeBankDistrict": {
           "type": "string",
-          "description": "收款人开户银行所在国家或地区编码:\nISO 3166 Alpha-3，如 US."
+          "description": "beneficiary bank account region"
         },
         "payeeBankAccountType": {
           "type": "string",
@@ -460,31 +466,28 @@
         },
         "payeeBankType": {
           "type": "string",
-          "description": "|payeeBankType| description |\n|--------|-------------|\n|IBAN|欧洲地区国际银行账号|\n|SORT|英国地区银行账户|\n收款银行国际编码类型"
+          "description": "beneficiary bank account type, one of:\n|payeeBankType| description |\n|--------|-------------|\n|IBAN|IBAN |\n|SORT|SORT |"
         },
         "payeeBankCode": {
           "type": "string",
-          "description": "收款银行国际编码:\n如已填写 payeeBankType，此处填写\n对应 IBAN 值或 Sortcode 值"
+          "description": "Beneficiary bank code"
         },
         "payeeBankAddress": {
           "type": "string",
-          "description": "收款人银行地址"
+          "description": "beneficiary bank address"
         },
         "payeeBankSwiftCode": {
           "type": "string",
-          "description": "收款银行\nSwiftCode"
+          "description": "Beneficiary bank SWIFT code"
         },
         "payeeAccountNo": {
           "type": "string",
-          "description": "收款人银行账号"
+          "description": "Beneficiary account number"
         }
       },
       "required": [
         "payeeCountryCode",
         "payeeName",
-        "payeeAddress",
-        "payeeBankDistrict",
-        "payeeBankAccountType",
         "payeeBankName",
         "payeeBankAddress",
         "payeeBankSwiftCode",
@@ -492,7 +495,7 @@
       ]
     },
     "ExchangeReturn": {
-      "title": "3-ExchangeReturn",
+      "title": "ExchangeReturn",
       "type": "object",
       "description": "",
       "x-tags": [
@@ -501,27 +504,27 @@
       "properties": {
         "exchangeReturnId": {
           "type": "string",
-          "description": "退汇指令编号，全局唯一"
+          "description": "Unique xechange return id from client"
         },
         "exchangeId": {
           "type": "string",
-          "description": "原汇兑指令编号"
+          "description": "Original exhange id from client"
         },
         "returnCurrency": {
           "type": "string",
-          "description": "原汇兑的目标币种"
+          "description": "return currency"
         },
         "returnAmount": {
           "type": "string",
-          "description": "退汇的外汇金额"
+          "description": "return amount"
         },
         "createTime": {
           "type": "string",
-          "description": "创建时间"
+          "description": "create time"
         },
         "status": {
           "type": "string",
-          "description": "退汇交易状态\n\n|status|description|\n|------|------------|\n|INIT|退汇申请成功|\n|PROCESSING|退汇中|\n|SUCCESS|退汇成功|\n|FAILED|退汇失败|"
+          "description": "request status\n\n|value |description|\n|------|------------|\n|INIT|Init|\n|PROCESSING|Processing |\n|SUCCESS|Success|\n|FAILED|Failed |"
         },
         "failReason": {
           "type": "string",
@@ -529,7 +532,7 @@
         },
         "memo": {
           "type": "string",
-          "description": "退汇原因"
+          "description": "memo"
         }
       },
       "required": [
@@ -538,15 +541,6 @@
         "returnCurrency",
         "returnAmount"
       ]
-    },
-    "payeelliAccount": {
-      "title": "PayeeLlpAccount",
-      "type": "object",
-      "properties": {
-        "payeeAccount": {
-          "type": "string"
-        }
-      }
     }
   }
 }
