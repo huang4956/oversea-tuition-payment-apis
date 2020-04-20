@@ -25,7 +25,7 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020301|有效贸易材料已存在 |\n| 020302|贸易材料数量超过上限|\n| 020401|账单不存在或已失效|\n| 020303|账单金额与贸易材料金额相差过大|\n| 020501|申报人信息不存在|\n| 999995 |Parameter is error. |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020301|trading material already exist |\n| 020302|trading meterial document amount exceed limit|\n| 020401|bill not exist or invalid |\n| 020303|bill amount does not match with tuition amount|\n| 020501|payer does not exist|\n| 999995 |Parameter is error. |",
             "schema": {
               "type": "object",
               "properties": {}
@@ -56,23 +56,23 @@
                 },
                 "country": {
                   "type": "string",
-                  "description": "University "
+                  "description": "University country or region"
                 },
                 "tuitionCurrency": {
                   "type": "string",
-                  "description": "学费币种"
+                  "description": "Tuition currency"
                 },
                 "tuitionAmount": {
                   "type": "string",
-                  "description": "学费金额"
+                  "description": "Tuition amount"
                 },
                 "studentName": {
                   "type": "string",
-                  "description": "学生姓名，对应受益人"
+                  "description": "Student name"
                 },
                 "attachment": {
                   "type": "string",
-                  "description": "上传文件id，对应相关留学证明文件或影印件，支持PDF,JPG,GIF,最多支持5个文件，例：2018072227039320,2018072227039320"
+                  "description": "Document id, supported file extensions are PDF, JPG, GIF. 5 documents at most.\nSample：2018072227039320,2018072227039320"
                 }
               },
               "required": [
@@ -155,7 +155,7 @@
         },
         "tuitionAmount": {
           "type": "string",
-          "description": "学费金额"
+          "description": "Tuition amount"
         },
         "studentName": {
           "type": "string",

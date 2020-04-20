@@ -369,7 +369,7 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020608| CNY refunding amount exceed total funding amount |\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020608| CNY refunding amount exceed total funding amount |\n| 020609 | refundingId already exist |\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
             "schema": {
               "type": "object",
               "properties": {}
