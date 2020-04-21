@@ -10,7 +10,7 @@ Change History
 
 
 
-<table   style="border:1px solid black" cellpadding="10">
+<table    border="1">
     <tr style="border:1px solid black">
         <th>environment</th> 
         <th>CN</th> 
