@@ -205,7 +205,22 @@
     "event-topic-enum": {
       "type": "string",
       "title": "Event Topic Enumeration",
-      "description": "Event topics defined in Lianlian Pay's system.\n\n| Topic | Description |\n|--------|------------|\n| funding.funded | Bill funding received |\n| tuitionEvidence.approved | Tuition evidence approved  |\n| tuitionEvidence.reject | Tuition evidence rejected |\n| exchange.successed | FX(balance transfer) complete |\n| exchange.failed | FX(balance transfer) failed |\n| refunding.successed | Refunding complete |\n| refunding.failed | Refunding failed  |\n| exchangereturn.success | Partial FX reverse complete |\n| exchangereturn.failed | Partial FX reverse failed |\n| exchangecancel.success| FX(balance transfer) reverse complete |\n| exchangecancel.failed| FX(balance transfer) reverse failed |"
+      "description": "Event topics defined in Lianlian Pay's system.\n\n| Topic | Description |\n|--------|------------|\n| payer.approved |  payer approved |\n| payer.reject |  payer reject |\n| funding.funded | Bill funding received |\n| tuitionEvidence.approved | Tuition evidence approved  |\n| tuitionEvidence.reject | Tuition evidence rejected |\n| exchange.successed | FX(balance transfer) complete |\n| exchange.failed | FX(balance transfer) failed |\n| refunding.successed | Refunding complete |\n| refunding.failed | Refunding failed  |\n| exchangereturn.success | Partial FX reverse complete |\n| exchangereturn.failed | Partial FX reverse failed |\n| exchangecancel.success| FX(balance transfer) reverse complete |\n| exchangecancel.failed| FX(balance transfer) reverse failed |",
+      "enum": [
+        "funding.funded",
+        "tuitionEvidence.approved",
+        "tuitionEvidence.reject",
+        "exchange.successed",
+        "exchange.failed",
+        "refunding.successed",
+        "refunding.failed",
+        "exchangereturn.success",
+        "exchangereturn.failed",
+        "exchangecancel.success",
+        "exchangecancel.failed",
+        "payer.approved",
+        "payer.reject"
+      ]
     }
   },
   "responses": {},
