@@ -23,25 +23,8 @@
           "format": "date-time",
           "description": "Bill create time, UT+0"
         },
-        "payerName": {
-          "type": "string",
-          "description": "payer name"
-        },
-        "payerType": {
-          "type": "string",
-          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |"
-        },
-        "payerIDType": {
-          "type": "string",
-          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|"
-        },
-        "payerID": {
-          "type": "string",
-          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked."
-        },
-        "payerContactNumber": {
-          "type": "string",
-          "description": "Payer contact number"
+        "recevingAccount": {
+          "$ref": "#/definitions/RecevingAccount"
         },
         "relationship": {
           "type": "string",
@@ -56,20 +39,46 @@
             "OTHER"
           ]
         },
-        "recevingAccount": {
-          "$ref": "#/definitions/RecevingAccount"
+        "payerContactNumber": {
+          "type": "string",
+          "description": "Payer contact number"
+        },
+        "payerID": {
+          "type": "string",
+          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked."
+        },
+        "payerIDType": {
+          "type": "string",
+          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|"
+        },
+        "payerType": {
+          "type": "string",
+          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |"
+        },
+        "payerName": {
+          "type": "string",
+          "description": "payer name"
+        },
+        "payerStatus": {
+          "type": "string",
+          "description": "payer status, one of\n\n|value|descrption|\n|------|-------------|\n|AUDITING|Under review|\n|APPROVED|Approved|\n|REJECT|Rejected|"
+        },
+        "failReason": {
+          "type": "string",
+          "description": "payer verify info"
         }
       },
       "required": [
         "billId",
         "paymentAmount",
         "recevingAccount",
-        "payerName",
-        "payerType",
-        "payerIDType",
-        "payerID",
+        "relationship",
         "payerContactNumber",
-        "relationship"
+        "payerID",
+        "payerIDType",
+        "payerType",
+        "payerName",
+        "payerStatus"
       ]
     },
     "RecevingAccount": {
@@ -176,10 +185,6 @@
           "type": "string",
           "description": "beneficiary bank name"
         },
-        "bankAccountType": {
-          "type": "string",
-          "description": "Beneficiary account type, one of:\n\n|value|description|\n|------|------------|\n|INDIVIDUAL|Individual account|\n|CORPORATE|Corporate account|"
-        },
         "accountName": {
           "type": "string",
           "description": "beneficiary account name"
@@ -204,6 +209,10 @@
         "failreason": {
           "type": "string",
           "description": "Refund failure reason"
+        },
+        "bankAccountType": {
+          "type": "string",
+          "description": "Beneficiary account type, one of:\n\n|value|description|\n|------|------------|\n|INDIVIDUAL|Individual account|\n|CORPORATE|Corporate account|"
         }
       },
       "required": [
@@ -293,7 +302,7 @@
                 },
                 "relationship": {
                   "type": "string",
-                  "description": "Payer and beneficiary relationship, one of:\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|",
+                  "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"Individual\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|Other|other relationship|\n\nIf payer type is \"corporate\" \n\n| value | description |\n|--------|-------------|\n|organization|The company/school to which the student belongs|\n|intermediary|Student commissioned agency|\n|other|other relationship|",
                   "enum": [
                     "SELF",
                     "FAMILY"
@@ -306,7 +315,8 @@
                 "payerName",
                 "payerType",
                 "payerIDType",
-                "payerID"
+                "payerID",
+                "relationship"
               ]
             },
             "description": ""
@@ -362,6 +372,95 @@
             "type": "string"
           }
         ]
+      }
+    },
+    "/fundingtrans/{billId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "billId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Query Funding Trans of  Bill",
+        "tags": [
+          "Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BillFundingTrans"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "operationId": "get-bills-billid-fundingtrans",
+        "description": "Get bill transication records by `billId`",
+        "parameters": []
+      }
+    },
+    "/refundingtrans/{refundingId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "refundingId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Query Refunding Trans",
+        "tags": [
+          "Operations"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "": {
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
+          }
+        },
+        "operationId": "get-refundingtrans",
+        "description": "Get refund request details by `refundingId`"
       }
     },
     "/refundingtrans": {
@@ -461,95 +560,6 @@
         "tags": [
           "Operations"
         ]
-      }
-    },
-    "/refundingtrans/{refundingId}": {
-      "parameters": [
-        {
-          "type": "string",
-          "name": "refundingId",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "get": {
-        "summary": "Query Refunding Trans",
-        "tags": [
-          "Operations"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ReFundingTrans"
-            }
-          },
-          "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "": {
-            "schema": {
-              "$ref": "#/definitions/ReFundingTrans"
-            }
-          }
-        },
-        "operationId": "get-refundingtrans",
-        "description": "Get refund request details by `refundingId`"
-      }
-    },
-    "/fundingtrans/{billId}": {
-      "parameters": [
-        {
-          "type": "string",
-          "name": "billId",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "get": {
-        "summary": "Query Funding Trans of  Bill",
-        "tags": [
-          "Operations"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/BillFundingTrans"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        },
-        "operationId": "get-bills-billid-fundingtrans",
-        "description": "Get bill transication records by `billId`",
-        "parameters": []
       }
     }
   },
