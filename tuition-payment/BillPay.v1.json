@@ -17,30 +17,12 @@
           "type": "string",
           "description": "payment amount in CNY"
         },
-        "recevingAccount": {
-          "$ref": "#/definitions/RecevingAccount"
-        },
         "createTime": {
           "type": "string",
           "default": "sysdate",
           "format": "date-time",
           "description": "Bill create time, UT+0"
-        }
-      },
-      "required": [
-        "billId",
-        "paymentAmount",
-        "recevingAccount"
-      ]
-    },
-    "RecevingAccount": {
-      "title": "RecevingAccount",
-      "type": "object",
-      "description": "Lianlian Pay receiving account information, including payee information.\n\nPayee inforation should be included in request and collection account will be return by Lianlian Pay to PSP.",
-      "x-tags": [
-        "Models"
-      ],
-      "properties": {
+        },
         "payerName": {
           "type": "string",
           "description": "payer name"
@@ -63,7 +45,7 @@
         },
         "relationship": {
           "type": "string",
-          "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"Individual\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|Other|other relationship|\n\nIf payer type is \"corporate\" \n\n| value | description |\n|--------|-------------|\n|organization|The company/school to which the student belongs|\n|intermediary|Student commissioned agency|\n|other|other relationship|\n",
+          "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"Individual\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|Other|other relationship|\n\nIf payer type is \"corporate\" \n\n| value | description |\n|--------|-------------|\n|organization|The company/school to which the student belongs|\n|intermediary|Student commissioned agency|\n|other|other relationship|",
           "enum": [
             "SELF",
             "IMMEDIATE FAMILY",
@@ -74,6 +56,30 @@
             "OTHER"
           ]
         },
+        "recevingAccount": {
+          "$ref": "#/definitions/RecevingAccount"
+        }
+      },
+      "required": [
+        "billId",
+        "paymentAmount",
+        "recevingAccount",
+        "payerName",
+        "payerType",
+        "payerIDType",
+        "payerID",
+        "payerContactNumber",
+        "relationship"
+      ]
+    },
+    "RecevingAccount": {
+      "title": "RecevingAccount",
+      "type": "object",
+      "description": "Lianlian Pay receiving account information, including payee information.\n\nPayee information should be included in request and collection account will be return by Lianlian Pay to PSP.",
+      "x-tags": [
+        "Models"
+      ],
+      "properties": {
         "accountName": {
           "type": "string",
           "description": "receiving account name"
@@ -98,13 +104,7 @@
           "type": "string",
           "description": "Receiving account bank branch address"
         }
-      },
-      "required": [
-        "payerName",
-        "payerType",
-        "payerIDType",
-        "payerID"
-      ]
+      }
     },
     "BillFundingTrans": {
       "title": "BillFundingTrans",
