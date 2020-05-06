@@ -63,11 +63,16 @@
         },
         "relationship": {
           "type": "string",
+          "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"Individual\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|Other|other relationship|\n\nIf payer type is \"corporate\" \n\n| value | description |\n|--------|-------------|\n|organization|The company/school to which the student belongs|\n|intermediary|Student commissioned agency|\n|other|other relationship|\n",
           "enum": [
-            "self",
-            "family"
-          ],
-          "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"Individual\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|Other|other relationship|\n\nIf payer type is \"corporate\" \n\n| value | description |\n|--------|-------------|\n|organization|The company/school to which the student belongs|\n|intermediary|Student commissioned agency|\n|other|other relationship|\n"
+            "SELF",
+            "IMMEDIATE FAMILY",
+            "OTHER RELATIVES",
+            "FRIEND",
+            "ORGANIZATION",
+            "INTERMEDIARY",
+            "OTHER"
+          ]
         },
         "accountName": {
           "type": "string",
