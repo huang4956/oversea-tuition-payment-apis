@@ -113,7 +113,7 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603 | exchange transaction has been cancelled |\n| 020605 | FX reverse amount exceed original exchange amount |\n| 020609 | exchangeReturnId already exist |\n| 999995 | Parameter is error. |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603 | exchange transaction has been cancelled |\n| 020604| FX reverse currency not fit|\n| 020605 | FX reverse amount exceed original exchange amount |\n| 020609 | exchangeReturnId already exist |\n| 999995 | Parameter is error. |",
             "schema": {
               "type": "object",
               "properties": {}
@@ -226,7 +226,7 @@
             "description": "OK"
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020304|trading material document audit failure |\n| 020601|exchangeId already exist|\n| 020602|exchange amount abnormal|\n| 020403|bill has no funding|\n| 999995 |Parameter is error. |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020102|Payer is auditing|\n| 020103|Payer is rejected|\n| 020403|bill has no funding|\n| 020304|trading material document audit failure |\n| 020601|exchangeId already exist|\n| 020602|exchange amount abnormal|\n| 999995 |Parameter is error. |",
             "schema": {
               "type": "object",
               "properties": {}
