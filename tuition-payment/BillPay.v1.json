@@ -204,7 +204,7 @@
         },
         "status": {
           "type": "string",
-          "description": "refunding status, one of:\n\n| value |description|\n|------|------------|\n|INIT| Init |\n|SUCCESS|Success|\n|PROCESSING|Processing |\n|FAILED|退款失败|\n"
+          "description": "refunding status, one of:\n\n| value |description|\n|------|------------|\n|INIT| Init |\n|SUCCESS|Success|\n|PROCESSING|Processing |\n|FAILED|fail|\n"
         },
         "failreason": {
           "type": "string",
