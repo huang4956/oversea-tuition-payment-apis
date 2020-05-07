@@ -26,9 +26,37 @@
         "recevingAccount": {
           "$ref": "#/definitions/RecevingAccount"
         },
+        "failReason": {
+          "type": "string",
+          "description": "payer verify info"
+        },
+        "payerStatus": {
+          "type": "string",
+          "description": "payer status, one of\n\n|value|descrption|\n|------|-------------|\n|AUDITING|Under review|\n|APPROVED|Approved|\n|REJECT|Rejected|"
+        },
+        "payerName": {
+          "type": "string",
+          "description": "payer name"
+        },
+        "payerType": {
+          "type": "string",
+          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |"
+        },
+        "payerIDType": {
+          "type": "string",
+          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|"
+        },
+        "payerID": {
+          "type": "string",
+          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked."
+        },
+        "payerContactNumber": {
+          "type": "string",
+          "description": "Payer contact number"
+        },
         "relationship": {
           "type": "string",
-          "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"Individual\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|Other|other relationship|\n\nIf payer type is \"corporate\" \n\n| value | description |\n|--------|-------------|\n|organization|The company/school to which the student belongs|\n|intermediary|Student commissioned agency|\n|other|other relationship|",
+          "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"INDIVIDUAL\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|OTHER |other relationship|\n\nIf payer type is \"CORPORATE\" \n\n| value | description |\n|--------|-------------|\n|ORGANIZATION|The company/school to which the student belongs|\n|INTERMEDIARY|Student commissioned agency|\n|OTHER |other relationship|",
           "enum": [
             "SELF",
             "IMMEDIATE FAMILY",
@@ -38,47 +66,19 @@
             "INTERMEDIARY",
             "OTHER"
           ]
-        },
-        "payerContactNumber": {
-          "type": "string",
-          "description": "Payer contact number"
-        },
-        "payerID": {
-          "type": "string",
-          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked."
-        },
-        "payerIDType": {
-          "type": "string",
-          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|"
-        },
-        "payerType": {
-          "type": "string",
-          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |"
-        },
-        "payerName": {
-          "type": "string",
-          "description": "payer name"
-        },
-        "payerStatus": {
-          "type": "string",
-          "description": "payer status, one of\n\n|value|descrption|\n|------|-------------|\n|AUDITING|Under review|\n|APPROVED|Approved|\n|REJECT|Rejected|"
-        },
-        "failReason": {
-          "type": "string",
-          "description": "payer verify info"
         }
       },
       "required": [
         "billId",
         "paymentAmount",
         "recevingAccount",
-        "relationship",
-        "payerContactNumber",
-        "payerID",
-        "payerIDType",
-        "payerType",
+        "payerStatus",
         "payerName",
-        "payerStatus"
+        "payerType",
+        "payerIDType",
+        "payerID",
+        "payerContactNumber",
+        "relationship"
       ]
     },
     "RecevingAccount": {
@@ -302,10 +302,16 @@
                 },
                 "relationship": {
                   "type": "string",
-                  "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"Individual\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|Other|other relationship|\n\nIf payer type is \"corporate\" \n\n| value | description |\n|--------|-------------|\n|organization|The company/school to which the student belongs|\n|intermediary|Student commissioned agency|\n|other|other relationship|",
+                  "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"INDIVIDUAL\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|OTHER |other relationship|\n\nIf payer type is \"CORPORATE\" \n\n| value | description |\n|--------|-------------|\n|ORGANIZATION|The company/school to which the student belongs|\n|INTERMEDIARY|Student commissioned agency|\n|OTHER |other relationship|",
                   "enum": [
                     "SELF",
-                    "FAMILY"
+                    "FAMILY",
+                    "IMMEDIATE FAMILY",
+                    "OTHER RELATIVES",
+                    "FRIEND",
+                    "OTHER",
+                    "ORGANIZATION",
+                    "INTERMEDIARY"
                   ]
                 }
               },
