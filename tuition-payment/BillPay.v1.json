@@ -26,34 +26,6 @@
         "recevingAccount": {
           "$ref": "#/definitions/RecevingAccount"
         },
-        "failReason": {
-          "type": "string",
-          "description": "payer verify info"
-        },
-        "payerStatus": {
-          "type": "string",
-          "description": "payer status, one of\n\n|value|descrption|\n|------|-------------|\n|AUDITING|Under review|\n|APPROVED|Approved|\n|REJECT|Rejected|"
-        },
-        "payerName": {
-          "type": "string",
-          "description": "payer name"
-        },
-        "payerType": {
-          "type": "string",
-          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |"
-        },
-        "payerIDType": {
-          "type": "string",
-          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|"
-        },
-        "payerID": {
-          "type": "string",
-          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked."
-        },
-        "payerContactNumber": {
-          "type": "string",
-          "description": "Payer contact number"
-        },
         "relationship": {
           "type": "string",
           "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"INDIVIDUAL\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|OTHER |other relationship|\n\nIf payer type is \"CORPORATE\" \n\n| value | description |\n|--------|-------------|\n|ORGANIZATION|The company/school to which the student belongs|\n|INTERMEDIARY|Student commissioned agency|\n|OTHER |other relationship|",
@@ -66,19 +38,52 @@
             "INTERMEDIARY",
             "OTHER"
           ]
+        },
+        "payerContactName": {
+          "type": "string",
+          "description": "payer contact name, mandatory for corporate payer",
+          "maxLength": 128
+        },
+        "payerContactNumber": {
+          "type": "string",
+          "description": "Payer contact number",
+          "maxLength": 32
+        },
+        "payerID": {
+          "type": "string",
+          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked."
+        },
+        "payerIDType": {
+          "type": "string",
+          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|"
+        },
+        "payerType": {
+          "type": "string",
+          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |"
+        },
+        "payerName": {
+          "type": "string",
+          "description": "payer name"
+        },
+        "payerStatus": {
+          "type": "string",
+          "description": "payer status, one of\n\n|value|descrption|\n|------|-------------|\n|AUDITING|Under review|\n|APPROVED|Approved|\n|REJECT|Rejected|"
+        },
+        "failReason": {
+          "type": "string",
+          "description": "payer verify info"
         }
       },
       "required": [
         "billId",
         "paymentAmount",
         "recevingAccount",
-        "payerStatus",
-        "payerName",
-        "payerType",
-        "payerIDType",
+        "relationship",
         "payerID",
-        "payerContactNumber",
-        "relationship"
+        "payerIDType",
+        "payerType",
+        "payerName",
+        "payerStatus"
       ]
     },
     "RecevingAccount": {
@@ -294,6 +299,11 @@
                   "type": "string",
                   "description": "payer identification number",
                   "maxLength": 64
+                },
+                "payerContactName": {
+                  "type": "string",
+                  "description": "payer contact name, mandatory for corporate payer",
+                  "maxLength": 128
                 },
                 "payerContactNumber": {
                   "type": "string",
