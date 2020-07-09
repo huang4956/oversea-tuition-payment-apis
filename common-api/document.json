@@ -42,19 +42,17 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "type": "string",
-                  "description": "Document name",
-                  "maxLength": 128
+                "file": {
+                  "description": "The file itself",
+                  "type": "object"
                 },
-                "size": {
-                  "type": "integer",
+                "referenceId": {
+                  "type": "string",
                   "description": "Document size"
                 }
               },
               "required": [
-                "name",
-                "size"
+                "file"
               ]
             }
           },
