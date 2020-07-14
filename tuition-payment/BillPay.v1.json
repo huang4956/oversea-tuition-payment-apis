@@ -414,7 +414,7 @@
             }
           }
         },
-        "description": "",
+        "description": "The following conditions need to be met in order to initiate a payer modification request.\n\n  1. ",
         "parameters": [
           {
             "in": "body",
@@ -423,25 +423,54 @@
               "type": "object",
               "properties": {
                 "relationship": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "Payer and beneficiary relationship, one of:\n\nIf payer type is \"INDIVIDUAL\"\n\n| value | description |\n|--------|-------------|\n|SELF| payer is beneficiary |\n|FAMILY| Payer is the family member of beneficiary|\n|IMMEDIATE FAMILY| Parents, children, spouse|\n|OTHER RELATIVES|Any relative other than \"Parents, children, spouse\"|\n|FRIEND|Friends|\n|OTHER |other relationship|\n\nIf payer type is \"CORPORATE\" \n\n| value | description |\n|--------|-------------|\n|ORGANIZATION|The company/school to which the student belongs|\n|INTERMEDIARY|Student commissioned agency|\n|OTHER |other relationship|",
+                  "enum": [
+                    "SELF",
+                    "FAMILY",
+                    "IMMEDIATE FAMILY",
+                    "OTHER RELATIVES",
+                    "FRIEND",
+                    "OTHER",
+                    "ORGANIZATION",
+                    "INTERMEDIARY"
+                  ]
                 },
                 "payerType": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "payer type, one of\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE |Corporate|",
+                  "enum": [
+                    "INDIVIDUAL",
+                    "CORPORATE"
+                  ]
                 },
                 "payerName": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "payer name in Chinese",
+                  "maxLength": 128
                 },
                 "payerContactName": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "payer contact name, mandatory for corporate payer",
+                  "maxLength": 128
                 },
                 "payerContactNumber": {
-                  "type": "string"
+                  "type": "string",
+                  "maxLength": 32,
+                  "description": "payer contact number, mandatory for corporate payer"
                 },
                 "payerIDType": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "payer identification type\n\n| value| description |\n|--------|-------------|\n|ID_CARD|ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code |",
+                  "enum": [
+                    "ID_CARD",
+                    "UNIFIED_CREDIT_CODE"
+                  ]
                 },
                 "payerID": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "payer identification number",
+                  "maxLength": 64
                 }
               },
               "required": [
@@ -454,9 +483,6 @@
             },
             "description": ""
           }
-        ],
-        "tags": [
-          "Operations"
         ]
       }
     },
