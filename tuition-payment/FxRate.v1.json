@@ -19,7 +19,7 @@
     "application/json"
   ],
   "paths": {
-    "/rate/{sourceCurrency}/{targetCurrency}": {
+    "/rate/{sourceCurrency}/{targetCurrency}/{rateType}": {
       "get": {
         "summary": "Get FX Rate",
         "tags": [],
@@ -57,6 +57,12 @@
           "required": true,
           "description": "Target Currency",
           "maxLength": 3
+        },
+        {
+          "type": "string",
+          "name": "rateType",
+          "in": "path",
+          "required": true
         }
       ]
     }
