@@ -414,7 +414,7 @@
             }
           }
         },
-        "description": "The following conditions need to be met in order to initiate a payer modification request.\n\n  1. The actual payer name should not the same as the payer name transmitted by platform\n  2. No FX-related transactions have been initiated on this bill regardless of the status of \n     the transaction.",
+        "description": "The following conditions need to be met in order to initiate a payer modification request.\n\n  1. The status of original payer should not be 'AUDITING' \n  2. The actual payer name should not the same as the payer name transmitted by platform\n  3. No FX-related transactions have been initiated on this bill regardless of the status of \n     the transaction.",
         "parameters": [
           {
             "in": "body",
@@ -483,6 +483,9 @@
             },
             "description": ""
           }
+        ],
+        "tags": [
+          "Operations"
         ]
       }
     },
