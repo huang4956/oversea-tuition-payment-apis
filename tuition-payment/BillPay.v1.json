@@ -159,11 +159,25 @@
         "rfb": {
           "type": "string",
           "description": "rfb"
+        },
+        "isSamePayer": {
+          "type": "string",
+          "description": "Whether the actual payer name is the same as the payer name transmitted by the platform",
+          "enum": [
+            "Y",
+            "N"
+          ]
         }
       },
       "required": [
         "billId",
-        "fundingId"
+        "fundingId",
+        "payerName",
+        "payerBankAccout",
+        "payerBankName",
+        "amount",
+        "createTime",
+        "isSamePayer"
       ]
     },
     "ReFundingTrans": {
@@ -233,7 +247,7 @@
   "paths": {
     "/bill": {
       "post": {
-        "summary": "Create a Bill for Bank Transfer",
+        "summary": "Edit the Payer Info",
         "operationId": "post-bills",
         "responses": {
           "200": {
@@ -387,6 +401,62 @@
             "in": "formData",
             "type": "string"
           }
+        ]
+      },
+      "put": {
+        "summary": "Edit the Payer Information",
+        "operationId": "put-bill-billId",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BillPayInfo"
+            }
+          }
+        },
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "relationship": {
+                  "type": "string"
+                },
+                "payerType": {
+                  "type": "string"
+                },
+                "payerName": {
+                  "type": "string"
+                },
+                "payerContactName": {
+                  "type": "string"
+                },
+                "payerContactNumber": {
+                  "type": "string"
+                },
+                "payerIDType": {
+                  "type": "string"
+                },
+                "payerID": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "relationship",
+                "payerType",
+                "payerName",
+                "payerIDType",
+                "payerID"
+              ]
+            },
+            "description": ""
+          }
+        ],
+        "tags": [
+          "Operations"
         ]
       }
     },

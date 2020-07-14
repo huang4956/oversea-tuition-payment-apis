@@ -22,7 +22,9 @@
     "/rate/{rateType}/{sourceCurrency}/{targetCurrency}": {
       "get": {
         "summary": "Get FX Rate",
-        "tags": [],
+        "tags": [
+          "Operations"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -71,7 +73,7 @@
   },
   "definitions": {
     "rate": {
-      "title": "fx-rate",
+      "title": "Fx-Rate",
       "type": "object",
       "description": "fx-rate object in Lianlian Pay's system",
       "properties": {
@@ -112,6 +114,9 @@
         "targetCurrency",
         "rateTime",
         "baseCurrency"
+      ],
+      "x-tags": [
+        "Models"
       ]
     }
   },
