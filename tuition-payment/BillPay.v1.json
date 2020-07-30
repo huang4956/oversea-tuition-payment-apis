@@ -247,7 +247,7 @@
   "paths": {
     "/bill": {
       "post": {
-        "summary": "Edit the Payer Info",
+        "summary": "Create a Bill",
         "operationId": "post-bills",
         "responses": {
           "200": {
@@ -411,6 +411,20 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/BillPayInfo"
+            }
+          },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           }
         },
