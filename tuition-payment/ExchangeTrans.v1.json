@@ -34,6 +34,13 @@
             },
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020606|exchange transaction cannot support FX cancel |\n| 020607|exchange transaction has been FX reversed|\n| 999995 |Parameter is error. |"
           },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
           "500": {
             "schema": {
               "type": "object",
@@ -90,6 +97,13 @@
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
             "schema": {
               "type": "null"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           },
           "500": {
@@ -205,6 +219,13 @@
               "properties": {}
             }
           },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "schema": {
@@ -300,9 +321,21 @@
           "Operations"
         ]
       },
+      "parameters": []
+    },
+    "/exchange/{billId}": {
+      "parameters": [
+        {
+          "type": "string",
+          "name": "billId",
+          "in": "path",
+          "required": true,
+          "description": "Bill ID"
+        }
+      ],
       "get": {
-        "summary": "Query Bill Exchange Transcation",
-        "operationId": "get-exchanges",
+        "summary": "Query Bill Exchange Transaction",
+        "tags": [],
         "responses": {
           "200": {
             "description": "OK",
@@ -320,6 +353,13 @@
               "properties": {}
             }
           },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "schema": {
@@ -328,20 +368,9 @@
             }
           }
         },
-        "parameters": [
-          {
-            "type": "string",
-            "in": "query",
-            "name": "billId",
-            "description": "账单编号"
-          }
-        ],
-        "tags": [
-          "Operations"
-        ],
+        "operationId": "get-exchange-billId",
         "description": "Get payment transaction record details by billId"
-      },
-      "parameters": []
+      }
     }
   },
   "definitions": {

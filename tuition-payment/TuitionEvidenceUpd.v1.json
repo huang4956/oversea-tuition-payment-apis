@@ -124,6 +124,20 @@
               "type": "object",
               "properties": {}
             }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "operationId": "get-tuitionevidences-billid",

@@ -32,6 +32,27 @@
               "$ref": "#/definitions/rate"
             }
           },
+          "400": {
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 |Parameter is error. |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
           "": {
             "schema": {
               "$ref": "#/definitions/rate"

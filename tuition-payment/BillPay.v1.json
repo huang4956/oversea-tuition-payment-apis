@@ -386,6 +386,13 @@
               "properties": {}
             }
           },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "schema": {
@@ -415,6 +422,13 @@
           },
           "400": {
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Not Found",
             "schema": {
               "type": "object",
               "properties": {}
@@ -534,6 +548,13 @@
               "properties": {}
             }
           },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "schema": {
@@ -570,6 +591,13 @@
           },
           "400": {
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Not Found",
             "schema": {
               "type": "object",
               "properties": {}
