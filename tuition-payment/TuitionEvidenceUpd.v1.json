@@ -51,31 +51,38 @@
               "properties": {
                 "billId": {
                   "type": "string",
-                  "description": "Unique bill id from client"
+                  "description": "Unique bill id from client",
+                  "maxLength": 32
                 },
                 "universityName": {
                   "type": "string",
-                  "description": "University name"
+                  "description": "University name",
+                  "maxLength": 128
                 },
                 "country": {
                   "type": "string",
-                  "description": "University country or region"
+                  "description": "University country or region",
+                  "maxLength": 3
                 },
                 "tuitionCurrency": {
                   "type": "string",
-                  "description": "Tuition currency"
+                  "description": "Tuition currency",
+                  "maxLength": 3
                 },
                 "tuitionAmount": {
                   "type": "string",
-                  "description": "Tuition amount"
+                  "description": "Tuition amount",
+                  "maxLength": 24
                 },
                 "studentName": {
                   "type": "string",
-                  "description": "Student name"
+                  "description": "Student name",
+                  "maxLength": 128
                 },
                 "attachment": {
                   "type": "string",
-                  "description": "Document id, supported file extensions are PDF, JPG, GIF. 5 documents at most.\nSample：2018072227039320,2018072227039320"
+                  "description": "Document id, supported file extensions are PDF, JPG, GIF. 5 documents at most.\nSample：2018072227039320,2018072227039320",
+                  "maxLength": 256
                 }
               },
               "required": [
@@ -156,27 +163,33 @@
       "properties": {
         "billId": {
           "type": "string",
-          "description": "Bill id from client"
+          "description": "Bill id from client",
+          "maxLength": 32
         },
         "universityName": {
           "type": "string",
-          "description": "University Name"
+          "description": "University Name",
+          "maxLength": 128
         },
         "tuitionCurrency": {
           "type": "string",
-          "description": "Tuition currency, one of\n\n| currency | description  |\n|--------|-------------|\n|USD |USD|\n|EUR |EUR|\n|GBP |GBP|\n|CAD |CAD|\n|JPY |JPY|\n|THB |THB|\n|IDR |IDR|\n|AED |AED|\n|HKD |HKD|\n|CNH |CNH|"
+          "description": "Tuition currency, one of\n\n| currency | description  |\n|--------|-------------|\n|USD |USD|\n|EUR |EUR|\n|GBP |GBP|\n|CAD |CAD|\n|JPY |JPY|\n|THB |THB|\n|IDR |IDR|\n|AED |AED|\n|HKD |HKD|\n|CNH |CNH|",
+          "maxLength": 3
         },
         "tuitionAmount": {
           "type": "string",
-          "description": "Tuition amount"
+          "description": "Tuition amount",
+          "maxLength": 24
         },
         "studentName": {
           "type": "string",
-          "description": "beneficiary name"
+          "description": "beneficiary name",
+          "maxLength": 128
         },
         "attachment": {
           "type": "string",
-          "description": "Document id, supported file extensions are PDF, JPG, GIF. 5 documents at most."
+          "description": "Document id, supported file extensions are PDF, JPG, GIF. 5 documents at most.",
+          "maxLength": 256
         },
         "createTime": {
           "type": "string",
@@ -185,15 +198,22 @@
         },
         "status": {
           "type": "string",
-          "description": "Tuition evidence status, one of\n\n|value|descrption|\n|------|-------------|\n|AUDITING|Under review|\n|APPROVED|Approved|\n|REJECT|Rejected|"
+          "description": "Tuition evidence status, one of\n\n|value|descrption|\n|------|-------------|\n|AUDITING|Under review|\n|APPROVED|Approved|\n|REJECT|Rejected|",
+          "enum": [
+            "AUDITING",
+            "APPROVED",
+            "REJECT"
+          ]
         },
         "failedReason": {
           "type": "string",
-          "description": "Failure reason"
+          "description": "Failure reason",
+          "maxLength": 128
         },
         "country": {
           "type": "string",
-          "description": "school country/country code， see Appendix-Country Code\n                                                                  "
+          "description": "school country/country code， see Appendix-Country Code\n                                                                  ",
+          "maxLength": 3
         }
       }
     }

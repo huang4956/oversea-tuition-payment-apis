@@ -155,23 +155,28 @@
               "properties": {
                 "exchangeReturnId": {
                   "type": "string",
-                  "description": "unique FX reverse id from client"
+                  "description": "unique FX reverse id from client",
+                  "maxLength": 32
                 },
                 "exchangeId": {
                   "type": "string",
-                  "description": "Original unique exchange id from client"
+                  "description": "Original unique exchange id from client",
+                  "maxLength": 32
                 },
                 "returnCurrency": {
                   "type": "string",
-                  "description": "FX reverse currency"
+                  "description": "FX reverse currency",
+                  "maxLength": 3
                 },
                 "returnAmount": {
                   "type": "string",
-                  "description": "FX reverse amount"
+                  "description": "FX reverse amount",
+                  "maxLength": 24
                 },
                 "memo": {
                   "type": "string",
-                  "description": "Memo"
+                  "description": "Memo",
+                  "maxLength": 40
                 }
               },
               "required": [
@@ -271,31 +276,38 @@
               "properties": {
                 "exchangeId": {
                   "type": "string",
-                  "description": "unique exchange id from client"
+                  "description": "unique exchange id from client",
+                  "maxLength": 32
                 },
                 "billId": {
                   "type": "string",
-                  "description": "bill id from client"
+                  "description": "bill id from client",
+                  "maxLength": 32
                 },
                 "pricingCurrency": {
                   "type": "string",
-                  "description": "Pricing currency:\nISO 3166 Alpha-3，if pricing currency is sourcing currency, the targetAmount is calculated according to sourceAmount and exchange rate"
+                  "description": "Pricing currency:\nISO 3166 Alpha-3，if pricing currency is sourcing currency, the targetAmount is calculated according to sourceAmount and exchange rate",
+                  "maxLength": 3
                 },
                 "sourceCurrency": {
                   "type": "string",
-                  "description": "CNY"
+                  "description": "CNY",
+                  "maxLength": 3
                 },
                 "sourceAmount": {
                   "type": "string",
-                  "description": "Sourcing Amount"
+                  "description": "Sourcing Amount",
+                  "maxLength": 24
                 },
                 "targetCurrency": {
                   "type": "string",
-                  "description": "FX targeting currency code, one of\n\n| value | description  |\n|--------|-------------|\n|USD |USD |\n|EUR |EUR |\n|GBP |GBP|\n|CAD |CAD|\n|JPY |JPY|\n|THB |THB|\n|IDR |IDR|\n|AED |AED|\n|HKD |HKD|\n|CNH |CNH|\n\n"
+                  "description": "FX targeting currency code, one of\n\n| value | description  |\n|--------|-------------|\n|USD |USD |\n|EUR |EUR |\n|GBP |GBP|\n|CAD |CAD|\n|JPY |JPY|\n|THB |THB|\n|IDR |IDR|\n|AED |AED|\n|HKD |HKD|\n|CNH |CNH|\n\n",
+                  "maxLength": 3
                 },
                 "targetAmount": {
                   "type": "string",
-                  "description": "FX amount, mandatory if transaction currency is targeting currency."
+                  "description": "FX amount, mandatory if transaction currency is targeting currency.",
+                  "maxLength": 24
                 },
                 "payeeBankAccount": {
                   "$ref": "#/definitions/PayeeBankAccountInfo"
@@ -303,7 +315,7 @@
                 "rfb": {
                   "type": "string",
                   "description": "rfb",
-                  "maxLength": 105
+                  "maxLength": 40
                 }
               },
               "required": [
@@ -385,60 +397,66 @@
       "properties": {
         "exchangeId": {
           "type": "string",
-          "description": "FX request id from client"
+          "description": "FX request id from client",
+          "maxLength": 32
         },
         "billId": {
           "type": "string",
-          "description": "Bill id from client"
+          "description": "Bill id from client",
+          "maxLength": 32
         },
         "pricingCurrency": {
           "type": "string",
-          "description": "Pricing currency:\nISO 3166 Alpha-3，if pricing currency is sourcing currency, the targetAmount is calculated according to sourceAmount and exchange rate"
+          "description": "Pricing currency:\nISO 3166 Alpha-3，if pricing currency is sourcing currency, the targetAmount is calculated according to sourceAmount and exchange rate",
+          "maxLength": 3
         },
         "sourceCurrency": {
           "type": "string",
-          "description": "sourcing currency"
+          "description": "sourcing currency",
+          "maxLength": 3
         },
         "sourceAmount": {
           "type": "string",
-          "description": "sourcing currency, mandatory if targeting currency is pricing currency"
+          "description": "sourcing currency, mandatory if targeting currency is pricing currency",
+          "maxLength": 24
         },
         "targetCurrency": {
           "type": "string",
-          "description": "targeting currency"
+          "description": "targeting currency",
+          "maxLength": 3
         },
         "targetAmount": {
+          "type": "string",
           "description": "targeting amount, mandatory if targeting currency is pricing currency",
-          "type": "string"
+          "maxLength": 24
         },
         "payeeBankAccount": {
           "$ref": "#/definitions/PayeeBankAccountInfo"
         },
         "rfb": {
           "type": "string",
-          "description": "rfb"
+          "description": "rfb",
+          "maxLength": 40
         },
         "status": {
           "type": "string",
           "description": "request status, one of:\n\n| value | description |\n|--------|-------------|\n|INIT|Init|\n|PROCESSING|Processing|\n|SUCCESS|Success|\n|FAILED|Failed|\n|PAYMENT_REVERSED_AFTER_SUCCESS|Reverse success|\n|CANCEL|Canceled|\n",
           "enum": [
-            "PAYMENT_SUCCESS",
-            "PAYMENT_REVERSED_AFTER_SUCCESS",
-            "EXCHANGE_SUCCESS",
             "PROCESSING",
+            "SUCCESS",
             "FAILED",
-            "INIT",
-            "EXCHANGE_CANCEL",
-            "EXCHANGE_CANCELING"
+            "CANCEL"
           ]
         },
         "failReason": {
           "type": "string",
-          "description": "request failure reason"
+          "description": "request failure reason",
+          "maxLength": 128
         },
         "createTime": {
           "type": "string",
-          "description": "create time"
+          "description": "create time",
+          "maxLength": 24
         },
         "cancelStatus": {
           "type": "string",
@@ -451,7 +469,8 @@
         },
         "rate": {
           "type": "string",
-          "description": "FX rate"
+          "description": "FX rate",
+          "maxLength": 12
         }
       },
       "required": [
@@ -473,19 +492,23 @@
       "properties": {
         "payeeCountryCode": {
           "type": "string",
-          "description": "Beneficiary account country, ISO 3166 code"
+          "description": "Beneficiary account country, ISO 3166 code",
+          "maxLength": 3
         },
         "payeeName": {
           "type": "string",
-          "description": "beneficiary name"
+          "description": "beneficiary name",
+          "maxLength": 72
         },
         "payeeAddress": {
           "type": "string",
-          "description": "beneficiary address"
+          "description": "beneficiary address",
+          "maxLength": 256
         },
         "payeeBankDistrict": {
           "type": "string",
-          "description": "beneficiary bank account region"
+          "description": "beneficiary bank account region",
+          "maxLength": 128
         },
         "payeeBankAccountType": {
           "type": "string",
@@ -497,27 +520,36 @@
         },
         "payeeBankName": {
           "type": "string",
-          "description": "Beneficiary bank name"
+          "description": "Beneficiary bank name",
+          "maxLength": 128
         },
         "payeeBankType": {
           "type": "string",
-          "description": "beneficiary bank account type, one of:\n|payeeBankType| description |\n|--------|-------------|\n|IBAN|IBAN |\n|SORT|SORT |"
+          "description": "beneficiary bank account type, one of:\n|payeeBankType| description |\n|--------|-------------|\n|IBAN|IBAN |\n|SORT|SORT |",
+          "enum": [
+            "IBAN",
+            "SORT"
+          ]
         },
         "payeeBankCode": {
           "type": "string",
-          "description": "Beneficiary bank code"
+          "description": "Beneficiary bank code",
+          "maxLength": 128
         },
         "payeeBankAddress": {
           "type": "string",
-          "description": "beneficiary bank address"
+          "description": "beneficiary bank address",
+          "maxLength": 256
         },
         "payeeBankSwiftCode": {
           "type": "string",
-          "description": "Beneficiary bank SWIFT code"
+          "description": "Beneficiary bank SWIFT code",
+          "maxLength": 128
         },
         "payeeAccountNo": {
           "type": "string",
-          "description": "Beneficiary account number"
+          "description": "Beneficiary account number",
+          "maxLength": 72
         }
       },
       "required": [
@@ -539,43 +571,49 @@
       "properties": {
         "exchangeReturnId": {
           "type": "string",
-          "description": "Unique xechange return id from client"
+          "description": "Unique xechange return id from client",
+          "maxLength": 32
         },
         "exchangeId": {
           "type": "string",
-          "description": "Original exhange id from client"
+          "description": "Original exhange id from client",
+          "maxLength": 32
         },
         "returnCurrency": {
           "type": "string",
-          "description": "return currency"
+          "description": "return currency",
+          "maxLength": 3
         },
         "returnAmount": {
           "type": "string",
-          "description": "return amount"
+          "description": "return amount",
+          "maxLength": 24
         },
         "createTime": {
           "type": "string",
-          "description": "create time"
+          "description": "create time",
+          "maxLength": 20
         },
         "status": {
           "type": "string",
-          "description": "request status\n\n|value |description|\n|------|------------|\n|INIT|Init|\n|PROCESSING|Processing |\n|SUCCESS|Success|\n|FAILED|Failed |"
+          "description": "request status\n\n|value |description|\n|------|------------|\n|INIT|Init|\n|PROCESSING|Processing |\n|SUCCESS|Success|\n|FAILED|Failed |",
+          "enum": [
+            "PROCESSING",
+            "SUCCESS",
+            "FAILED"
+          ]
         },
         "failReason": {
           "type": "string",
-          "description": "Failure reason"
+          "description": "Failure reason",
+          "maxLength": 128
         },
         "memo": {
           "type": "string",
-          "description": "memo"
+          "description": "memo",
+          "maxLength": 40
         }
-      },
-      "required": [
-        "exchangeReturnId",
-        "exchangeId",
-        "returnCurrency",
-        "returnAmount"
-      ]
+      }
     }
   }
 }

@@ -15,13 +15,15 @@
         },
         "paymentAmount": {
           "type": "string",
-          "description": "payment amount in CNY"
+          "description": "payment amount in CNY",
+          "maxLength": 24
         },
         "createTime": {
           "type": "string",
           "default": "sysdate",
           "format": "date-time",
-          "description": "Bill create time, UT+0"
+          "description": "Bill create time, UT+0",
+          "maxLength": 24
         },
         "recevingAccount": {
           "$ref": "#/definitions/RecevingAccount"
@@ -51,27 +53,43 @@
         },
         "payerID": {
           "type": "string",
-          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked."
+          "description": "Payer identification number, digitis between first 4 and last 6 in Lianlian Pay's return will be musked.",
+          "maxLength": 64
         },
         "payerIDType": {
           "type": "string",
-          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|"
+          "description": "Payer identification type\n\n| beneficiaryIdType| description |\n|--------|-------------|\n|ID_CARD| ID Card|\n|UNIFIED_CREDIT_CODE|Uniform social credit code|",
+          "enum": [
+            "ID_CARD",
+            "UNIFIED_CREDIT_CODE"
+          ]
         },
         "payerType": {
           "type": "string",
-          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |"
+          "description": "payer type\n\n| value | description |\n|--------|-------------|\n|INDIVIDUAL|Individual|\n|CORPORATE|Corporate |",
+          "enum": [
+            "INDIVIDUAL",
+            "CORPORATE"
+          ]
         },
         "payerName": {
           "type": "string",
-          "description": "payer name"
+          "description": "payer name",
+          "maxLength": 128
         },
         "payerStatus": {
           "type": "string",
-          "description": "payer status, one of\n\n|value|descrption|\n|------|-------------|\n|AUDITING|Under review|\n|APPROVED|Approved|\n|REJECT|Rejected|"
+          "description": "payer status, one of\n\n|value|descrption|\n|------|-------------|\n|AUDITING|Under review|\n|APPROVED|Approved|\n|REJECT|Rejected|",
+          "enum": [
+            "AUDITING",
+            "APPROVED",
+            "REJECT"
+          ]
         },
         "failReason": {
           "type": "string",
-          "description": "payer verify info"
+          "description": "payer verify info",
+          "maxLength": 128
         }
       },
       "required": [
@@ -96,27 +114,33 @@
       "properties": {
         "accountName": {
           "type": "string",
-          "description": "receiving account name"
+          "description": "receiving account name",
+          "maxLength": 72
         },
         "accountNo": {
           "type": "string",
-          "description": "receiving account number"
+          "description": "receiving account number",
+          "maxLength": 72
         },
         "bankBranchName": {
           "type": "string",
-          "description": "receiving account bank branch name"
+          "description": "receiving account bank branch name",
+          "maxLength": 256
         },
         "bankName": {
           "type": "string",
-          "description": "receiving account bank name, mandatory for corporate payer"
+          "description": "receiving account bank name, mandatory for corporate payer",
+          "maxLength": 128
         },
         "cnapsBranchId": {
           "type": "string",
-          "description": "CNAPS code"
+          "description": "CNAPS code",
+          "maxLength": 12
         },
         "bankDistrict": {
           "type": "string",
-          "description": "Receiving account bank branch address"
+          "description": "Receiving account bank branch address",
+          "maxLength": 200
         }
       }
     },
@@ -130,35 +154,43 @@
       "properties": {
         "billId": {
           "type": "string",
-          "description": "Unique bill id from client"
+          "description": "Unique bill id from client",
+          "maxLength": 32
         },
         "fundingId": {
           "type": "string",
-          "description": "Funding transaction id in Lianlian Pay's system"
+          "description": "Funding transaction id in Lianlian Pay's system",
+          "maxLength": 32
         },
         "payerName": {
           "type": "string",
-          "description": "Payer name"
+          "description": "Payer name",
+          "maxLength": 128
         },
         "payerBankAccout": {
           "type": "string",
-          "description": "payer bank account number"
+          "description": "payer bank account number",
+          "maxLength": 72
         },
         "payerBankName": {
           "type": "string",
-          "description": "payer bank name"
+          "description": "payer bank name",
+          "maxLength": 72
         },
         "amount": {
           "type": "string",
-          "description": "amount in CNY"
+          "description": "amount in CNY",
+          "maxLength": 24
         },
         "createTime": {
           "type": "string",
-          "description": "Funding transication time\nUTC+0"
+          "description": "Funding transication time\nUTC+0",
+          "maxLength": 64
         },
         "rfb": {
           "type": "string",
-          "description": "rfb"
+          "description": "rfb",
+          "maxLength": 40
         },
         "isSamePayer": {
           "type": "string",
@@ -190,31 +222,38 @@
       "properties": {
         "refundingId": {
           "type": "string",
-          "description": "Unique refunding request id"
+          "description": "Unique refunding request id",
+          "maxLength": 32
         },
         "billId": {
           "type": "string",
-          "description": "bill id from client"
+          "description": "bill id from client",
+          "maxLength": 32
         },
         "amount": {
           "type": "string",
-          "description": "requested refunding amount"
+          "description": "requested refunding amount",
+          "maxLength": 24
         },
         "bankName": {
           "type": "string",
-          "description": "beneficiary bank name"
+          "description": "beneficiary bank name",
+          "maxLength": 128
         },
         "accountName": {
           "type": "string",
-          "description": "beneficiary account name"
+          "description": "beneficiary account name",
+          "maxLength": 72
         },
         "accountNo": {
           "type": "string",
-          "description": "beneficiary account number"
+          "description": "beneficiary account number",
+          "maxLength": 72
         },
         "rbf": {
           "type": "string",
-          "description": "rfb"
+          "description": "rfb",
+          "maxLength": 40
         },
         "createTime": {
           "type": "string",
@@ -223,15 +262,25 @@
         },
         "status": {
           "type": "string",
-          "description": "refunding status, one of:\n\n| value |description|\n|------|------------|\n|INIT| Init |\n|SUCCESS|Success|\n|PROCESSING|Processing |\n|FAILED|fail|\n"
+          "description": "refunding status, one of:\n\n| value |description|\n|------|------------|\n|INIT| Init |\n|SUCCESS|Success|\n|PROCESSING|Processing |\n|FAILED|fail|\n",
+          "enum": [
+            "PROCESSING",
+            "SUCCESS",
+            "FAILED"
+          ]
         },
         "failreason": {
           "type": "string",
-          "description": "Refund failure reason"
+          "description": "Refund failure reason",
+          "maxLength": 128
         },
         "bankAccountType": {
           "type": "string",
-          "description": "Beneficiary account type, one of:\n\n|value|description|\n|------|------------|\n|INDIVIDUAL|Individual account|\n|CORPORATE|Corporate account|"
+          "description": "Beneficiary account type, one of:\n\n|value|description|\n|------|------------|\n|INDIVIDUAL|Individual account|\n|CORPORATE|Corporate account|",
+          "enum": [
+            "INDIVIDUAL",
+            "CORPORATE"
+          ]
         }
       },
       "required": [
@@ -286,7 +335,8 @@
                 },
                 "paymentAmount": {
                   "type": "string",
-                  "description": "payment amount in CNY"
+                  "description": "payment amount in CNY",
+                  "maxLength": 20
                 },
                 "payerName": {
                   "type": "string",
@@ -336,7 +386,8 @@
                     "OTHER",
                     "ORGANIZATION",
                     "INTERMEDIARY"
-                  ]
+                  ],
+                  "maxLength": 20
                 }
               },
               "required": [
@@ -663,7 +714,8 @@
                 },
                 "amount": {
                   "type": "string",
-                  "description": "refunding amount"
+                  "description": "refunding amount",
+                  "maxLength": 20
                 },
                 "bankAccountType": {
                   "type": "string",
@@ -685,15 +737,18 @@
                 },
                 "cnapsBranchId": {
                   "type": "string",
-                  "description": "CNAPS code"
+                  "description": "CNAPS code",
+                  "maxLength": 12
                 },
                 "accountName": {
                   "type": "string",
-                  "description": "Account name"
+                  "description": "Account name",
+                  "maxLength": 72
                 },
                 "accountNo": {
                   "type": "string",
-                  "description": "account number"
+                  "description": "account number",
+                  "maxLength": 72
                 },
                 "rbf": {
                   "type": "string",
