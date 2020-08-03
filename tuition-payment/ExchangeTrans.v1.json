@@ -347,7 +347,9 @@
       ],
       "get": {
         "summary": "Query Bill Exchange Transaction",
-        "tags": [],
+        "tags": [
+          "Operations"
+        ],
         "responses": {
           "200": {
             "description": "OK",
