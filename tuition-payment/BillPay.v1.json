@@ -167,7 +167,7 @@
           "description": "Payer name",
           "maxLength": 128
         },
-        "payerBankAccout": {
+        "payerBankAccount": {
           "type": "string",
           "description": "payer bank account number",
           "maxLength": 72
@@ -205,7 +205,7 @@
         "billId",
         "fundingId",
         "payerName",
-        "payerBankAccout",
+        "payerBankAccount",
         "payerBankName",
         "amount",
         "createTime",
@@ -306,7 +306,7 @@
             }
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020101|Payer audit failure |\n| 020201|Beneficiary account apply failure |\n| 020402|billId already exist|\n| 999995 |Parameter is error. |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020101|Payer audit failure |\n| 020402|billId already exist|\n| 999995 |Parameter is error. |",
             "schema": {
               "type": "object",
               "properties": {}
