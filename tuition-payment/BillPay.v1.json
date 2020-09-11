@@ -22,7 +22,7 @@
           "type": "string",
           "default": "sysdate",
           "format": "date-time",
-          "description": "Bill create time, UT+0",
+          "description": "Bill create time, UTC+0",
           "maxLength": 24
         },
         "recevingAccount": {
@@ -456,8 +456,12 @@
         "description": "Get bill details in Lianlian Pay's system by `billId`",
         "parameters": [
           {
-            "in": "formData",
-            "type": "string"
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "null"
+            },
+            "description": ""
           }
         ]
       },
@@ -472,7 +476,7 @@
             }
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |\n|020101| Payer audit failure|\n|020102| Original Payer is auditing|\n|020701| Payer info has approved and bill has valid funding|\n|020702| bill has initiated Exchange Transaction|\n\n",
             "schema": {
               "type": "object",
               "properties": {}
@@ -678,7 +682,10 @@
         "operationId": "post-bills-billId-refundingtrans",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReFundingTrans"
+            }
           },
           "400": {
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020608| CNY refunding amount exceed total funding amount |\n| 020609 | refundingId already exist |\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |",
@@ -732,12 +739,12 @@
                 },
                 "bankBranchName": {
                   "type": "string",
-                  "description": "Bank branch name",
+                  "description": "Bank branch name\nMandatory is bankAccountType = CORPORATE and bankName is not included in Bank List of Appendix",
                   "maxLength": 256
                 },
                 "cnapsBranchId": {
                   "type": "string",
-                  "description": "CNAPS code",
+                  "description": "CNAPS code\nMandatory is bankAccountType = CORPORATE and bankName is not included in Bank List of Appendix",
                   "maxLength": 12
                 },
                 "accountName": {
@@ -750,7 +757,7 @@
                   "description": "account number",
                   "maxLength": 72
                 },
-                "rbf": {
+                "rfb": {
                   "type": "string",
                   "description": "rfb",
                   "maxLength": 40
@@ -761,6 +768,7 @@
                 "billId",
                 "amount",
                 "bankAccountType",
+                "bankName",
                 "accountName",
                 "accountNo"
               ]

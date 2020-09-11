@@ -24,8 +24,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/definitions/TuitionInfo"
             }
           },
           "400": {
@@ -194,7 +193,7 @@
         "createTime": {
           "type": "string",
           "format": "date-time",
-          "description": "create time"
+          "description": "create time, UTC+0"
         },
         "status": {
           "type": "string",
@@ -205,7 +204,7 @@
             "REJECT"
           ]
         },
-        "failedReason": {
+        "failReason": {
           "type": "string",
           "description": "Failure reason",
           "maxLength": 128

@@ -249,7 +249,10 @@
         "operationId": "post-exchanges",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ExchangeTrans"
+            }
           },
           "400": {
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020102|Payer is auditing|\n| 020103|Payer is rejected|\n| 020403|bill has no funding|\n| 020304|trading material document audit failure |\n| 020601|exchangeId already exist|\n| 020602|exchange amount abnormal|\n| 999995 |Parameter is error. |",
@@ -457,7 +460,7 @@
         },
         "createTime": {
           "type": "string",
-          "description": "create time",
+          "description": "create time, UTC+0",
           "maxLength": 24
         },
         "cancelStatus": {
@@ -473,6 +476,22 @@
           "type": "string",
           "description": "FX rate",
           "maxLength": 12
+        },
+        "cancelAmount": {
+          "type": "string",
+          "maxLength": 24,
+          "description": "Cancel Amount in CNY"
+        },
+        "cancelRate": {
+          "type": "string",
+          "maxLength": 12,
+          "description": "Cancel Rate"
+        },
+        
+        "modifyTime": {
+          "type": "string",
+          "description": "Modify Time, UTC+0",
+          "maxLength": 24
         }
       },
       "required": [
@@ -591,9 +610,34 @@
           "description": "return amount",
           "maxLength": 24
         },
+        "sourceCurrency": {
+          "type": "string",
+          "description": "sourcing currency",
+          "maxLength": 3
+        },
+        "sourceAmount": {
+          "type": "string",
+          "description": "sourcing currency",
+          "maxLength": 24
+        },
+        "targetCurrency": {
+          "type": "string",
+          "description": "targeting currency",
+          "maxLength": 3
+        },
+        "targetAmount": {
+          "type": "string",
+          "description": "targeting amount",
+          "maxLength": 24
+        },
+        "rate": {
+          "type": "string",
+          "description": "FX rate",
+          "maxLength": 12
+        },
         "createTime": {
           "type": "string",
-          "description": "create time",
+          "description": "create time, UTC+0",
           "maxLength": 20
         },
         "status": {
