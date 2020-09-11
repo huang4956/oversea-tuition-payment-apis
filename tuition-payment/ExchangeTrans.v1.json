@@ -21,16 +21,14 @@
         "operationId": "put-exchangecancel",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ExchangeTrans"
+            }
           },
           "400": {
             "schema": {
-              "type": "object",
-              "properties": {
-                "": {
-                  "type": "string"
-                }
-              }
+              "type": "object"
             },
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020606|exchange transaction cannot support FX cancel |\n| 020607|exchange transaction has been FX reversed|\n| 999995 |Parameter is error. |"
           },
@@ -85,12 +83,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "object",
-              "properties": {
-                "exchangeReturn": {
-                  "$ref": "#/definitions/ExchangeReturn"
-                }
-              }
+              "$ref": "#/definitions/ExchangeReturn"
             }
           },
           "400": {
@@ -124,7 +117,10 @@
         "operationId": "post-exchangereturns",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ExchangeReturn"
+            }
           },
           "400": {
             "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 020603 | exchange transaction has been cancelled |\n| 020604| FX reverse currency not fit|\n| 020605 | FX reverse amount exceed original exchange amount |\n| 020609 | exchangeReturnId already exist |\n| 999995 | Parameter is error. |",
@@ -487,7 +483,6 @@
           "maxLength": 12,
           "description": "Cancel Rate"
         },
-        
         "modifyTime": {
           "type": "string",
           "description": "Modify Time, UTC+0",

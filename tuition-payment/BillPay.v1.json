@@ -250,7 +250,7 @@
           "description": "beneficiary account number",
           "maxLength": 72
         },
-        "rbf": {
+        "rfb": {
           "type": "string",
           "description": "rfb",
           "maxLength": 40
@@ -269,7 +269,7 @@
             "FAILED"
           ]
         },
-        "failreason": {
+        "failReason": {
           "type": "string",
           "description": "Refund failure reason",
           "maxLength": 128
