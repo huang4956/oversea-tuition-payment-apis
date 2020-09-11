@@ -476,7 +476,7 @@
             }
           },
           "400": {
-            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |\n|020101| Payer audit failure|\n|020102| Original Payer is auditing|\n|020701| Payer info has approved and bill has valid funding|\n|020702| bill has initiated Exchange Transaction|\n\n",
+            "description": "Bad Request\n\nPossible error codes:\n\n| Code | Description |\n|------|-------------|\n| 999995 | \\[PARAMETER\\] ERROR_MESSAGE |\n|020104| New payer audit failure|\n|020102| Original Payer is auditing|\n|020701| Payer info has approved and bill has valid funding|\n|020702| bill has initiated Exchange Transaction|\n\n",
             "schema": {
               "type": "object",
               "properties": {}
